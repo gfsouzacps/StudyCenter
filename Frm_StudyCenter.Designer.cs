@@ -52,7 +52,7 @@ namespace StudyCenter
             // 
             // dateTimePicker1
             // 
-            dateTimePicker1.Location = new Point(725, 12);
+            dateTimePicker1.Location = new Point(629, 24);
             dateTimePicker1.Name = "dateTimePicker1";
             dateTimePicker1.Size = new Size(243, 23);
             dateTimePicker1.TabIndex = 2;
@@ -60,7 +60,7 @@ namespace StudyCenter
             // 
             // txt_Exemplo
             // 
-            txt_Exemplo.Location = new Point(80, 135);
+            txt_Exemplo.Location = new Point(12, 98);
             txt_Exemplo.Multiline = true;
             txt_Exemplo.Name = "txt_Exemplo";
             txt_Exemplo.ScrollBars = ScrollBars.Vertical;
@@ -70,7 +70,7 @@ namespace StudyCenter
             // 
             // textBox1
             // 
-            textBox1.Location = new Point(640, 163);
+            textBox1.Location = new Point(643, 126);
             textBox1.Multiline = true;
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(214, 70);
@@ -79,7 +79,7 @@ namespace StudyCenter
             // 
             // Btn_exemploMessageBox
             // 
-            Btn_exemploMessageBox.Location = new Point(92, 318);
+            Btn_exemploMessageBox.Location = new Point(28, 305);
             Btn_exemploMessageBox.Name = "Btn_exemploMessageBox";
             Btn_exemploMessageBox.Size = new Size(179, 27);
             Btn_exemploMessageBox.TabIndex = 6;
@@ -89,7 +89,7 @@ namespace StudyCenter
             // 
             // Btn_FecharAplicacao
             // 
-            Btn_FecharAplicacao.Location = new Point(790, 516);
+            Btn_FecharAplicacao.Location = new Point(733, 518);
             Btn_FecharAplicacao.Name = "Btn_FecharAplicacao";
             Btn_FecharAplicacao.Size = new Size(139, 27);
             Btn_FecharAplicacao.TabIndex = 7;
@@ -102,8 +102,9 @@ namespace StudyCenter
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaptionText;
-            BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
-            ClientSize = new Size(980, 588);
+            BackgroundImage = Properties.Resources.NovoIcone;
+            BackgroundImageLayout = ImageLayout.Stretch;
+            ClientSize = new Size(884, 611);
             Controls.Add(Btn_FecharAplicacao);
             Controls.Add(Btn_exemploMessageBox);
             Controls.Add(textBox1);

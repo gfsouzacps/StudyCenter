@@ -21,5 +21,10 @@ namespace StudyCenter
         {
             this.Close();
         }
+
+        private void Frm_RegistrarMateriaTopico_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

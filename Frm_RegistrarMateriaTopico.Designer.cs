@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_StudyCenter));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_RegistrarMateriaTopico));
             Btn_RegistrarMateriaTopico = new Button();
             dateTimePicker1 = new DateTimePicker();
             txt_Exemplo = new TextBox();
@@ -50,7 +50,7 @@
             // 
             // dateTimePicker1
             // 
-            dateTimePicker1.Location = new Point(725, 12);
+            dateTimePicker1.Location = new Point(629, 12);
             dateTimePicker1.Name = "dateTimePicker1";
             dateTimePicker1.Size = new Size(243, 23);
             dateTimePicker1.TabIndex = 2;
@@ -67,7 +67,7 @@
             // 
             // textBox1
             // 
-            textBox1.Location = new Point(640, 163);
+            textBox1.Location = new Point(658, 154);
             textBox1.Multiline = true;
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(214, 70);
@@ -85,7 +85,7 @@
             // 
             // Btn_FecharAplicacao
             // 
-            Btn_FecharAplicacao.Location = new Point(790, 516);
+            Btn_FecharAplicacao.Location = new Point(722, 519);
             Btn_FecharAplicacao.Name = "Btn_FecharAplicacao";
             Btn_FecharAplicacao.Size = new Size(139, 27);
             Btn_FecharAplicacao.TabIndex = 7;
@@ -93,13 +93,14 @@
             Btn_FecharAplicacao.UseVisualStyleBackColor = true;
             Btn_FecharAplicacao.Click += Btn_FecharAplicacao_Click;
             // 
-            // Frm_StudyCenter
+            // Frm_RegistrarMateriaTopico
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaptionText;
-            BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
-            ClientSize = new Size(980, 588);
+            BackgroundImage = Properties.Resources.NovoBackground;
+            BackgroundImageLayout = ImageLayout.Stretch;
+            ClientSize = new Size(884, 611);
             Controls.Add(Btn_FecharAplicacao);
             Controls.Add(Btn_exemploMessageBox);
             Controls.Add(textBox1);
@@ -107,9 +108,10 @@
             Controls.Add(dateTimePicker1);
             Controls.Add(Btn_RegistrarMateriaTopico);
             Icon = (Icon)resources.GetObject("$this.Icon");
-            Name = "Frm_StudyCenter";
+            Name = "Frm_RegistrarMateriaTopico";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Study Center";
+            Load += Frm_RegistrarMateriaTopico_Load;
             ResumeLayout(false);
             PerformLayout();
         }
