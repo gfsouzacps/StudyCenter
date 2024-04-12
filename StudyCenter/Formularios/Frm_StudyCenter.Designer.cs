@@ -31,18 +31,16 @@ namespace StudyCenter
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_StudyCenter));
             Btn_RegistrarMateriaTopico = new Button();
-            dateTimePicker1 = new DateTimePicker();
-            txt_Exemplo = new TextBox();
-            textBox1 = new TextBox();
-            Btn_exemploMessageBox = new Button();
             Btn_FecharAplicacao = new Button();
+            Txt_data = new TextBox();
             SuspendLayout();
             // 
             // Btn_RegistrarMateriaTopico
             // 
-            Btn_RegistrarMateriaTopico.BackColor = Color.Transparent;
+            Btn_RegistrarMateriaTopico.BackColor = Color.Black;
             Btn_RegistrarMateriaTopico.Font = new Font("Arial", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
-            Btn_RegistrarMateriaTopico.Location = new Point(12, 22);
+            Btn_RegistrarMateriaTopico.ForeColor = Color.White;
+            Btn_RegistrarMateriaTopico.Location = new Point(12, 80);
             Btn_RegistrarMateriaTopico.Name = "Btn_RegistrarMateriaTopico";
             Btn_RegistrarMateriaTopico.Size = new Size(218, 25);
             Btn_RegistrarMateriaTopico.TabIndex = 1;
@@ -50,52 +48,30 @@ namespace StudyCenter
             Btn_RegistrarMateriaTopico.UseVisualStyleBackColor = false;
             Btn_RegistrarMateriaTopico.Click += Btn_Registrar_Click;
             // 
-            // dateTimePicker1
-            // 
-            dateTimePicker1.Location = new Point(629, 24);
-            dateTimePicker1.Name = "dateTimePicker1";
-            dateTimePicker1.Size = new Size(243, 23);
-            dateTimePicker1.TabIndex = 2;
-            dateTimePicker1.ValueChanged += dateTimePicker1_ValueChanged;
-            // 
-            // txt_Exemplo
-            // 
-            txt_Exemplo.Location = new Point(12, 98);
-            txt_Exemplo.Multiline = true;
-            txt_Exemplo.Name = "txt_Exemplo";
-            txt_Exemplo.ScrollBars = ScrollBars.Vertical;
-            txt_Exemplo.Size = new Size(181, 98);
-            txt_Exemplo.TabIndex = 3;
-            txt_Exemplo.Text = "Exemplo de texto com ScrollBars ativo";
-            // 
-            // textBox1
-            // 
-            textBox1.Location = new Point(643, 126);
-            textBox1.Multiline = true;
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(214, 70);
-            textBox1.TabIndex = 4;
-            textBox1.Text = "Quando eu clicar no + para inserir um novo assunto ou novo topico, eu uso o focus para o cursor já ir para o textbox";
-            // 
-            // Btn_exemploMessageBox
-            // 
-            Btn_exemploMessageBox.Location = new Point(28, 305);
-            Btn_exemploMessageBox.Name = "Btn_exemploMessageBox";
-            Btn_exemploMessageBox.Size = new Size(179, 27);
-            Btn_exemploMessageBox.TabIndex = 6;
-            Btn_exemploMessageBox.Text = "Btn_exemploMessageBox";
-            Btn_exemploMessageBox.UseVisualStyleBackColor = true;
-            Btn_exemploMessageBox.Click += Btn_exemploMessageBox_Click;
-            // 
             // Btn_FecharAplicacao
             // 
+            Btn_FecharAplicacao.BackColor = Color.Black;
+            Btn_FecharAplicacao.Font = new Font("Arial", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
+            Btn_FecharAplicacao.ForeColor = Color.White;
             Btn_FecharAplicacao.Location = new Point(733, 518);
             Btn_FecharAplicacao.Name = "Btn_FecharAplicacao";
             Btn_FecharAplicacao.Size = new Size(139, 27);
             Btn_FecharAplicacao.TabIndex = 7;
             Btn_FecharAplicacao.Text = "Fechar programa";
-            Btn_FecharAplicacao.UseVisualStyleBackColor = true;
+            Btn_FecharAplicacao.UseVisualStyleBackColor = false;
             Btn_FecharAplicacao.Click += Btn_FecharAplicacao_Click;
+            // 
+            // Txt_data
+            // 
+            Txt_data.BackColor = Color.Black;
+            Txt_data.BorderStyle = BorderStyle.None;
+            Txt_data.Font = new Font("Arial", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
+            Txt_data.ForeColor = Color.White;
+            Txt_data.Location = new Point(755, 6);
+            Txt_data.Name = "Txt_data";
+            Txt_data.Size = new Size(125, 15);
+            Txt_data.TabIndex = 8;
+            Txt_data.TextAlign = HorizontalAlignment.Center;
             // 
             // Frm_StudyCenter
             // 
@@ -105,11 +81,8 @@ namespace StudyCenter
             BackgroundImage = Properties.Resources.NovoIcone;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(884, 611);
+            Controls.Add(Txt_data);
             Controls.Add(Btn_FecharAplicacao);
-            Controls.Add(Btn_exemploMessageBox);
-            Controls.Add(textBox1);
-            Controls.Add(txt_Exemplo);
-            Controls.Add(dateTimePicker1);
             Controls.Add(Btn_RegistrarMateriaTopico);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "Frm_StudyCenter";
@@ -126,10 +99,7 @@ namespace StudyCenter
 
 #endregion
         private Button Btn_RegistrarMateriaTopico;
-        private DateTimePicker dateTimePicker1;
-        private TextBox txt_Exemplo;
-        private TextBox textBox1;
-        private Button Btn_exemploMessageBox;
         private Button Btn_FecharAplicacao;
+        private TextBox Txt_data;
     }
 }

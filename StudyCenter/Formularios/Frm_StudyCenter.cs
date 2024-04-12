@@ -1,14 +1,21 @@
 using StudyCenter.Models;
+using System.Drawing.Drawing2D;
 
 namespace StudyCenter
 {
     public partial class Frm_StudyCenter : Form
     {
         private StudyCenterContext _dbContext;
+
         public Frm_StudyCenter(StudyCenterContext dbContext)
         {
             _dbContext = dbContext;
             InitializeComponent();
+            Color corFundo = Color.FromArgb(42, 50, 63);
+            Txt_data.BackColor = corFundo;
+            Btn_FecharAplicacao.BackColor = corFundo;
+            Btn_RegistrarMateriaTopico.BackColor = corFundo;
+            Txt_data.Text = DateTime.Now.ToString();
         }
         private void Frm_StudyCenter_Load(object sender, EventArgs e)
         {
@@ -31,8 +38,7 @@ namespace StudyCenter
 
         private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
         {
-            dateTimePicker1.Format = DateTimePickerFormat.Custom;
-            dateTimePicker1.CustomFormat = "dd/MM/yyyy HH:mm";
+            
         }
 
         private void Btn_FecharAplicacao_Click(object sender, EventArgs e)
