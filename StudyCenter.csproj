@@ -8,6 +8,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <StartupObject>StudyCenter.Program</StartupObject>
     <ApplicationIcon>Icone.ico</ApplicationIcon>
+	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+	<GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
   </PropertyGroup>
 
   <ItemGroup>
@@ -24,6 +26,10 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="StudyCenterBiblioteca\StudyCenterBiblioteca.csproj" />
   </ItemGroup>
 
   <ItemGroup>
