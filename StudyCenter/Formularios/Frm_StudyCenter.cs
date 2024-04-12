@@ -1,5 +1,6 @@
 using StudyCenter.Models;
 using System.Drawing.Drawing2D;
+using System.Dynamic;
 
 namespace StudyCenter
 {
@@ -12,14 +13,12 @@ namespace StudyCenter
             _dbContext = dbContext;
             InitializeComponent();
             Color corFundo = Color.FromArgb(42, 50, 63);
-            Txt_data.BackColor = corFundo;
-            Btn_FecharAplicacao.BackColor = corFundo;
-            Btn_RegistrarMateriaTopico.BackColor = corFundo;
+            //Txt_data.BackColor = corFundo;
+            txt_TempoEstudo.BackColor = corFundo;
             Txt_data.Text = DateTime.Now.ToString();
         }
         private void Frm_StudyCenter_Load(object sender, EventArgs e)
         {
-
         }
         private void Btn_exemploMessageBox_Click(object sender, EventArgs e)
         {
@@ -29,18 +28,6 @@ namespace StudyCenter
             }
             //Posso usar outros botoes no meu messageBox e dessa forma ter tratativas diferentes, como o MessageBoxButtons.CancelTryContinue ou o RetryCancel que me permite cancelar ou tentar novamente.
         }
-
-        private void Btn_Registrar_Click(object sender, EventArgs e)
-        {
-            Frm_RegistrarMateriaTopico f = new Frm_RegistrarMateriaTopico();
-            f.ShowDialog();
-        }
-
-        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void Btn_FecharAplicacao_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -60,6 +47,56 @@ namespace StudyCenter
         private void consultaRegistrosToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
+        }
+
+        //private void Txt_data_TextChanged(object sender, EventArgs e)
+        //{
+        //    string input = Microsoft.VisualBasic.Interaction.InputBox("Digite o valor:", "Inserir o valor", "0");
+        //    decimal horas;
+
+        //    if (decimal.TryParse(input, out horas))
+        //    {
+        //        txt_TempoEstudo.Text = horas.ToString();
+        //    }
+        //    else
+        //    {
+        //        MessageBox.Show("Valor inserido inválido!","Erro",MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
+        //    }
+        //}
+
+        private void configuraTempoDeEstudoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string input = Microsoft.VisualBasic.Interaction.InputBox("Insira a quantidade de horas:", "Configuração das horas", txt_TempoEstudo.Text);
+            TimeSpan horas;
+
+            if (TimeSpan.TryParse(input, out horas))
+            {
+                txt_TempoEstudo.Text = horas.ToString();
+            }
+            else
+            {
+                MessageBox.Show("Valor inserido inválido!", "Erro", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
+            }
+        }
+
+        private void txt_TempoEstudo_TextChanged(object sender, EventArgs e)
+        {
+            TimeSpan horas;
+            if (TimeSpan.TryParse(txt_TempoEstudo.Text, out horas))
+            {
+                if (horas.TotalMinutes >= 180)
+                {
+                    txt_TempoEstudo.ForeColor = Color.Red;
+                }
+                else if (horas.TotalMinutes >= 91 && horas.TotalMinutes <= 179)
+                {
+                    txt_TempoEstudo.ForeColor = Color.Yellow;
+                }
+                else
+                {
+                    txt_TempoEstudo.ForeColor = Color.Green;
+                }
+            }
         }
     }
 }

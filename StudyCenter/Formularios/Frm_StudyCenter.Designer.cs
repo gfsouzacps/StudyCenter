@@ -30,59 +30,35 @@ namespace StudyCenter
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_StudyCenter));
-            Btn_RegistrarMateriaTopico = new Button();
-            Btn_FecharAplicacao = new Button();
             Txt_data = new TextBox();
             menuStrip1 = new MenuStrip();
             menuToolStripMenuItem = new ToolStripMenuItem();
             novoRegistroDeMatériatópicoToolStripMenuItem = new ToolStripMenuItem();
-            sairToolStripMenuItem = new ToolStripMenuItem();
-            consultaRegistrosToolStripMenuItem = new ToolStripMenuItem();
+            consultaMatériastópicosToolStripMenuItem = new ToolStripMenuItem();
             registraSessãoToolStripMenuItem = new ToolStripMenuItem();
+            consultaRegistrosToolStripMenuItem = new ToolStripMenuItem();
+            sairToolStripMenuItem = new ToolStripMenuItem();
+            configuraçõesToolStripMenuItem = new ToolStripMenuItem();
+            configuraTempoDeEstudoToolStripMenuItem = new ToolStripMenuItem();
+            txt_TempoEstudo = new TextBox();
             menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
-            // Btn_RegistrarMateriaTopico
-            // 
-            Btn_RegistrarMateriaTopico.BackColor = Color.Black;
-            Btn_RegistrarMateriaTopico.Font = new Font("Arial", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
-            Btn_RegistrarMateriaTopico.ForeColor = Color.White;
-            Btn_RegistrarMateriaTopico.Location = new Point(12, 80);
-            Btn_RegistrarMateriaTopico.Name = "Btn_RegistrarMateriaTopico";
-            Btn_RegistrarMateriaTopico.Size = new Size(218, 25);
-            Btn_RegistrarMateriaTopico.TabIndex = 1;
-            Btn_RegistrarMateriaTopico.Text = "Regitrar matéria ou tópico";
-            Btn_RegistrarMateriaTopico.UseVisualStyleBackColor = false;
-            Btn_RegistrarMateriaTopico.Click += Btn_Registrar_Click;
-            // 
-            // Btn_FecharAplicacao
-            // 
-            Btn_FecharAplicacao.BackColor = Color.Black;
-            Btn_FecharAplicacao.Font = new Font("Arial", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
-            Btn_FecharAplicacao.ForeColor = Color.White;
-            Btn_FecharAplicacao.Location = new Point(733, 518);
-            Btn_FecharAplicacao.Name = "Btn_FecharAplicacao";
-            Btn_FecharAplicacao.Size = new Size(139, 27);
-            Btn_FecharAplicacao.TabIndex = 7;
-            Btn_FecharAplicacao.Text = "Fechar programa";
-            Btn_FecharAplicacao.UseVisualStyleBackColor = false;
-            Btn_FecharAplicacao.Click += Btn_FecharAplicacao_Click;
-            // 
             // Txt_data
             // 
-            Txt_data.BackColor = Color.Black;
+            Txt_data.BackColor = Color.White;
             Txt_data.BorderStyle = BorderStyle.None;
-            Txt_data.Font = new Font("Arial", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
-            Txt_data.ForeColor = Color.White;
-            Txt_data.Location = new Point(755, 6);
+            Txt_data.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            Txt_data.ForeColor = Color.Black;
+            Txt_data.Location = new Point(752, 4);
             Txt_data.Name = "Txt_data";
-            Txt_data.Size = new Size(125, 15);
+            Txt_data.Size = new Size(125, 16);
             Txt_data.TabIndex = 8;
-            Txt_data.TextAlign = HorizontalAlignment.Center;
+            Txt_data.TextAlign = HorizontalAlignment.Right;
             // 
             // menuStrip1
             // 
-            menuStrip1.Items.AddRange(new ToolStripItem[] { menuToolStripMenuItem });
+            menuStrip1.Items.AddRange(new ToolStripItem[] { menuToolStripMenuItem, configuraçõesToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
             menuStrip1.Size = new Size(884, 24);
@@ -91,7 +67,7 @@ namespace StudyCenter
             // 
             // menuToolStripMenuItem
             // 
-            menuToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { novoRegistroDeMatériatópicoToolStripMenuItem, registraSessãoToolStripMenuItem, consultaRegistrosToolStripMenuItem, sairToolStripMenuItem });
+            menuToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { novoRegistroDeMatériatópicoToolStripMenuItem, consultaMatériastópicosToolStripMenuItem, registraSessãoToolStripMenuItem, consultaRegistrosToolStripMenuItem, sairToolStripMenuItem });
             menuToolStripMenuItem.Name = "menuToolStripMenuItem";
             menuToolStripMenuItem.Size = new Size(50, 20);
             menuToolStripMenuItem.Text = "Menu";
@@ -100,32 +76,72 @@ namespace StudyCenter
             // 
             novoRegistroDeMatériatópicoToolStripMenuItem.Image = Properties.Resources.Novo;
             novoRegistroDeMatériatópicoToolStripMenuItem.Name = "novoRegistroDeMatériatópicoToolStripMenuItem";
-            novoRegistroDeMatériatópicoToolStripMenuItem.Size = new Size(244, 22);
+            novoRegistroDeMatériatópicoToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.A;
+            novoRegistroDeMatériatópicoToolStripMenuItem.Size = new Size(286, 22);
             novoRegistroDeMatériatópicoToolStripMenuItem.Text = "Novo registro de matéria/tópico";
             novoRegistroDeMatériatópicoToolStripMenuItem.Click += novoRegistroDeMatériatópicoToolStripMenuItem_Click;
             // 
-            // sairToolStripMenuItem
+            // consultaMatériastópicosToolStripMenuItem
             // 
-            sairToolStripMenuItem.Image = Properties.Resources.sair;
-            sairToolStripMenuItem.Name = "sairToolStripMenuItem";
-            sairToolStripMenuItem.Size = new Size(244, 22);
-            sairToolStripMenuItem.Text = "Sair";
-            sairToolStripMenuItem.Click += sairToolStripMenuItem_Click;
-            // 
-            // consultaRegistrosToolStripMenuItem
-            // 
-            consultaRegistrosToolStripMenuItem.Image = Properties.Resources.lupa1;
-            consultaRegistrosToolStripMenuItem.Name = "consultaRegistrosToolStripMenuItem";
-            consultaRegistrosToolStripMenuItem.Size = new Size(244, 22);
-            consultaRegistrosToolStripMenuItem.Text = "Consulta sessões";
-            consultaRegistrosToolStripMenuItem.Click += consultaRegistrosToolStripMenuItem_Click;
+            consultaMatériastópicosToolStripMenuItem.Image = Properties.Resources.lupa;
+            consultaMatériastópicosToolStripMenuItem.Name = "consultaMatériastópicosToolStripMenuItem";
+            consultaMatériastópicosToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.B;
+            consultaMatériastópicosToolStripMenuItem.Size = new Size(286, 22);
+            consultaMatériastópicosToolStripMenuItem.Text = "Consulta matérias/tópicos";
             // 
             // registraSessãoToolStripMenuItem
             // 
             registraSessãoToolStripMenuItem.Image = Properties.Resources.Novo;
             registraSessãoToolStripMenuItem.Name = "registraSessãoToolStripMenuItem";
-            registraSessãoToolStripMenuItem.Size = new Size(244, 22);
+            registraSessãoToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.D;
+            registraSessãoToolStripMenuItem.Size = new Size(286, 22);
             registraSessãoToolStripMenuItem.Text = "Registra sessão";
+            // 
+            // consultaRegistrosToolStripMenuItem
+            // 
+            consultaRegistrosToolStripMenuItem.Image = Properties.Resources.lupa1;
+            consultaRegistrosToolStripMenuItem.Name = "consultaRegistrosToolStripMenuItem";
+            consultaRegistrosToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.C;
+            consultaRegistrosToolStripMenuItem.Size = new Size(286, 22);
+            consultaRegistrosToolStripMenuItem.Text = "Consulta sessões";
+            consultaRegistrosToolStripMenuItem.Click += consultaRegistrosToolStripMenuItem_Click;
+            // 
+            // sairToolStripMenuItem
+            // 
+            sairToolStripMenuItem.Image = Properties.Resources.sair;
+            sairToolStripMenuItem.Name = "sairToolStripMenuItem";
+            sairToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.S;
+            sairToolStripMenuItem.Size = new Size(286, 22);
+            sairToolStripMenuItem.Text = "Sair";
+            sairToolStripMenuItem.Click += sairToolStripMenuItem_Click;
+            // 
+            // configuraçõesToolStripMenuItem
+            // 
+            configuraçõesToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { configuraTempoDeEstudoToolStripMenuItem });
+            configuraçõesToolStripMenuItem.Name = "configuraçõesToolStripMenuItem";
+            configuraçõesToolStripMenuItem.Size = new Size(96, 20);
+            configuraçõesToolStripMenuItem.Text = "Configurações";
+            // 
+            // configuraTempoDeEstudoToolStripMenuItem
+            // 
+            configuraTempoDeEstudoToolStripMenuItem.Name = "configuraTempoDeEstudoToolStripMenuItem";
+            configuraTempoDeEstudoToolStripMenuItem.Size = new Size(220, 22);
+            configuraTempoDeEstudoToolStripMenuItem.Text = "Configura tempo de estudo";
+            configuraTempoDeEstudoToolStripMenuItem.Click += configuraTempoDeEstudoToolStripMenuItem_Click;
+            // 
+            // txt_TempoEstudo
+            // 
+            txt_TempoEstudo.BorderStyle = BorderStyle.None;
+            txt_TempoEstudo.Font = new Font("Franklin Gothic Medium", 15.75F, FontStyle.Regular, GraphicsUnit.Point);
+            txt_TempoEstudo.ForeColor = Color.Red;
+            txt_TempoEstudo.Location = new Point(762, 51);
+            txt_TempoEstudo.Name = "txt_TempoEstudo";
+            txt_TempoEstudo.ReadOnly = true;
+            txt_TempoEstudo.Size = new Size(100, 24);
+            txt_TempoEstudo.TabIndex = 10;
+            txt_TempoEstudo.Text = "03:00:00";
+            txt_TempoEstudo.TextAlign = HorizontalAlignment.Center;
+            txt_TempoEstudo.TextChanged += txt_TempoEstudo_TextChanged;
             // 
             // Frm_StudyCenter
             // 
@@ -135,9 +151,8 @@ namespace StudyCenter
             BackgroundImage = Properties.Resources.NovoIcone;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(884, 611);
+            Controls.Add(txt_TempoEstudo);
             Controls.Add(Txt_data);
-            Controls.Add(Btn_FecharAplicacao);
-            Controls.Add(Btn_RegistrarMateriaTopico);
             Controls.Add(menuStrip1);
             Icon = (Icon)resources.GetObject("$this.Icon");
             MainMenuStrip = menuStrip1;
@@ -156,8 +171,6 @@ namespace StudyCenter
         }
 
 #endregion
-        private Button Btn_RegistrarMateriaTopico;
-        private Button Btn_FecharAplicacao;
         private TextBox Txt_data;
         private MenuStrip menuStrip1;
         private ToolStripMenuItem menuToolStripMenuItem;
@@ -165,5 +178,9 @@ namespace StudyCenter
         private ToolStripMenuItem sairToolStripMenuItem;
         private ToolStripMenuItem consultaRegistrosToolStripMenuItem;
         private ToolStripMenuItem registraSessãoToolStripMenuItem;
+        private ToolStripMenuItem consultaMatériastópicosToolStripMenuItem;
+        private ToolStripMenuItem configuraçõesToolStripMenuItem;
+        private ToolStripMenuItem configuraTempoDeEstudoToolStripMenuItem;
+        private TextBox txt_TempoEstudo;
     }
 }
