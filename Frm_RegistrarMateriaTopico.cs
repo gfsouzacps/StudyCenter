@@ -16,5 +16,9 @@ namespace StudyCenter
         {
             InitializeComponent();
         }
+        private void Btn_FecharAplicacao_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }
