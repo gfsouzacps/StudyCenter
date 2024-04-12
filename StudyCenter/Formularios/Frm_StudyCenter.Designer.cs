@@ -33,6 +33,13 @@ namespace StudyCenter
             Btn_RegistrarMateriaTopico = new Button();
             Btn_FecharAplicacao = new Button();
             Txt_data = new TextBox();
+            menuStrip1 = new MenuStrip();
+            menuToolStripMenuItem = new ToolStripMenuItem();
+            novoRegistroDeMatériatópicoToolStripMenuItem = new ToolStripMenuItem();
+            sairToolStripMenuItem = new ToolStripMenuItem();
+            consultaRegistrosToolStripMenuItem = new ToolStripMenuItem();
+            registraSessãoToolStripMenuItem = new ToolStripMenuItem();
+            menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
             // Btn_RegistrarMateriaTopico
@@ -73,6 +80,53 @@ namespace StudyCenter
             Txt_data.TabIndex = 8;
             Txt_data.TextAlign = HorizontalAlignment.Center;
             // 
+            // menuStrip1
+            // 
+            menuStrip1.Items.AddRange(new ToolStripItem[] { menuToolStripMenuItem });
+            menuStrip1.Location = new Point(0, 0);
+            menuStrip1.Name = "menuStrip1";
+            menuStrip1.Size = new Size(884, 24);
+            menuStrip1.TabIndex = 9;
+            menuStrip1.Text = "menuStrip1";
+            // 
+            // menuToolStripMenuItem
+            // 
+            menuToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { novoRegistroDeMatériatópicoToolStripMenuItem, registraSessãoToolStripMenuItem, consultaRegistrosToolStripMenuItem, sairToolStripMenuItem });
+            menuToolStripMenuItem.Name = "menuToolStripMenuItem";
+            menuToolStripMenuItem.Size = new Size(50, 20);
+            menuToolStripMenuItem.Text = "Menu";
+            // 
+            // novoRegistroDeMatériatópicoToolStripMenuItem
+            // 
+            novoRegistroDeMatériatópicoToolStripMenuItem.Image = Properties.Resources.Novo;
+            novoRegistroDeMatériatópicoToolStripMenuItem.Name = "novoRegistroDeMatériatópicoToolStripMenuItem";
+            novoRegistroDeMatériatópicoToolStripMenuItem.Size = new Size(244, 22);
+            novoRegistroDeMatériatópicoToolStripMenuItem.Text = "Novo registro de matéria/tópico";
+            novoRegistroDeMatériatópicoToolStripMenuItem.Click += novoRegistroDeMatériatópicoToolStripMenuItem_Click;
+            // 
+            // sairToolStripMenuItem
+            // 
+            sairToolStripMenuItem.Image = Properties.Resources.sair;
+            sairToolStripMenuItem.Name = "sairToolStripMenuItem";
+            sairToolStripMenuItem.Size = new Size(244, 22);
+            sairToolStripMenuItem.Text = "Sair";
+            sairToolStripMenuItem.Click += sairToolStripMenuItem_Click;
+            // 
+            // consultaRegistrosToolStripMenuItem
+            // 
+            consultaRegistrosToolStripMenuItem.Image = Properties.Resources.lupa1;
+            consultaRegistrosToolStripMenuItem.Name = "consultaRegistrosToolStripMenuItem";
+            consultaRegistrosToolStripMenuItem.Size = new Size(244, 22);
+            consultaRegistrosToolStripMenuItem.Text = "Consulta sessões";
+            consultaRegistrosToolStripMenuItem.Click += consultaRegistrosToolStripMenuItem_Click;
+            // 
+            // registraSessãoToolStripMenuItem
+            // 
+            registraSessãoToolStripMenuItem.Image = Properties.Resources.Novo;
+            registraSessãoToolStripMenuItem.Name = "registraSessãoToolStripMenuItem";
+            registraSessãoToolStripMenuItem.Size = new Size(244, 22);
+            registraSessãoToolStripMenuItem.Text = "Registra sessão";
+            // 
             // Frm_StudyCenter
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -84,10 +138,14 @@ namespace StudyCenter
             Controls.Add(Txt_data);
             Controls.Add(Btn_FecharAplicacao);
             Controls.Add(Btn_RegistrarMateriaTopico);
+            Controls.Add(menuStrip1);
             Icon = (Icon)resources.GetObject("$this.Icon");
+            MainMenuStrip = menuStrip1;
             Name = "Frm_StudyCenter";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Study Center";
+            menuStrip1.ResumeLayout(false);
+            menuStrip1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -101,5 +159,11 @@ namespace StudyCenter
         private Button Btn_RegistrarMateriaTopico;
         private Button Btn_FecharAplicacao;
         private TextBox Txt_data;
+        private MenuStrip menuStrip1;
+        private ToolStripMenuItem menuToolStripMenuItem;
+        private ToolStripMenuItem novoRegistroDeMatériatópicoToolStripMenuItem;
+        private ToolStripMenuItem sairToolStripMenuItem;
+        private ToolStripMenuItem consultaRegistrosToolStripMenuItem;
+        private ToolStripMenuItem registraSessãoToolStripMenuItem;
     }
 }

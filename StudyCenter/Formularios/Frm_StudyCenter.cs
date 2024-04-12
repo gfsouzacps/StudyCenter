@@ -38,12 +38,28 @@ namespace StudyCenter
 
         private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
         {
-            
+
         }
 
         private void Btn_FecharAplicacao_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void novoRegistroDeMatériatópicoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Frm_RegistrarMateriaTopico f = new Frm_RegistrarMateriaTopico();
+            f.ShowDialog();
+        }
+
+        private void sairToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void consultaRegistrosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
