@@ -50,10 +50,11 @@
             // 
             // dateTimePicker1
             // 
-            dateTimePicker1.Location = new Point(629, 12);
+            dateTimePicker1.Location = new Point(363, 39);
             dateTimePicker1.Name = "dateTimePicker1";
             dateTimePicker1.Size = new Size(243, 23);
             dateTimePicker1.TabIndex = 2;
+            dateTimePicker1.ValueChanged += dateTimePicker1_ValueChanged;
             // 
             // txt_Exemplo
             // 
@@ -67,7 +68,7 @@
             // 
             // textBox1
             // 
-            textBox1.Location = new Point(658, 154);
+            textBox1.Location = new Point(337, 135);
             textBox1.Multiline = true;
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(214, 70);
@@ -100,7 +101,7 @@
             BackColor = SystemColors.ActiveCaptionText;
             BackgroundImage = Properties.Resources.NovoBackground;
             BackgroundImageLayout = ImageLayout.Stretch;
-            ClientSize = new Size(884, 611);
+            ClientSize = new Size(745, 403);
             Controls.Add(Btn_FecharAplicacao);
             Controls.Add(Btn_exemploMessageBox);
             Controls.Add(textBox1);

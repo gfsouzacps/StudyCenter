@@ -36,7 +36,8 @@ namespace StudyCenter
         private void novoRegistroDeMatériatópicoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Frm_RegistrarMateriaTopico f = new Frm_RegistrarMateriaTopico();
-            f.ShowDialog();
+            f.MdiParent = this;
+            f.Show();
         }
 
         private void sairToolStripMenuItem_Click(object sender, EventArgs e)

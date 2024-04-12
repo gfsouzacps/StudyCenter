@@ -155,6 +155,8 @@ namespace StudyCenter
             Controls.Add(Txt_data);
             Controls.Add(menuStrip1);
             Icon = (Icon)resources.GetObject("$this.Icon");
+            ImeMode = ImeMode.NoControl;
+            IsMdiContainer = true;
             MainMenuStrip = menuStrip1;
             Name = "Frm_StudyCenter";
             StartPosition = FormStartPosition.CenterScreen;
