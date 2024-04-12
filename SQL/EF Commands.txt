@@ -1,0 +1,3 @@
+﻿Comando para gerar o gerar ou regenerar as entidades após alterações no banco de dados 
+
+dotnet ef dbcontext scaffold "Server=localhost\SQLEXPRESS;Database=StudyCenter;User Id=sa;Password=admin;TrustServerCertificate=True;" Microsoft.EntityFrameworkCore.SqlServer -o Models
