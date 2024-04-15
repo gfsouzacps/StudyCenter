@@ -34,11 +34,12 @@ namespace StudyCenter
             Txt_data = new TextBox();
             menuStrip1 = new MenuStrip();
             menuToolStripMenuItem = new ToolStripMenuItem();
-            novoRegistroDeMatériatópicoToolStripMenuItem = new ToolStripMenuItem();
+            registrarMatériatópicoToolStripMenuItem = new ToolStripMenuItem();
             consultaMatériastópicosToolStripMenuItem = new ToolStripMenuItem();
             registraSessãoToolStripMenuItem = new ToolStripMenuItem();
             consultaRegistrosToolStripMenuItem = new ToolStripMenuItem();
             sairToolStripMenuItem = new ToolStripMenuItem();
+            novoRegistroDeMatériatópicoToolStripMenuItem = new ToolStripMenuItem();
             configuraçõesToolStripMenuItem = new ToolStripMenuItem();
             configuraTempoDeEstudoToolStripMenuItem = new ToolStripMenuItem();
             fecharAbaToolStripMenuItem = new ToolStripMenuItem();
@@ -72,53 +73,61 @@ namespace StudyCenter
             // 
             // menuToolStripMenuItem
             // 
-            menuToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { novoRegistroDeMatériatópicoToolStripMenuItem, consultaMatériastópicosToolStripMenuItem, registraSessãoToolStripMenuItem, consultaRegistrosToolStripMenuItem, sairToolStripMenuItem });
+            menuToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { registrarMatériatópicoToolStripMenuItem, consultaMatériastópicosToolStripMenuItem, registraSessãoToolStripMenuItem, consultaRegistrosToolStripMenuItem, sairToolStripMenuItem, novoRegistroDeMatériatópicoToolStripMenuItem });
             menuToolStripMenuItem.Name = "menuToolStripMenuItem";
             menuToolStripMenuItem.Size = new Size(50, 20);
             menuToolStripMenuItem.Text = "Menu";
             // 
-            // novoRegistroDeMatériatópicoToolStripMenuItem
+            // registrarMatériatópicoToolStripMenuItem
             // 
-            novoRegistroDeMatériatópicoToolStripMenuItem.Image = Properties.Resources.Novo;
-            novoRegistroDeMatériatópicoToolStripMenuItem.Name = "novoRegistroDeMatériatópicoToolStripMenuItem";
-            novoRegistroDeMatériatópicoToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.A;
-            novoRegistroDeMatériatópicoToolStripMenuItem.Size = new Size(286, 22);
-            novoRegistroDeMatériatópicoToolStripMenuItem.Text = "Novo registro de matéria/tópico";
-            novoRegistroDeMatériatópicoToolStripMenuItem.Click += novoRegistroDeMatériatópicoToolStripMenuItem_Click;
+            registrarMatériatópicoToolStripMenuItem.Image = Properties.Resources.Novo;
+            registrarMatériatópicoToolStripMenuItem.Name = "registrarMatériatópicoToolStripMenuItem";
+            registrarMatériatópicoToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.A;
+            registrarMatériatópicoToolStripMenuItem.Size = new Size(311, 22);
+            registrarMatériatópicoToolStripMenuItem.Text = "Registrar matéria/tópico";
+            registrarMatériatópicoToolStripMenuItem.Click += registrarMatériatópicoToolStripMenuItem_Click;
             // 
             // consultaMatériastópicosToolStripMenuItem
             // 
             consultaMatériastópicosToolStripMenuItem.Image = Properties.Resources.lupa;
             consultaMatériastópicosToolStripMenuItem.Name = "consultaMatériastópicosToolStripMenuItem";
             consultaMatériastópicosToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.B;
-            consultaMatériastópicosToolStripMenuItem.Size = new Size(286, 22);
-            consultaMatériastópicosToolStripMenuItem.Text = "Consulta matérias/tópicos";
+            consultaMatériastópicosToolStripMenuItem.Size = new Size(311, 22);
+            consultaMatériastópicosToolStripMenuItem.Text = "Consultar matérias/tópicos";
             // 
             // registraSessãoToolStripMenuItem
             // 
             registraSessãoToolStripMenuItem.Image = Properties.Resources.Novo;
             registraSessãoToolStripMenuItem.Name = "registraSessãoToolStripMenuItem";
             registraSessãoToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.D;
-            registraSessãoToolStripMenuItem.Size = new Size(286, 22);
-            registraSessãoToolStripMenuItem.Text = "Registra sessão";
+            registraSessãoToolStripMenuItem.Size = new Size(311, 22);
+            registraSessãoToolStripMenuItem.Text = "Registrar sessão";
+            registraSessãoToolStripMenuItem.Click += registraSessãoToolStripMenuItem_Click;
             // 
             // consultaRegistrosToolStripMenuItem
             // 
             consultaRegistrosToolStripMenuItem.Image = Properties.Resources.lupa1;
             consultaRegistrosToolStripMenuItem.Name = "consultaRegistrosToolStripMenuItem";
             consultaRegistrosToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.C;
-            consultaRegistrosToolStripMenuItem.Size = new Size(286, 22);
-            consultaRegistrosToolStripMenuItem.Text = "Consulta sessões";
-            consultaRegistrosToolStripMenuItem.Click += consultaRegistrosToolStripMenuItem_Click;
+            consultaRegistrosToolStripMenuItem.Size = new Size(311, 22);
+            consultaRegistrosToolStripMenuItem.Text = "Consultar sessões";
             // 
             // sairToolStripMenuItem
             // 
             sairToolStripMenuItem.Image = Properties.Resources.sair;
             sairToolStripMenuItem.Name = "sairToolStripMenuItem";
             sairToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.S;
-            sairToolStripMenuItem.Size = new Size(286, 22);
+            sairToolStripMenuItem.Size = new Size(311, 22);
             sairToolStripMenuItem.Text = "Sair";
             sairToolStripMenuItem.Click += sairToolStripMenuItem_Click;
+            // 
+            // novoRegistroDeMatériatópicoToolStripMenuItem
+            // 
+            novoRegistroDeMatériatópicoToolStripMenuItem.Image = Properties.Resources.Novo;
+            novoRegistroDeMatériatópicoToolStripMenuItem.Name = "novoRegistroDeMatériatópicoToolStripMenuItem";
+            novoRegistroDeMatériatópicoToolStripMenuItem.Size = new Size(311, 22);
+            novoRegistroDeMatériatópicoToolStripMenuItem.Text = "Registrar matéria/tópico UC (descontinuado)";
+            novoRegistroDeMatériatópicoToolStripMenuItem.Click += novoRegistroDeMatériatópicoDescontinuadoToolStripMenuItem_Click;
             // 
             // configuraçõesToolStripMenuItem
             // 
@@ -130,8 +139,8 @@ namespace StudyCenter
             // configuraTempoDeEstudoToolStripMenuItem
             // 
             configuraTempoDeEstudoToolStripMenuItem.Name = "configuraTempoDeEstudoToolStripMenuItem";
-            configuraTempoDeEstudoToolStripMenuItem.Size = new Size(220, 22);
-            configuraTempoDeEstudoToolStripMenuItem.Text = "Configura tempo de estudo";
+            configuraTempoDeEstudoToolStripMenuItem.Size = new Size(224, 22);
+            configuraTempoDeEstudoToolStripMenuItem.Text = "Configurar tempo de estudo";
             configuraTempoDeEstudoToolStripMenuItem.Click += configuraTempoDeEstudoToolStripMenuItem_Click;
             // 
             // fecharAbaToolStripMenuItem
@@ -160,13 +169,12 @@ namespace StudyCenter
             // 
             Tbc_Formularios.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             Tbc_Formularios.ImageList = Iml_Imagens;
-            Tbc_Formularios.Location = new Point(0, 27);
+            Tbc_Formularios.Location = new Point(133, 180);
             Tbc_Formularios.Name = "Tbc_Formularios";
             Tbc_Formularios.SelectedIndex = 0;
-            Tbc_Formularios.Size = new Size(756, 583);
+            Tbc_Formularios.Size = new Size(299, 332);
             Tbc_Formularios.TabIndex = 12;
             Tbc_Formularios.Visible = false;
-            Tbc_Formularios.SelectedIndexChanged += Tbc_Formularios_SelectedIndexChanged;
             // 
             // Iml_Imagens
             // 
@@ -195,6 +203,7 @@ namespace StudyCenter
             Name = "Frm_StudyCenter";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Study Center";
+            Load += Frm_StudyCenter_Load_1;
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
             ResumeLayout(false);
@@ -221,5 +230,6 @@ namespace StudyCenter
         private TabControl Tbc_Formularios;
         private ImageList Iml_Imagens;
         private ToolStripMenuItem fecharAbaToolStripMenuItem;
+        private ToolStripMenuItem registrarMatériatópicoToolStripMenuItem;
     }
 }

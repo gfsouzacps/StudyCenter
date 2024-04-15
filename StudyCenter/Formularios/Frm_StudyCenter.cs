@@ -36,15 +36,8 @@ namespace StudyCenter
             this.Close();
         }
 
-        private void novoRegistroDeMatériatópicoToolStripMenuItem_Click(object sender, EventArgs e)
+        private void novoRegistroDeMatériatópicoDescontinuadoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            /* Codigo anterior utilizando um form comum
-            Frm_RegistrarMateriaTopico f = new Frm_RegistrarMateriaTopico();
-            f.MdiParent = this;
-            f.Show();
-            */
-
-
             //Utilizando um Form UserControl
             ContadorTabs++;
             Frm_RegistrarMateriaTopicoUc f = new Frm_RegistrarMateriaTopicoUc();
@@ -66,11 +59,6 @@ namespace StudyCenter
         private void sairToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Close();
-        }
-
-        private void consultaRegistrosToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void configuraTempoDeEstudoToolStripMenuItem_Click(object sender, EventArgs e)
@@ -122,7 +110,26 @@ namespace StudyCenter
             }
         }
 
-        private void Tbc_Formularios_SelectedIndexChanged(object sender, EventArgs e)
+        private void registraSessãoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Frm_RegistrarSessao frm_RegistrarSessao = new Frm_RegistrarSessao();
+            frm_RegistrarSessao.MdiParent = this;
+            frm_RegistrarSessao.Show();
+            this.LayoutMdi(System.Windows.Forms.MdiLayout.Cascade);
+
+            //string resultado = frm_RegistrarSessao.DialogResult.ToString();
+            //MessageBox.Show(resultado);
+        }
+
+        private void registrarMatériatópicoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Frm_RegistrarMateriaTopico frm_RegistrarMateriaTopico = new Frm_RegistrarMateriaTopico();
+            frm_RegistrarMateriaTopico.MdiParent = this;
+            frm_RegistrarMateriaTopico.Show();
+            this.LayoutMdi(System.Windows.Forms.MdiLayout.Cascade);
+        }
+
+        private void Frm_StudyCenter_Load_1(object sender, EventArgs e)
         {
 
         }
