@@ -7,19 +7,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-//using StudyCenterBiblioteca;
 
-namespace StudyCenter
+namespace StudyCenter.Formularios
 {
-    public partial class Frm_RegistrarMateriaTopico : Form
+    public partial class Frm_RegistrarMateriaTopicoUc : UserControl
     {
-        public Frm_RegistrarMateriaTopico()
+        public Frm_RegistrarMateriaTopicoUc()
         {
             InitializeComponent();
         }
         private void Btn_FecharAplicacao_Click(object sender, EventArgs e)
         {
-            this.Close();
+            //this.Close();
         }
 
         private void Frm_RegistrarMateriaTopico_Load(object sender, EventArgs e)

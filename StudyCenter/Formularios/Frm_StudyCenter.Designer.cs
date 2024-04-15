@@ -29,6 +29,7 @@ namespace StudyCenter
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_StudyCenter));
             Txt_data = new TextBox();
             menuStrip1 = new MenuStrip();
@@ -40,7 +41,10 @@ namespace StudyCenter
             sairToolStripMenuItem = new ToolStripMenuItem();
             configuraçõesToolStripMenuItem = new ToolStripMenuItem();
             configuraTempoDeEstudoToolStripMenuItem = new ToolStripMenuItem();
+            fecharAbaToolStripMenuItem = new ToolStripMenuItem();
             txt_TempoEstudo = new TextBox();
+            Tbc_Formularios = new TabControl();
+            Iml_Imagens = new ImageList(components);
             menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
@@ -59,7 +63,7 @@ namespace StudyCenter
             // 
             // menuStrip1
             // 
-            menuStrip1.Items.AddRange(new ToolStripItem[] { menuToolStripMenuItem, configuraçõesToolStripMenuItem });
+            menuStrip1.Items.AddRange(new ToolStripItem[] { menuToolStripMenuItem, configuraçõesToolStripMenuItem, fecharAbaToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
             menuStrip1.Size = new Size(884, 24);
@@ -130,6 +134,13 @@ namespace StudyCenter
             configuraTempoDeEstudoToolStripMenuItem.Text = "Configura tempo de estudo";
             configuraTempoDeEstudoToolStripMenuItem.Click += configuraTempoDeEstudoToolStripMenuItem_Click;
             // 
+            // fecharAbaToolStripMenuItem
+            // 
+            fecharAbaToolStripMenuItem.Name = "fecharAbaToolStripMenuItem";
+            fecharAbaToolStripMenuItem.Size = new Size(76, 20);
+            fecharAbaToolStripMenuItem.Text = "Fechar aba";
+            fecharAbaToolStripMenuItem.Click += fecharAbaToolStripMenuItem_Click;
+            // 
             // txt_TempoEstudo
             // 
             txt_TempoEstudo.Anchor = AnchorStyles.Top | AnchorStyles.Right;
@@ -145,6 +156,27 @@ namespace StudyCenter
             txt_TempoEstudo.TextAlign = HorizontalAlignment.Center;
             txt_TempoEstudo.TextChanged += txt_TempoEstudo_TextChanged;
             // 
+            // Tbc_Formularios
+            // 
+            Tbc_Formularios.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            Tbc_Formularios.ImageList = Iml_Imagens;
+            Tbc_Formularios.Location = new Point(0, 27);
+            Tbc_Formularios.Name = "Tbc_Formularios";
+            Tbc_Formularios.SelectedIndex = 0;
+            Tbc_Formularios.Size = new Size(756, 583);
+            Tbc_Formularios.TabIndex = 12;
+            Tbc_Formularios.Visible = false;
+            Tbc_Formularios.SelectedIndexChanged += Tbc_Formularios_SelectedIndexChanged;
+            // 
+            // Iml_Imagens
+            // 
+            Iml_Imagens.ColorDepth = ColorDepth.Depth8Bit;
+            Iml_Imagens.ImageStream = (ImageListStreamer)resources.GetObject("Iml_Imagens.ImageStream");
+            Iml_Imagens.TransparentColor = Color.Transparent;
+            Iml_Imagens.Images.SetKeyName(0, "lupa.png");
+            Iml_Imagens.Images.SetKeyName(1, "Novo.png");
+            Iml_Imagens.Images.SetKeyName(2, "sair.png");
+            // 
             // Frm_StudyCenter
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -153,6 +185,7 @@ namespace StudyCenter
             BackgroundImage = Properties.Resources.NovoIcone;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(884, 611);
+            Controls.Add(Tbc_Formularios);
             Controls.Add(txt_TempoEstudo);
             Controls.Add(Txt_data);
             Controls.Add(menuStrip1);
@@ -185,5 +218,8 @@ namespace StudyCenter
         private ToolStripMenuItem configuraçõesToolStripMenuItem;
         private ToolStripMenuItem configuraTempoDeEstudoToolStripMenuItem;
         private TextBox txt_TempoEstudo;
+        private TabControl Tbc_Formularios;
+        private ImageList Iml_Imagens;
+        private ToolStripMenuItem fecharAbaToolStripMenuItem;
     }
 }

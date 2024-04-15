@@ -1,3 +1,4 @@
+using StudyCenter.Formularios;
 using StudyCenter.Models;
 using System.Drawing.Drawing2D;
 using System.Dynamic;
@@ -7,6 +8,8 @@ namespace StudyCenter
     public partial class Frm_StudyCenter : Form
     {
         private StudyCenterContext _dbContext;
+
+        public int ContadorTabs = 0;
 
         public Frm_StudyCenter(StudyCenterContext dbContext)
         {
@@ -35,9 +38,29 @@ namespace StudyCenter
 
         private void novoRegistroDeMatériatópicoToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            /* Codigo anterior utilizando um form comum
             Frm_RegistrarMateriaTopico f = new Frm_RegistrarMateriaTopico();
             f.MdiParent = this;
             f.Show();
+            */
+
+
+            //Utilizando um Form UserControl
+            ContadorTabs++;
+            Frm_RegistrarMateriaTopicoUc f = new Frm_RegistrarMateriaTopicoUc();
+            TabPage t = new TabPage();
+            f.Dock = DockStyle.Fill;
+            Tbc_Formularios.Visible = true;
+            t.Name = "Registra matéria/tópico";
+            t.Text = "Registra matéria/tópico";
+            t.ImageIndex = 1;
+            t.Controls.Add(f);
+            Tbc_Formularios.TabPages.Add(t);
+            if (Tbc_Formularios.TabCount > 1)
+            {
+                t.Name = t.Name + " (" + ContadorTabs + ")";
+                t.Text = t.Text + " (" + ContadorTabs + ")";
+            }
         }
 
         private void sairToolStripMenuItem_Click(object sender, EventArgs e)
@@ -49,21 +72,6 @@ namespace StudyCenter
         {
 
         }
-
-        //private void Txt_data_TextChanged(object sender, EventArgs e)
-        //{
-        //    string input = Microsoft.VisualBasic.Interaction.InputBox("Digite o valor:", "Inserir o valor", "0");
-        //    decimal horas;
-
-        //    if (decimal.TryParse(input, out horas))
-        //    {
-        //        txt_TempoEstudo.Text = horas.ToString();
-        //    }
-        //    else
-        //    {
-        //        MessageBox.Show("Valor inserido inválido!","Erro",MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
-        //    }
-        //}
 
         private void configuraTempoDeEstudoToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -98,6 +106,25 @@ namespace StudyCenter
                     txt_TempoEstudo.ForeColor = Color.Green;
                 }
             }
+        }
+
+        private void fecharAbaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            if (!(Tbc_Formularios.SelectedTab == null))
+            {
+                Tbc_Formularios.TabPages.Remove(Tbc_Formularios.SelectedTab);
+
+                if (Tbc_Formularios.TabCount == 0)
+                {
+                    Tbc_Formularios.Visible = false;
+                }
+            }
+        }
+
+        private void Tbc_Formularios_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

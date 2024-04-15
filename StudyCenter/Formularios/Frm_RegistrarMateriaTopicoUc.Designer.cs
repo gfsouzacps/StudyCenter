@@ -1,16 +1,16 @@
-﻿namespace StudyCenter
+﻿namespace StudyCenter.Formularios
 {
-    partial class Frm_RegistrarMateriaTopico
+    partial class Frm_RegistrarMateriaTopicoUc
     {
-        /// <summary>
-        /// Required designer variable.
+        /// <summary> 
+        /// Variável de designer necessária.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        /// Clean up any resources being used.
+        /// <summary> 
+        /// Limpar os recursos que estão sendo usados.
         /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        /// <param name="disposing">true se for necessário descartar os recursos gerenciados; caso contrário, false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -20,15 +20,14 @@
             base.Dispose(disposing);
         }
 
-        #region Windows Form Designer generated code
+        #region Código gerado pelo Designer de Componentes
 
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
+        /// <summary> 
+        /// Método necessário para suporte ao Designer - não modifique 
+        /// o conteúdo deste método com o editor de código.
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_RegistrarMateriaTopico));
             Btn_RegistrarMateriaTopico = new Button();
             dateTimePicker1 = new DateTimePicker();
             txt_Exemplo = new TextBox();
@@ -94,26 +93,20 @@
             Btn_FecharAplicacao.UseVisualStyleBackColor = true;
             Btn_FecharAplicacao.Click += Btn_FecharAplicacao_Click;
             // 
-            // Frm_RegistrarMateriaTopico
+            // Frm_RegistrarMateriaTopicoUc
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = SystemColors.ActiveCaptionText;
-            BackgroundImage = Properties.Resources.NovoBackground;
+            BackColor = Color.Transparent;
             BackgroundImageLayout = ImageLayout.Stretch;
-            ClientSize = new Size(745, 403);
             Controls.Add(Btn_FecharAplicacao);
             Controls.Add(Btn_exemploMessageBox);
             Controls.Add(textBox1);
             Controls.Add(txt_Exemplo);
             Controls.Add(dateTimePicker1);
             Controls.Add(Btn_RegistrarMateriaTopico);
-            FormBorderStyle = FormBorderStyle.FixedSingle;
-            Icon = (Icon)resources.GetObject("$this.Icon");
-            MaximizeBox = false;
-            Name = "Frm_RegistrarMateriaTopico";
-            StartPosition = FormStartPosition.CenterScreen;
-            Text = "Study Center";
+            Name = "Frm_RegistrarMateriaTopicoUc";
+            Size = new Size(745, 403);
             Load += Frm_RegistrarMateriaTopico_Load;
             ResumeLayout(false);
             PerformLayout();
