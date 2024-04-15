@@ -46,6 +46,7 @@ namespace StudyCenter
             // 
             // Txt_data
             // 
+            Txt_data.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             Txt_data.BackColor = Color.White;
             Txt_data.BorderStyle = BorderStyle.None;
             Txt_data.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
@@ -131,6 +132,7 @@ namespace StudyCenter
             // 
             // txt_TempoEstudo
             // 
+            txt_TempoEstudo.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             txt_TempoEstudo.BorderStyle = BorderStyle.None;
             txt_TempoEstudo.Font = new Font("Franklin Gothic Medium", 15.75F, FontStyle.Regular, GraphicsUnit.Point);
             txt_TempoEstudo.ForeColor = Color.Red;
@@ -155,7 +157,6 @@ namespace StudyCenter
             Controls.Add(Txt_data);
             Controls.Add(menuStrip1);
             Icon = (Icon)resources.GetObject("$this.Icon");
-            ImeMode = ImeMode.NoControl;
             IsMdiContainer = true;
             MainMenuStrip = menuStrip1;
             Name = "Frm_StudyCenter";

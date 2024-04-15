@@ -108,7 +108,9 @@
             Controls.Add(txt_Exemplo);
             Controls.Add(dateTimePicker1);
             Controls.Add(Btn_RegistrarMateriaTopico);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             Icon = (Icon)resources.GetObject("$this.Icon");
+            MaximizeBox = false;
             Name = "Frm_RegistrarMateriaTopico";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Study Center";
