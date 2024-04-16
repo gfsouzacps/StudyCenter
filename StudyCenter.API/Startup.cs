@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
-using StudyCenter.API.Models;
+using StudyCenter.API.Data;
 
 namespace StudyCenter.API
 {
@@ -20,7 +20,13 @@ namespace StudyCenter.API
         // Este método é chamado em tempo de execução. Use este método para adicionar serviços ao contêiner.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<StudyCenterContext>(options =>
+
+            services.AddControllers();
+            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+            services.AddEndpointsApiExplorer();
+            services.AddSwaggerGen();
+
+            services.AddDbContext<StudyCenterDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddControllers();
@@ -29,25 +35,17 @@ namespace StudyCenter.API
         // Este método é chamado em tempo de execução. Use este método para configurar o pipeline de solicitação HTTP.
         public void Configure(WebApplication app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
+            if (app.Environment.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                // Configuração de tratamento de erros em ambiente de produção
-                app.UseExceptionHandler("/Error");
-                app.UseHsts();
+                app.UseSwagger();
+                app.UseSwaggerUI();
             }
 
-            // Configurações adicionais do pipeline de solicitação HTTP, como middleware de roteamento, middleware de autenticação, etc.
-            app.UseRouting();
+            app.UseHttpsRedirection();
+
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+            app.MapControllers();
         }
     }
 }

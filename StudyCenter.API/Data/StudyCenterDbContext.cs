@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using StudyCenter.API.Models;
 
-namespace StudyCenter.API.Models;
+namespace StudyCenter.API.Data;
 
-public partial class StudyCenterContext : DbContext
+public partial class StudyCenterDbContext : DbContext
 {
-    public StudyCenterContext()
+    public StudyCenterDbContext()
     {
     }
 
-    public StudyCenterContext(DbContextOptions<StudyCenterContext> options)
+    public StudyCenterDbContext(DbContextOptions<StudyCenterDbContext> options)
         : base(options)
     {
     }

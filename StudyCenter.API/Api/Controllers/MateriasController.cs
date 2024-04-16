@@ -3,17 +3,19 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using StudyCenter.API.Api.ViewModels;
+using StudyCenter.API.Data;
 using StudyCenter.API.Models;
 
-namespace StudyCenter.API.Controllers
+namespace StudyCenter.API.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class MateriasController : ControllerBase
     {
-        private readonly StudyCenterContext _context;
+        private readonly StudyCenterDbContext _context;
 
-        public MateriasController(StudyCenterContext context)
+        public MateriasController(StudyCenterDbContext context)
         {
             _context = context;
         }
@@ -26,12 +28,21 @@ namespace StudyCenter.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Materias>> CriarMateria(Materias materia)
+        public async Task<ActionResult<Materias>> CriarMateria(MateriasViewModel materia)
         {
-            _context.Materia.Add(materia);
+            var ultimaMateria = await _context.Materia.OrderByDescending(m => m.IdMateria).FirstOrDefaultAsync();
+            if (ultimaMateria == null)
+            {
+                return NotFound();
+            }
+
+            var novoId = ultimaMateria.IdMateria + 1;
+            var materias = new Materias(novoId, materia.NomeMateria);
+
+            _context.Materia.Add(materias);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetMateria", new { id = materia.IdMateria }, materia);
+            return CreatedAtAction(nameof(CriarMateria), new { id = materia.IdMateria }, materias);
         }
 
         [HttpDelete]
