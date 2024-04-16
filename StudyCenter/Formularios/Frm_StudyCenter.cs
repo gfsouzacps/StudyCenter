@@ -1,5 +1,4 @@
 using StudyCenter.Formularios;
-using StudyCenter.Models;
 using System.Drawing.Drawing2D;
 using System.Dynamic;
 
@@ -7,13 +6,11 @@ namespace StudyCenter
 {
     public partial class Frm_StudyCenter : Form
     {
-        private StudyCenterContext _dbContext;
 
         public int ContadorTabs = 0;
 
-        public Frm_StudyCenter(StudyCenterContext dbContext)
+        public Frm_StudyCenter( )
         {
-            _dbContext = dbContext;
             InitializeComponent();
             Color corFundo = Color.FromArgb(42, 50, 63);
             //Txt_data.BackColor = corFundo;

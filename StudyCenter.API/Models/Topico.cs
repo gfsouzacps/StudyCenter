@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace StudyCenter.Models;
+namespace StudyCenter.API.Models;
 
 public partial class Topico
 {
@@ -11,7 +11,7 @@ public partial class Topico
 
     public int? IdMateria { get; set; }
 
-    public virtual Materia? IdMateriaNavigation { get; set; }
+    public virtual Materias? IdMateriaNavigation { get; set; }
 
     public virtual ICollection<SessaoTopico> SessaoTopicos { get; set; } = new List<SessaoTopico>();
 }

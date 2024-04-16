@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace StudyCenter.Models;
+namespace StudyCenter.API.Models;
 
-public partial class Materia
+public partial class Materias
 {
     public int IdMateria { get; set; }
 

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace StudyCenter.Models;
+namespace StudyCenter.API.Models;
 
 public partial class AnotacoesTopico
 {

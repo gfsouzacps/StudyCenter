@@ -5,7 +5,9 @@ VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudyCenter", "StudyCenter.csproj", "{AE48AC31-3A29-4B39-8120-B74CFE7CB0B5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudyCenterBiblioteca", "..\StudyCenterBiblioteca\StudyCenterBiblioteca.csproj", "{6B37E316-334A-4DCB-BAF1-AFB25C7660D3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudyCenterBiblioteca", "..\StudyCenterBiblioteca\StudyCenterBiblioteca.csproj", "{6B37E316-334A-4DCB-BAF1-AFB25C7660D3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudyCenter.API", "..\StudyCenter.API\StudyCenter.API.csproj", "{17CDCA16-D16C-4283-AD93-0AECE7524354}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{6B37E316-334A-4DCB-BAF1-AFB25C7660D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6B37E316-334A-4DCB-BAF1-AFB25C7660D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6B37E316-334A-4DCB-BAF1-AFB25C7660D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17CDCA16-D16C-4283-AD93-0AECE7524354}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17CDCA16-D16C-4283-AD93-0AECE7524354}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17CDCA16-D16C-4283-AD93-0AECE7524354}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17CDCA16-D16C-4283-AD93-0AECE7524354}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,4 +1,3 @@
-using StudyCenter.Models;
 
 namespace StudyCenter
 {
@@ -13,10 +12,7 @@ namespace StudyCenter
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-
-            var dbContext = new StudyCenterContext();
-
-            Application.Run(new Frm_StudyCenter(dbContext));
+            Application.Run(new Frm_StudyCenter());
         }
     }
 }

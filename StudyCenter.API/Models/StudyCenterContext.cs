@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace StudyCenter.Models;
+namespace StudyCenter.API.Models;
 
 public partial class StudyCenterContext : DbContext
 {
@@ -17,16 +17,15 @@ public partial class StudyCenterContext : DbContext
 
     public virtual DbSet<AnotacoesTopico> AnotacoesTopicos { get; set; }
 
-    public virtual DbSet<Materia> Materia { get; set; }
+    public virtual DbSet<Materias> Materia { get; set; }
 
     public virtual DbSet<SessaoTopico> SessaoTopicos { get; set; }
 
-    public virtual DbSet<Sessao> Sessoes { get; set; }
+    public virtual DbSet<Sessao> Sessaoes { get; set; }
 
     public virtual DbSet<Topico> Topicos { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=StudyCenter;User Id=sa;Password=admin;TrustServerCertificate=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -49,7 +48,7 @@ public partial class StudyCenterContext : DbContext
                 .HasConstraintName("FK__ANOTACOES__anota__5165187F");
         });
 
-        modelBuilder.Entity<Materia>(entity =>
+        modelBuilder.Entity<Materias>(entity =>
         {
             entity.HasKey(e => e.IdMateria).HasName("PK__MATERIA__7E03FD393345A71A");
 
