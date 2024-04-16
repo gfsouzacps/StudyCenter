@@ -24,6 +24,7 @@ namespace StudyCenter.API.Api.Controllers
         }
 
         [HttpGet]
+        [Route("GetMaterias")]
         public async Task<ActionResult<Materias>> GetMaterias()
         {
             var materias = await _context.Materia.ToListAsync();
@@ -31,6 +32,7 @@ namespace StudyCenter.API.Api.Controllers
         }
 
         [HttpPost]
+        [Route("CriarMateria")]
         public async Task<ActionResult<Materias>> CriarMateria(MateriasViewModel materia)
         {
             var ultimaMateria = _materiasRepository.GetUltimaMateriaAsync();
@@ -49,6 +51,7 @@ namespace StudyCenter.API.Api.Controllers
         }
 
         [HttpDelete]
+        [Route("DeletarMateria")]
         public async Task<ActionResult<Materias>> DeletarMateria(int idMateria)
         {
             var materia = await _context.Materia.FindAsync(idMateria);
