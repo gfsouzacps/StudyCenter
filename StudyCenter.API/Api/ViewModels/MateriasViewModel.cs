@@ -10,6 +10,6 @@ namespace StudyCenter.API.Api.ViewModels
         public int IdMateria { get; set; }
         public string NomeMateria { get; set; }
         [JsonIgnore]
-        public virtual ICollection<Topico> Topicos { get; set; } = new List<Topico>();
+        public virtual ICollection<Topicos> Topicos { get; set; } = new List<Topicos>();
     }
 }

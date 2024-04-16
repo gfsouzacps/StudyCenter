@@ -21,12 +21,8 @@ namespace StudyCenter.API.Data.Repositories
 
         public async Task DeleteAsync(int id)
         {
-            var materia = await _context.Materia.FindAsync(id);
-            if (materia == null)
-            {
-                throw new InvalidOperationException("Materia nao encontrada");
-            }
-            _context.Materia.Remove(materia);
+            var materia = _context.Materia.FindAsync(id);
+            _context.Materia.Remove(materia.Result);
             await _context.SaveChangesAsync();
         }
 
@@ -38,10 +34,6 @@ namespace StudyCenter.API.Data.Repositories
         public async Task<Materias> GetByIdAsync(int id)
         {
             var materia = _context.Materia.FindAsync(id);
-            if (materia == null)
-            {
-                throw new InvalidOperationException("Materia nao encontrada!");
-            }
             return await materia;
         }
 
@@ -53,10 +45,6 @@ namespace StudyCenter.API.Data.Repositories
         public async Task<Materias> GetUltimaMateriaAsync() 
         {
             var materia = _context.Materia.OrderByDescending(m => m.IdMateria).FirstOrDefaultAsync();
-            if (materia == null)
-            {
-                throw new InvalidOperationException("Materia nao encontrada!");
-            }
             return await materia;
         }
     }

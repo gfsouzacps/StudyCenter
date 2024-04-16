@@ -16,26 +16,26 @@ public partial class StudyCenterDbContext : DbContext
     {
     }
 
-    public virtual DbSet<AnotacoesTopico> AnotacoesTopicos { get; set; }
+    public virtual DbSet<AnotacoesTopicos> AnotacoesTopicos { get; set; }
 
     public virtual DbSet<Materias> Materia { get; set; }
 
-    public virtual DbSet<SessaoTopico> SessaoTopicos { get; set; }
+    public virtual DbSet<SessoesTopicos> SessaoTopicos { get; set; }
 
-    public virtual DbSet<Sessao> Sessaoes { get; set; }
+    public virtual DbSet<Sessoes> Sessoes { get; set; }
 
-    public virtual DbSet<Topico> Topicos { get; set; }
+    public virtual DbSet<Topicos> Topicos { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         => optionsBuilder.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=StudyCenter;User Id=sa;Password=admin;TrustServerCertificate=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<AnotacoesTopico>(entity =>
+        modelBuilder.Entity<AnotacoesTopicos>(entity =>
         {
             entity.HasKey(e => e.IdAnotacao).HasName("PK__ANOTACOE__1BA58A28055811C1");
 
-            entity.ToTable("ANOTACOES_TOPICO");
+            entity.ToTable("ANOTACOES_TOPICOS");
 
             entity.Property(e => e.IdAnotacao)
                 .ValueGeneratedNever()
@@ -53,7 +53,7 @@ public partial class StudyCenterDbContext : DbContext
         {
             entity.HasKey(e => e.IdMateria).HasName("PK__MATERIA__7E03FD393345A71A");
 
-            entity.ToTable("MATERIA");
+            entity.ToTable("MATERIAS");
 
             entity.Property(e => e.IdMateria)
                 .ValueGeneratedNever()
@@ -63,11 +63,11 @@ public partial class StudyCenterDbContext : DbContext
                 .HasColumnName("nome_materia");
         });
 
-        modelBuilder.Entity<SessaoTopico>(entity =>
+        modelBuilder.Entity<SessoesTopicos>(entity =>
         {
             entity.HasKey(e => e.IdSessaoTopico).HasName("PK__SESSAO_T__04AEBD2336966A8E");
 
-            entity.ToTable("SESSAO_TOPICOS");
+            entity.ToTable("SESSOES_TOPICOS");
 
             entity.Property(e => e.IdSessaoTopico)
                 .ValueGeneratedNever()
@@ -89,7 +89,7 @@ public partial class StudyCenterDbContext : DbContext
                 .HasConstraintName("FK__SESSAO_TO__id_to__4E88ABD4");
         });
 
-        modelBuilder.Entity<Sessao>(entity =>
+        modelBuilder.Entity<Sessoes>(entity =>
         {
             entity.HasKey(e => e.IdSessao).HasName("PK__SESSOES__D45775D4E1DE3145");
 
@@ -110,7 +110,7 @@ public partial class StudyCenterDbContext : DbContext
                 .HasColumnName("nome_sessao");
         });
 
-        modelBuilder.Entity<Topico>(entity =>
+        modelBuilder.Entity<Topicos>(entity =>
         {
             entity.HasKey(e => e.IdTopico).HasName("PK__TOPICOS__C013E49EA500749A");
 

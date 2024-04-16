@@ -10,6 +10,9 @@ namespace StudyCenter.API.Configurations
         {
             services.AddScoped<MateriasRepository>();
             services.AddScoped<IMateriasRepository, MateriasRepository>();
+
+            services.AddScoped<SessoesRepository>();
+            services.AddScoped<ISessoesRepository, SessoesRepository>();
         }
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace StudyCenter.API.Models;
 
-public partial class AnotacoesTopico
+public partial class AnotacoesTopicos
 {
     public int IdAnotacao { get; set; }
 
@@ -11,5 +11,5 @@ public partial class AnotacoesTopico
 
     public string? Anotacao { get; set; }
 
-    public virtual SessaoTopico IdSessaoTopicoNavigation { get; set; } = null!;
+    public virtual SessoesTopicos IdSessaoTopicoNavigation { get; set; } = null!;
 }

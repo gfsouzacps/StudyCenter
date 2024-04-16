@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace StudyCenter.API.Models;
 
-public partial class Topico
+public partial class Topicos
 {
     public int IdTopico { get; set; }
 
@@ -13,5 +13,5 @@ public partial class Topico
 
     public virtual Materias? IdMateriaNavigation { get; set; }
 
-    public virtual ICollection<SessaoTopico> SessaoTopicos { get; set; } = new List<SessaoTopico>();
+    public virtual ICollection<SessoesTopicos> SessaoTopicos { get; set; } = new List<SessoesTopicos>();
 }

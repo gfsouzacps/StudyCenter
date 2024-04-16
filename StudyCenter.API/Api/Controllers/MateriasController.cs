@@ -27,21 +27,28 @@ namespace StudyCenter.API.Api.Controllers
         [Route("GetMaterias")]
         public async Task<ActionResult<Materias>> GetMaterias()
         {
-            var materias = await _context.Materia.ToListAsync();
-            return Ok(materias);
+            var materias = _materiasRepository.GetAllAsync();
+            if(!materias.Result.Any())
+            {
+                return NotFound();
+            }
+            return Ok(materias.Result);
         }
 
         [HttpPost]
         [Route("CriarMateria")]
         public async Task<ActionResult<Materias>> CriarMateria(MateriasViewModel materia)
         {
-            var ultimaMateria = _materiasRepository.GetUltimaMateriaAsync();
-            if (ultimaMateria == null)
-            {
-                return NotFound();
-            }
+            int novoId = 0;
 
-            var novoId = ultimaMateria.Result.IdMateria + 1;
+            var ultimaMateria = _materiasRepository.GetUltimaMateriaAsync();
+            if (ultimaMateria.Result == null)
+            {
+                novoId = 1;
+            }
+            else { 
+                novoId = ultimaMateria.Result.IdMateria + 1;
+            }
             var materias = new Materias(novoId, materia.NomeMateria);
 
             _context.Materia.Add(materias);
@@ -63,7 +70,7 @@ namespace StudyCenter.API.Api.Controllers
             _context.Materia.Remove(materia);
             await _context.SaveChangesAsync();
 
-            return materia;
+            return Ok("Matéria deletada");
         }
     }
 }
