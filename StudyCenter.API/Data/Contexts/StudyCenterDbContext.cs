@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using StudyCenter.API.Models;
 
-namespace StudyCenter.API.Data;
+namespace StudyCenter.API.Data.Contexts;
 
 public partial class StudyCenterDbContext : DbContext
 {

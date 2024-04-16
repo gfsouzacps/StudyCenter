@@ -9,5 +9,6 @@ namespace StudyCenter.API.Data.Repositories
         Task AddAsync(Materias materias);
         Task UpdateAsync(Materias materias);
         Task DeleteAsync(int id);
+        Task<Materias> GetUltimaMateriaAsync();
     }
 }

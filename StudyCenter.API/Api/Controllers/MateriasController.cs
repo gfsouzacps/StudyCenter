@@ -4,7 +4,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using StudyCenter.API.Api.ViewModels;
-using StudyCenter.API.Data;
+using StudyCenter.API.Data.Contexts;
+using StudyCenter.API.Data.Repositories;
 using StudyCenter.API.Models;
 
 namespace StudyCenter.API.Api.Controllers
@@ -14,10 +15,12 @@ namespace StudyCenter.API.Api.Controllers
     public class MateriasController : ControllerBase
     {
         private readonly StudyCenterDbContext _context;
+        private readonly IMateriasRepository _materiasRepository;
 
-        public MateriasController(StudyCenterDbContext context)
+        public MateriasController(StudyCenterDbContext context, MateriasRepository materiasRepository)
         {
             _context = context;
+            _materiasRepository = materiasRepository;
         }
 
         [HttpGet]
@@ -30,13 +33,13 @@ namespace StudyCenter.API.Api.Controllers
         [HttpPost]
         public async Task<ActionResult<Materias>> CriarMateria(MateriasViewModel materia)
         {
-            var ultimaMateria = await _context.Materia.OrderByDescending(m => m.IdMateria).FirstOrDefaultAsync();
+            var ultimaMateria = _materiasRepository.GetUltimaMateriaAsync();
             if (ultimaMateria == null)
             {
                 return NotFound();
             }
 
-            var novoId = ultimaMateria.IdMateria + 1;
+            var novoId = ultimaMateria.Result.IdMateria + 1;
             var materias = new Materias(novoId, materia.NomeMateria);
 
             _context.Materia.Add(materias);

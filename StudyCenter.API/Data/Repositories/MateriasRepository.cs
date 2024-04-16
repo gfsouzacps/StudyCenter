@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using StudyCenter.API.Data;
+using StudyCenter.API.Data.Contexts;
 using StudyCenter.API.Models;
 
 namespace StudyCenter.API.Data.Repositories
@@ -40,7 +40,7 @@ namespace StudyCenter.API.Data.Repositories
             var materia = _context.Materia.FindAsync(id);
             if (materia == null)
             {
-                throw new InvalidOperationException("Materia nao encontrada");
+                throw new InvalidOperationException("Materia nao encontrada!");
             }
             return await materia;
         }
@@ -49,6 +49,15 @@ namespace StudyCenter.API.Data.Repositories
         {
             _context.Entry(materias).State = EntityState.Modified;
             await _context.SaveChangesAsync();
+        }
+        public async Task<Materias> GetUltimaMateriaAsync() 
+        {
+            var materia = _context.Materia.OrderByDescending(m => m.IdMateria).FirstOrDefaultAsync();
+            if (materia == null)
+            {
+                throw new InvalidOperationException("Materia nao encontrada!");
+            }
+            return await materia;
         }
     }
 }
