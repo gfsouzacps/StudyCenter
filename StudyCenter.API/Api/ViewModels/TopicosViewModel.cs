@@ -8,7 +8,6 @@ namespace StudyCenter.API.Api.ViewModels
         [JsonIgnore]
         public int IdTopico { get; set; }
         public string NomeTopico { get; set; } = null!;
-        [JsonIgnore]
-        public int? IdMateria { get; set; }
+        public int IdMateria { get; set; }
     }
 }

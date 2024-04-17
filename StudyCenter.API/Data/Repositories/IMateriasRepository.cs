@@ -10,5 +10,6 @@ namespace StudyCenter.API.Data.Repositories
         Task UpdateAsync(Materias materias);
         Task DeleteAsync(int id);
         Task<Materias> GetUltimaMateriaAsync();
+        Task<IEnumerable<Materias>> GetMateriasETopicosAsync();
     }
 }

@@ -1,0 +1,18 @@
+DECLARE @TableName NVARCHAR(128)
+
+DECLARE cur CURSOR FOR
+SELECT name
+FROM sys.tables
+
+OPEN cur
+
+FETCH NEXT FROM cur INTO @TableName
+
+WHILE @@FETCH_STATUS = 0
+BEGIN
+    EXEC ('DELETE FROM ' + @TableName)
+    FETCH NEXT FROM cur INTO @TableName
+END
+
+CLOSE cur
+DEALLOCATE cur

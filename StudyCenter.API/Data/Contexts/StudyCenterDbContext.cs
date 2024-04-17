@@ -73,7 +73,7 @@ public partial class StudyCenterDbContext : DbContext
                 .ValueGeneratedNever()
                 .HasColumnName("id_sessao_topico");
             entity.Property(e => e.DuracaoEstudo)
-                .HasColumnType("decimal(18, 0)")
+                .HasColumnType("decimal(5, 2)")
                 .HasColumnName("duracao_estudo");
             entity.Property(e => e.IdSessao).HasColumnName("id_sessao");
             entity.Property(e => e.IdTopico).HasColumnName("id_topico");

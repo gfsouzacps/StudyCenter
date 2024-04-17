@@ -11,7 +11,6 @@ namespace StudyCenter.API.Api.ViewModels
         public string? AnotacaoSessao { get; set; }
         public DateTime DthrInicioSessao { get; set; }
         public DateTime DthrFimSessao { get; set; }
-        [JsonIgnore]
-        public virtual ICollection<SessaoTopicos> SessaoTopicos { get; set; } = new List<SessaoTopicos>();
+        public virtual ICollection<SessaoTopicosViewModel> SessaoTopicos { get; set; } = new List<SessaoTopicosViewModel>();
     }
 }

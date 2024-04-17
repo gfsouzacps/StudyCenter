@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using StudyCenter.API.Api.ViewModels;
+using StudyCenter.API.Configurations;
 using StudyCenter.API.Data.Contexts;
 using StudyCenter.API.Data.Repositories;
 using StudyCenter.API.Models;
@@ -39,20 +40,15 @@ namespace StudyCenter.API.Api.Controllers
         [Route("CriarTopico")]
         public async Task<ActionResult<Topicos>> CriarTopico(TopicosViewModel topico) // Criar topico atraves da materia
         {
-            int novoId = 0;
-
-            var ultimaTopico = _topicosRepository.GetUltimoTopicoAsync();
-            if (ultimaTopico.Result == null)
-            {
-                novoId = 1;
-            }
-            else { 
-                novoId = ultimaTopico.Result.IdTopico + 1;
-            }
-            var topicos = new Topicos(novoId, topico.NomeTopico, topico.IdMateria);
+            var ultimoTopico = _topicosRepository.GetUltimoTopicoAsync();
+            int novoIdTopico = ultimoTopico.Result == null ? 1 : ultimoTopico.Result.IdTopico + 1;
+         
+            var topicos = new Topicos(novoIdTopico, topico.NomeTopico, topico.IdMateria);
 
             _context.Topicos.Add(topicos);
             await _context.SaveChangesAsync();
+
+            var json = JsonHelper.SerializeToJson(topicos);
 
             return CreatedAtAction(nameof(CriarTopico), new { id = topico.IdTopico }, topicos);
         }

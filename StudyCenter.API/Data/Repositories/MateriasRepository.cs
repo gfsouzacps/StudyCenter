@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
 using StudyCenter.API.Data.Contexts;
 using StudyCenter.API.Models;
 
@@ -46,6 +47,12 @@ namespace StudyCenter.API.Data.Repositories
         {
             var materia = _context.Materia.OrderByDescending(m => m.IdMateria).FirstOrDefaultAsync();
             return await materia;
+        }
+
+        public async Task<IEnumerable<Materias>> GetMateriasETopicosAsync()
+        {
+            var materiaETopicos = await _context.Materia.Include(m=>m.Topicos).ToListAsync();
+            return materiaETopicos;
         }
     }
 }
