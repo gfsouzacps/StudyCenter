@@ -24,5 +24,5 @@ public partial class Sessoes
 
     public DateTime DthrFimSessao { get; set; }
 
-    public virtual ICollection<SessoesTopicos> SessaoTopicos { get; set; } = new List<SessoesTopicos>();
+    public virtual ICollection<SessaoTopicos> SessaoTopicos { get; set; } = new List<SessaoTopicos>();
 }

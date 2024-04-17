@@ -12,6 +12,6 @@ namespace StudyCenter.API.Api.ViewModels
         public DateTime DthrInicioSessao { get; set; }
         public DateTime DthrFimSessao { get; set; }
         [JsonIgnore]
-        public virtual ICollection<SessoesTopicos> SessaoTopicos { get; set; } = new List<SessoesTopicos>();
+        public virtual ICollection<SessaoTopicos> SessaoTopicos { get; set; } = new List<SessaoTopicos>();
     }
 }

@@ -5,11 +5,11 @@ namespace StudyCenter.API.Models;
 
 public partial class AnotacoesTopicos
 {
-    public int IdAnotacao { get; set; }
+    public int IdAnotacaoTopico { get; set; }
 
     public int IdSessaoTopico { get; set; }
 
     public string? Anotacao { get; set; }
 
-    public virtual SessoesTopicos IdSessaoTopicoNavigation { get; set; } = null!;
+    public virtual SessaoTopicos IdSessaoTopicoNavigation { get; set; } = null!;
 }

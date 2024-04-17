@@ -1,5 +1,6 @@
 ﻿using System.Drawing.Drawing2D;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -16,11 +17,13 @@ namespace StudyCenter.API.Api.Controllers
     {
         private readonly StudyCenterDbContext _context;
         private readonly ISessoesRepository _sessoesRepository;
+        private readonly ISessaoTopicosRepository _sessaoTopicosRepository;
 
-        public SessoesController(StudyCenterDbContext context, SessoesRepository sessoesRepository)
+        public SessoesController(StudyCenterDbContext context, SessoesRepository sessoesRepository, SessaoTopicosRepository sessaoTopicosRepository)
         {
             _context = context;
             _sessoesRepository = sessoesRepository;
+            _sessaoTopicosRepository = sessaoTopicosRepository;
         }
 
         [HttpGet]
@@ -37,26 +40,26 @@ namespace StudyCenter.API.Api.Controllers
 
         [HttpPost]
         [Route("CriarSessao")]
-        public async Task<ActionResult<Sessoes>> CriarSessao(SessoesViewModel sessao)
-        {
-            int novoId = 0;
-
+        public async Task<ActionResult<Sessoes>> CriarSessao(SessoesViewModel sessaoViewModel)
+        { 
             var ultimaSessao = _sessoesRepository.GetUltimaSessaoAsync();
-            if (ultimaSessao.Result == null)
+            int novoIdSessao = ultimaSessao.Result == null ? 1 : ultimaSessao.Result.IdSessao+1;
+
+            var novaSessao = new Sessoes(novoIdSessao, sessaoViewModel.NomeSessao, sessaoViewModel.AnotacaoSessao, sessaoViewModel.DthrInicioSessao, sessaoViewModel.DthrFimSessao);
+
+            foreach( var sessaoTopicosViewModel in sessaoViewModel.SessaoTopicos)
             {
-                novoId = 1;
-            }
-            else
-            {
-                novoId = ultimaSessao.Result.IdSessao + 1;
+                var ultimaSessaoTopico = await _sessaoTopicosRepository.GetUltimaSessaoTopicosAsync();
+                int novoIdSessaoTopico = ultimaSessao.Result == null ? 1 : ultimaSessaoTopico.IdSessaoTopico + 1;
+
+                var novaSessaoTopico = new SessaoTopicos(novoIdSessaoTopico, novoIdSessao, sessaoTopicosViewModel.IdTopico, sessaoTopicosViewModel.DuracaoEstudo);
+                novaSessao.SessaoTopicos.Add(novaSessaoTopico);
             }
 
-            var sessoes = new Sessoes(novoId, sessao.NomeSessao, sessao.AnotacaoSessao, sessao.DthrInicioSessao, sessao.DthrFimSessao);
-
-            _context.Sessoes.Add(sessoes);
+            _context.Sessoes.Add(novaSessao);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(CriarSessao), new { id = sessao.IdSessao }, sessoes);
+            return CreatedAtAction(nameof(CriarSessao), new { id = novaSessao.IdSessao }, novaSessao);
         }
 
         [HttpDelete]

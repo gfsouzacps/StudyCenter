@@ -20,7 +20,7 @@ public partial class StudyCenterDbContext : DbContext
 
     public virtual DbSet<Materias> Materia { get; set; }
 
-    public virtual DbSet<SessoesTopicos> SessaoTopicos { get; set; }
+    public virtual DbSet<SessaoTopicos> SessaoTopicos { get; set; }
 
     public virtual DbSet<Sessoes> Sessoes { get; set; }
 
@@ -33,13 +33,13 @@ public partial class StudyCenterDbContext : DbContext
     {
         modelBuilder.Entity<AnotacoesTopicos>(entity =>
         {
-            entity.HasKey(e => e.IdAnotacao).HasName("PK__ANOTACOE__1BA58A28055811C1");
+            entity.HasKey(e => e.IdAnotacaoTopico).HasName("PK__ANOTACOE__1BA58A28055811C1");
 
             entity.ToTable("ANOTACOES_TOPICOS");
 
-            entity.Property(e => e.IdAnotacao)
+            entity.Property(e => e.IdAnotacaoTopico)
                 .ValueGeneratedNever()
-                .HasColumnName("id_anotacao");
+                .HasColumnName("id_anotacao_topico");
             entity.Property(e => e.Anotacao).HasColumnName("anotacao");
             entity.Property(e => e.IdSessaoTopico).HasColumnName("id_sessao_topico");
 
@@ -63,11 +63,11 @@ public partial class StudyCenterDbContext : DbContext
                 .HasColumnName("nome_materia");
         });
 
-        modelBuilder.Entity<SessoesTopicos>(entity =>
+        modelBuilder.Entity<SessaoTopicos>(entity =>
         {
             entity.HasKey(e => e.IdSessaoTopico).HasName("PK__SESSAO_T__04AEBD2336966A8E");
 
-            entity.ToTable("SESSOES_TOPICOS");
+            entity.ToTable("SESSAO_TOPICOS");
 
             entity.Property(e => e.IdSessaoTopico)
                 .ValueGeneratedNever()
@@ -120,9 +120,9 @@ public partial class StudyCenterDbContext : DbContext
                 .ValueGeneratedNever()
                 .HasColumnName("id_topico");
             entity.Property(e => e.IdMateria).HasColumnName("id_materia");
-            entity.Property(e => e.Topico1)
+            entity.Property(e => e.NomeTopico)
                 .HasMaxLength(100)
-                .HasColumnName("topico");
+                .HasColumnName("nome_topico");
 
             entity.HasOne(d => d.IdMateriaNavigation).WithMany(p => p.Topicos)
                 .HasForeignKey(d => d.IdMateria)
