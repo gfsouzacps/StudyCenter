@@ -6,7 +6,7 @@ create table MATERIA (
 create table TOPICOS (
 		id_topico int primary key not null,
 		topico nvarchar(100) not null,
-		id_materia int,
+		id_materia int not null,
 		FOREIGN KEY (id_materia) REFERENCES MATERIA (id_materia)
 		)
 create table SESSOES(
@@ -21,7 +21,7 @@ create table SESSAO_TOPICOS(
 	id_sessao_topico int primary key not null,
 	id_sessao int not null,
 	id_topico int not null,
-	duracao_estudo decimal,
+	duracao_estudo decimal(5,2),
 	FOREIGN KEY (id_sessao) REFERENCES SESSOES(id_sessao),
     FOREIGN KEY (id_topico) REFERENCES TOPICOS(id_topico)
 )

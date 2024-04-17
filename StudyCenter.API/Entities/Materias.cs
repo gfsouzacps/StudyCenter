@@ -11,7 +11,6 @@ public partial class Materias
         IdMateria = idMateria;
         NomeMateria = nomeMateria;
     }
-
     public int IdMateria { get; set; }
     public string NomeMateria { get; set; } = null!;
     public virtual ICollection<Topicos> Topicos { get; set; } = new List<Topicos>();

@@ -3,11 +3,11 @@ using System.Text.Json.Serialization;
 
 namespace StudyCenter.API.Api.ViewModels
 {
-    public class MateriasViewModel
+    public class TopicosViewModel
     {
         [JsonIgnore]
+        public int IdTopico { get; set; }
+        public string NomeTopico { get; set; } = null!;
         public int IdMateria { get; set; }
-        public string NomeMateria { get; set; }
-        public virtual ICollection<TopicosViewModel> Topicos { get; set; } = new List<TopicosViewModel>();
     }
 }
