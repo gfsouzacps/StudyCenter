@@ -1,34 +1,87 @@
-create table MATERIA (
-	id_materia int primary key not null,
-	nome_materia nvarchar(100) not null,
-)
+/*		TABELAS		*/
 
-create table TOPICOS (
-		id_topico int primary key not null,
-		topico nvarchar(100) not null,
-		id_materia int not null,
-		FOREIGN KEY (id_materia) REFERENCES MATERIA (id_materia)
-		)
-create table SESSOES(
-	id_sessao int primary key not null,
-	nome_sessao nvarchar(200),
-	anotacao_sessao nvarchar(max),
-	dthr_inicio_sessao datetime not null,
-	dthr_fim_sessao datetime not null
-)
+CREATE TABLE [dbo].[TOPICOS](
+	[id_topico] [int] IDENTITY(1,1) NOT NULL,
+	[nome_topico] [nvarchar](100) NOT NULL,
+	[id_materia] [int] NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[id_topico] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
 
-create table SESSAO_TOPICOS(
-	id_sessao_topico int primary key not null,
-	id_sessao int not null,
-	id_topico int not null,
-	duracao_estudo decimal(5,2),
-	FOREIGN KEY (id_sessao) REFERENCES SESSOES(id_sessao),
-    FOREIGN KEY (id_topico) REFERENCES TOPICOS(id_topico)
-)
 
-create table ANOTACOES_TOPICO (
-    id_anotacao int primary key not null,
-    id_sessao_topico int not null,
-    anotacao nvarchar(max)
-	FOREIGN KEY (id_sessao_topico) REFERENCES SESSAO_TOPICOS(id_sessao_topico)
-)
+CREATE TABLE [dbo].[SESSOES](
+	[id_sessao] [int] IDENTITY(1,1) NOT NULL,
+	[nome_sessao] [nvarchar](200) NULL,
+	[anotacao_sessao] [nvarchar](max) NULL,
+	[dthr_inicio_sessao] [datetime] NOT NULL,
+	[dthr_fim_sessao] [datetime] NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[id_sessao] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
+
+CREATE TABLE [dbo].[MATERIAS](
+	[id_materia] [int] IDENTITY(1,1) NOT NULL,
+	[nome_materia] [nvarchar](100) NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[id_materia] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+
+CREATE TABLE [dbo].[ANOTACOES_TOPICOS](
+	[id_anotacao_topico] [int] IDENTITY(1,1) NOT NULL,
+	[id_sessao_topico] [int] NOT NULL,
+	[anotacao] [nvarchar](max) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[id_anotacao_topico] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
+
+CREATE TABLE [dbo].[SESSAO_TOPICOS](
+	[id_sessao_topico] [int] IDENTITY(1,1) NOT NULL,
+	[id_sessao] [int] NOT NULL,
+	[id_topico] [int] NOT NULL,
+	[duracao_estudo] [decimal](5, 2) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[id_sessao_topico] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+
+/*			FKS			*/
+
+ALTER TABLE [dbo].[SESSAO_TOPICOS]  WITH CHECK ADD FOREIGN KEY([id_sessao])
+REFERENCES [dbo].[SESSOES] ([id_sessao])
+GO
+
+ALTER TABLE [dbo].[SESSAO_TOPICOS]  WITH CHECK ADD  CONSTRAINT [FK__SESSAO_TO__id_to__4E88ABD4] FOREIGN KEY([id_topico])
+REFERENCES [dbo].[TOPICOS] ([id_topico])
+GO
+
+ALTER TABLE [dbo].[SESSAO_TOPICOS] CHECK CONSTRAINT [FK__SESSAO_TO__id_to__4E88ABD4]
+GO
+
+ALTER TABLE [dbo].[TOPICOS]  WITH CHECK ADD  CONSTRAINT [FK__TOPICOS__id_mate__5441852A] FOREIGN KEY([id_materia])
+REFERENCES [dbo].[MATERIAS] ([id_materia])
+GO
+
+ALTER TABLE [dbo].[TOPICOS] CHECK CONSTRAINT [FK__TOPICOS__id_mate__5441852A]
+GO
+
+ALTER TABLE [dbo].[ANOTACOES_TOPICOS]  WITH CHECK ADD FOREIGN KEY([id_sessao_topico])
+REFERENCES [dbo].[SESSAO_TOPICOS] ([id_sessao_topico])
+GO

@@ -38,7 +38,7 @@ public partial class StudyCenterDbContext : DbContext
             entity.ToTable("ANOTACOES_TOPICOS");
 
             entity.Property(e => e.IdAnotacaoTopico)
-                .ValueGeneratedNever()
+                .ValueGeneratedOnAdd()
                 .HasColumnName("id_anotacao_topico");
             entity.Property(e => e.Anotacao).HasColumnName("anotacao");
             entity.Property(e => e.IdSessaoTopico).HasColumnName("id_sessao_topico");
@@ -46,7 +46,7 @@ public partial class StudyCenterDbContext : DbContext
             entity.HasOne(d => d.IdSessaoTopicoNavigation).WithMany(p => p.AnotacoesTopicos)
                 .HasForeignKey(d => d.IdSessaoTopico)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__ANOTACOES__anota__5165187F");
+                .HasConstraintName("FK__ANOTACOES__id_se__7F2BE32F");
         });
 
         modelBuilder.Entity<Materias>(entity =>
@@ -56,7 +56,7 @@ public partial class StudyCenterDbContext : DbContext
             entity.ToTable("MATERIAS");
 
             entity.Property(e => e.IdMateria)
-                .ValueGeneratedNever()
+                .ValueGeneratedOnAdd()
                 .HasColumnName("id_materia");
             entity.Property(e => e.NomeMateria)
                 .HasMaxLength(100)
@@ -70,7 +70,7 @@ public partial class StudyCenterDbContext : DbContext
             entity.ToTable("SESSAO_TOPICOS");
 
             entity.Property(e => e.IdSessaoTopico)
-                .ValueGeneratedNever()
+                .ValueGeneratedOnAdd()
                 .HasColumnName("id_sessao_topico");
             entity.Property(e => e.DuracaoEstudo)
                 .HasColumnType("decimal(5, 2)")
@@ -81,7 +81,7 @@ public partial class StudyCenterDbContext : DbContext
             entity.HasOne(d => d.IdSessaoNavigation).WithMany(p => p.SessaoTopicos)
                 .HasForeignKey(d => d.IdSessao)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__SESSAO_TO__id_se__4D94879B");
+                .HasConstraintName("FK__SESSAO_TO__id_se__74AE54BC");
 
             entity.HasOne(d => d.IdTopicoNavigation).WithMany(p => p.SessaoTopicos)
                 .HasForeignKey(d => d.IdTopico)
@@ -96,7 +96,7 @@ public partial class StudyCenterDbContext : DbContext
             entity.ToTable("SESSOES");
 
             entity.Property(e => e.IdSessao)
-                .ValueGeneratedNever()
+                .ValueGeneratedOnAdd()
                 .HasColumnName("id_sessao");
             entity.Property(e => e.AnotacaoSessao).HasColumnName("anotacao_sessao");
             entity.Property(e => e.DthrFimSessao)
@@ -117,7 +117,7 @@ public partial class StudyCenterDbContext : DbContext
             entity.ToTable("TOPICOS");
 
             entity.Property(e => e.IdTopico)
-                .ValueGeneratedNever()
+                .ValueGeneratedOnAdd()
                 .HasColumnName("id_topico");
             entity.Property(e => e.IdMateria).HasColumnName("id_materia");
             entity.Property(e => e.NomeTopico)
