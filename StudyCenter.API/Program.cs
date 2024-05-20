@@ -1,42 +1,29 @@
-using Microsoft.EntityFrameworkCore;
-using StudyCenter.API;
-using StudyCenter.API.Configurations;
-using StudyCenter.API.Data.Contexts;
-using System.Configuration;
+using StudyCenter.Shared.Infraestrutura.Backend.Configurations;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Configuration
-    .SetBasePath(builder.Environment.ContentRootPath)
-    .AddJsonFile("appsettings.json", true, true)
-    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", true, true)
-    .AddEnvironmentVariables();
-
+// Add services to the container.
 builder.Services.AddControllers();
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddSwaggerConfiguration();
-builder.Services.RegisterServices();
 
-var configuration = builder.Configuration;
-
-builder.Services.AddDbContext<StudyCenterDbContext>(options =>
-    options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
-
-builder.Services.AddControllers();
+// Pass the configuration to RegisterServices
+builder.Services.RegisterServices(builder.Configuration);
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
+// Configure the HTTP request pipeline.
+//if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-app.UseSwaggerConfiguration();
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
 app.MapControllers();
+
 app.Run();
