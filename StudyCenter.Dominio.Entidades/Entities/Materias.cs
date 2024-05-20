@@ -6,12 +6,7 @@ namespace StudyCenter.Dominio.Entidades.Entities;
 
 public partial class Materias
 {
-    public Materias(int idMateria, string nomeMateria)
-    {
-        IdMateria = idMateria;
-        NomeMateria = nomeMateria;
-    }
-    public int IdMateria { get; set; }
+    public int IdMateria { get; }
     public string NomeMateria { get; set; } = null!;
     public virtual ICollection<Topicos> Topicos { get; set; } = new List<Topicos>();
 }

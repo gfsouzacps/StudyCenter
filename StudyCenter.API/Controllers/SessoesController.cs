@@ -17,8 +17,8 @@ namespace StudyCenter.API.Controllers
         private readonly IAnotacoesTopicosQueryRepository _anotacoesTopicosQueryRepository;
         private readonly ITopicosQueryRepository _topicosQueryRepository;
 
-        public SessoesController(StudyCenterDbContext context, SessoesQueryRepository sessoesQueryRepository, 
-            SessaoTopicosQueryRepository sessaoQueryTopicosRepository, AnotacoesTopicosQueryRepository anotacoesTopicosQueryRepository, 
+        public SessoesController(StudyCenterDbContext context, SessoesQueryRepository sessoesQueryRepository,
+            SessaoTopicosQueryRepository sessaoQueryTopicosRepository, AnotacoesTopicosQueryRepository anotacoesTopicosQueryRepository,
             TopicosQueryRepository topicosQueryRepository)
         {
             _context = context;
@@ -44,17 +44,24 @@ namespace StudyCenter.API.Controllers
         [Route("CriarSessao")]
         public async Task<ActionResult<Sessoes>> CriarSessao(SessoesViewModel sessaoViewModel)
         {
-            var ultimaSessao = _sessoesQueryRepository.ObterUltimaSessaoAsync();
-            int novoIdSessao = ultimaSessao.Result == null ? 1 : ultimaSessao.Result.IdSessao + 1;
+            var novaSessao = new Sessoes
+            {
+                NomeSessao = sessaoViewModel.NomeSessao,
+                AnotacaoSessao = sessaoViewModel.AnotacaoSessao,
+                DthrInicioSessao = sessaoViewModel.DthrInicioSessao,
+                DthrFimSessao = sessaoViewModel.DthrFimSessao
+            };
 
-            var novaSessao = new Sessoes(novoIdSessao, sessaoViewModel.NomeSessao, sessaoViewModel.AnotacaoSessao, sessaoViewModel.DthrInicioSessao, sessaoViewModel.DthrFimSessao);
+            _context.Sessoes.Add(novaSessao);
+            await _context.SaveChangesAsync();
 
             foreach (var sessaoTopicosViewModel in sessaoViewModel.SessaoTopicos)
             {
-                var ultimaSessaoTopico = await _sessaoTopicosQueryRepository.ObterUltimaSessaoTopicosAsync();
-                int novoIdSessaoTopico = ultimaSessao.Result == null ? 1 : ultimaSessaoTopico.IdSessaoTopico + 1;
-
-                var novaSessaoTopico = new SessaoTopicos(novoIdSessaoTopico, novoIdSessao, sessaoTopicosViewModel.IdTopico, sessaoTopicosViewModel.DuracaoEstudo);
+                var novaSessaoTopico = new SessaoTopicos
+                {
+                    IdTopico = sessaoTopicosViewModel.IdTopico,
+                    DuracaoEstudo = sessaoTopicosViewModel.DuracaoEstudo
+                };
 
                 var topico = _topicosQueryRepository.ObterPorIdAsync(novaSessaoTopico.IdTopico);
                 if (topico.Result == null)
@@ -62,22 +69,20 @@ namespace StudyCenter.API.Controllers
                     return NotFound("Tópico não encontrado!");
                 }
                 novaSessao.SessaoTopicos.Add(novaSessaoTopico);
-
-                var ultimaAnotacaoTopico = await _anotacoesTopicosQueryRepository.ObterUltimaAnotacaoTopicoAsync();
-                int novoIdAnotacaoTopico = ultimaAnotacaoTopico == null ? 1 : ultimaAnotacaoTopico.IdAnotacaoTopico + 1;
+                await _context.SaveChangesAsync();
 
                 foreach (var anotacaoTopicoViewModel in sessaoTopicosViewModel.AnotacoesTopicos)
                 {
-
-                    var novaAnotacaoTopico = new AnotacoesTopicos(novoIdAnotacaoTopico++, novoIdSessaoTopico, anotacaoTopicoViewModel.Anotacao);
+                    var novaAnotacaoTopico = new AnotacoesTopicos
+                    {
+                        IdSessaoTopico = novaSessaoTopico.IdSessaoTopico,
+                        Anotacao = anotacaoTopicoViewModel.Anotacao
+                    };
                     novaSessaoTopico.AnotacoesTopicos.Add(novaAnotacaoTopico);
                 }
             }
 
-            _context.Sessoes.Add(novaSessao);
             await _context.SaveChangesAsync();
-
-            var json = JsonHelper.SerializeToJson(novaSessao);
 
             return CreatedAtAction(nameof(CriarSessao), new { id = novaSessao.IdSessao }, novaSessao);
         }

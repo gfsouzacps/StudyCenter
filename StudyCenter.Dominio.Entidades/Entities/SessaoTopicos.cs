@@ -6,17 +6,8 @@ namespace StudyCenter.Dominio.Entidades.Entities;
 
 public partial class SessaoTopicos
 {
-    public SessaoTopicos(int idSessaoTopico, int idSessao, int idTopico, decimal? duracaoEstudo)
-    {
-        IdSessaoTopico = idSessaoTopico;
-        IdSessao = idSessao;
-        IdTopico = idTopico;
-        DuracaoEstudo = duracaoEstudo;
-
-
-    }
-    public int IdSessaoTopico { get; set; }
-    public int IdSessao { get; set; }
+    public int IdSessaoTopico { get; }
+    public int IdSessao { get; }
     public int IdTopico { get; set; }
     public decimal? DuracaoEstudo { get; set; }
     public virtual ICollection<AnotacoesTopicos> AnotacoesTopicos { get; set; } = new List<AnotacoesTopicos>();

@@ -6,13 +6,7 @@ namespace StudyCenter.Dominio.Entidades.Entities;
 
 public partial class AnotacoesTopicos
 {
-    public AnotacoesTopicos(int idAnotacaoTopico, int idSessaoTopico, string? anotacao)
-    {
-        IdAnotacaoTopico = idAnotacaoTopico;
-        IdSessaoTopico = idSessaoTopico;
-        Anotacao = anotacao;
-    }
-    public int IdAnotacaoTopico { get; set; }
+    public int IdAnotacaoTopico { get; }
     public int IdSessaoTopico { get; set; }
     public string? Anotacao { get; set; }
 

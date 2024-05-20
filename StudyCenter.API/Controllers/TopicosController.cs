@@ -40,10 +40,11 @@ namespace StudyCenter.API.Controllers
         [Route("CriarTopico")]
         public async Task<ActionResult<Topicos>> CriarTopico(TopicosViewModel topico) // Criar topico atraves da materia
         {
-            var ultimoTopico = _topicosQueryRepository.ObterUltimoTopicoAsync();
-            int novoIdTopico = ultimoTopico.Result == null ? 1 : ultimoTopico.Result.IdTopico + 1;
-
-            var topicos = new Topicos(novoIdTopico, topico.NomeTopico, topico.IdMateria);
+            var topicos = new Topicos 
+            {
+                NomeTopico = topico.NomeTopico,
+                IdMateria = topico.IdMateria
+            };
 
             _context.Topicos.Add(topicos);
             await _context.SaveChangesAsync();

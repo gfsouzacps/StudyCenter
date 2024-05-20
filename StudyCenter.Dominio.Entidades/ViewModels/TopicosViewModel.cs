@@ -7,6 +7,7 @@ namespace StudyCenter.Dominio.Entidades.ViewModels
         [JsonIgnore]
         public int IdTopico { get; set; }
         public string NomeTopico { get; set; } = null!;
+        [JsonIgnore]
         public int IdMateria { get; set; }
     }
 }

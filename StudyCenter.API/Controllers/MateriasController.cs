@@ -51,28 +51,30 @@ namespace StudyCenter.API.Controllers
         [Route("CriarMateria")]
         public async Task<ActionResult<Materias>> CriarMateria(MateriasViewModel materiaViewModel)
         {
-            var ultimaMateria = _materiasQueryRepository.ObterUltimaMateriaAsync();
-            int novoIdMateria = ultimaMateria.Result == null ? 1 : ultimaMateria.Result.IdMateria + 1;
-
-            var novaMateria = new Materias(novoIdMateria, materiaViewModel.NomeMateria);
-
-            var ultimoTopico = await _topicosQueryRepository.ObterUltimoTopicoAsync();
-            int novoIdTopico = ultimoTopico == null ? 1 : ultimoTopico.IdTopico + 1;
-
-            foreach (var topicoViewModel in materiaViewModel.Topicos)
-            {
-                var novoTopico = new Topicos(novoIdTopico++, topicoViewModel.NomeTopico, novoIdMateria);
-
-                novaMateria.Topicos.Add(novoTopico);
-            }
+            var novaMateria = new Materias 
+            { 
+                NomeMateria = materiaViewModel.NomeMateria 
+            };
 
             _context.Materias.Add(novaMateria);
             await _context.SaveChangesAsync();
 
-            var json = JsonHelper.SerializeToJson(novaMateria);
+            foreach (var topicoViewModel in materiaViewModel.Topicos)
+            {
+                var novoTopico = new Topicos 
+                {
+                    NomeTopico = topicoViewModel.NomeTopico, 
+                    IdMateria = novaMateria.IdMateria 
+                };
 
-            return CreatedAtAction(nameof(CriarMateria), new { id = novaMateria.IdMateria }, json);
+                novaMateria.Topicos.Add(novoTopico);
+            }
+
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(CriarMateria), new { id = novaMateria.IdMateria }, novaMateria);
         }
+
 
         [HttpDelete]
         [Route("DeletarMateria")]

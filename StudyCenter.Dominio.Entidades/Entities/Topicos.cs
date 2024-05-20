@@ -6,13 +6,7 @@ namespace StudyCenter.Dominio.Entidades.Entities;
 
 public partial class Topicos
 {
-    public Topicos(int idTopico, string nomeTopico, int? idMateria)
-    {
-        IdTopico = idTopico;
-        NomeTopico = nomeTopico;
-        IdMateria = idMateria;
-    }
-    public int IdTopico { get; set; }
+    public int IdTopico { get; }
     public string NomeTopico { get; set; } = null!;
     public int? IdMateria { get; set; }
 
