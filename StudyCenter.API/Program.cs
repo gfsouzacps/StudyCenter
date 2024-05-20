@@ -1,8 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using StudyCenter.API;
-using StudyCenter.API.Configurations;
-using StudyCenter.API.Data.Contexts;
-using System.Configuration;
+using StudyCenter.Shared.Infraestrutura.Backend.Configurations;
+using StudyCenter.Shared.Infraestrutura.Backend.Data.Contexts;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,7 +30,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-app.UseSwaggerConfiguration();
 
 app.UseHttpsRedirection();
 

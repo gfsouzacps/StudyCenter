@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Uniocps.Shared.Comum.Collection
+namespace StudyCenter.Shared.Comum.Extensions
 {
     public static class StringExtension
     {
@@ -18,7 +18,7 @@ namespace Uniocps.Shared.Comum.Collection
 
         public static string GetUntilOrEmpty(this string text, string stopAt = "-")
         {
-            if (!String.IsNullOrWhiteSpace(text))
+            if (!string.IsNullOrWhiteSpace(text))
             {
                 int charLocation = text.IndexOf(stopAt, StringComparison.Ordinal);
 
@@ -26,7 +26,7 @@ namespace Uniocps.Shared.Comum.Collection
                     return text.Substring(0, charLocation);
             }
 
-            return String.Empty;
+            return string.Empty;
         }
     }
 }

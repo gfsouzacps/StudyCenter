@@ -1,7 +1,6 @@
-﻿using StudyCenter.API.Models;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
-namespace StudyCenter.API.Api.ViewModels
+namespace StudyCenter.Dominio.Entidades.ViewModels
 {
     public class SessaoTopicosViewModel
     {

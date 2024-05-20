@@ -1,7 +1,7 @@
 ﻿using System.Text.Json.Serialization;
 using System.Text.Json;
 
-namespace StudyCenter.API.Configurations
+namespace StudyCenter.Shared.Infraestrutura.Backend.Configurations
 {
     public static class JsonHelper
     {

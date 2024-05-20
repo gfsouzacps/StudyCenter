@@ -1,4 +1,4 @@
-﻿namespace Uniocps.Shared.Comum.Collection
+﻿namespace StudyCenter.Shared.Comum.Collection
 {
     public static class IEnumerableExtension
     {

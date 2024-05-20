@@ -1,4 +1,3 @@
-
 namespace StudyCenter
 {
     internal static class Program

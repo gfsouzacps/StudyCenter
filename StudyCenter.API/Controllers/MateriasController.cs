@@ -1,5 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using StudyCenter.API.Data.Contexts;
+using StudyCenter.Dominio.Entidades.Entities;
+using StudyCenter.Dominio.Entidades.ViewModels;
+using StudyCenter.Shared.Infraestrutura.Backend.Configurations;
+using StudyCenter.Shared.Infraestrutura.Backend.Data.Contexts;
+using StudyCenter.Shared.Infraestrutura.Backend.Data.Repositories;
 
 namespace StudyCenter.API.Controllers
 {

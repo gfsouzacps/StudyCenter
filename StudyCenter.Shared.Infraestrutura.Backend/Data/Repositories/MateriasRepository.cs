@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualBasic;
-using StudyCenter.API.Data.Contexts;
-using StudyCenter.API.Models;
+using StudyCenter.Dominio.Entidades.Entities;
+using StudyCenter.Shared.Infraestrutura.Backend.Data.Contexts;
 
-namespace StudyCenter.API.Data.Repositories
+namespace StudyCenter.Shared.Infraestrutura.Backend.Data.Repositories
 {
     public class MateriasRepository : IMateriasRepository
     {
@@ -43,7 +43,7 @@ namespace StudyCenter.API.Data.Repositories
             _context.Entry(materias).State = EntityState.Modified;
             await _context.SaveChangesAsync();
         }
-        public async Task<Materias> GetUltimaMateriaAsync() 
+        public async Task<Materias> GetUltimaMateriaAsync()
         {
             var materia = await _context.Materia.OrderByDescending(m => m.IdMateria).FirstOrDefaultAsync();
             return materia;
@@ -51,7 +51,7 @@ namespace StudyCenter.API.Data.Repositories
 
         public async Task<IEnumerable<Materias>> GetMateriasETopicosAsync()
         {
-            var materiaETopicos = await _context.Materia.Include(m=>m.Topicos).ToListAsync();
+            var materiaETopicos = await _context.Materia.Include(m => m.Topicos).ToListAsync();
             return materiaETopicos;
         }
     }

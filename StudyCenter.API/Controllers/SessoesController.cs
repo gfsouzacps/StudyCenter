@@ -1,15 +1,9 @@
-﻿using System.Drawing.Drawing2D;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Routing;
-using Microsoft.EntityFrameworkCore;
-using StudyCenter.API.Api.ViewModels;
-using StudyCenter.API.Configurations;
-using StudyCenter.API.Data.Contexts;
-using StudyCenter.API.Data.Repositories;
-using StudyCenter.API.Models;
+﻿using Microsoft.AspNetCore.Mvc;
+using StudyCenter.Dominio.Entidades.Entities;
+using StudyCenter.Dominio.Entidades.ViewModels;
+using StudyCenter.Shared.Infraestrutura.Backend.Configurations;
+using StudyCenter.Shared.Infraestrutura.Backend.Data.Contexts;
+using StudyCenter.Shared.Infraestrutura.Backend.Data.Repositories;
 
 namespace StudyCenter.API.Controllers
 {

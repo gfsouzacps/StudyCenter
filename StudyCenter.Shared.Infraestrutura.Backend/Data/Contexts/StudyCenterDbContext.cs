@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
-using StudyCenter.API.Models;
+using StudyCenter.Dominio.Entidades.Entities;
 
-namespace StudyCenter.API.Data.Contexts;
+namespace StudyCenter.Shared.Infraestrutura.Backend.Data.Contexts;
 
 public partial class StudyCenterDbContext : DbContext
 {

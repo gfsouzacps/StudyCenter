@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Uniocps.Shared.Comum.Extensions
+namespace StudyCenter.Shared.Comum.Extensions
 {
     public static class BooleanExtension
     {

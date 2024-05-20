@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-namespace StudyCenter.API.Models;
+namespace StudyCenter.Dominio.Entidades.Entities;
 
 public partial class SessaoTopicos
 {

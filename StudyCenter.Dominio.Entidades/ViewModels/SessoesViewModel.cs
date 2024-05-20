@@ -1,11 +1,10 @@
-﻿using StudyCenter.API.Models;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
-namespace StudyCenter.API.Api.ViewModels
+namespace StudyCenter.Dominio.Entidades.ViewModels
 {
     public class SessoesViewModel
     {
-        [JsonIgnore]    
+        [JsonIgnore]
         public int IdSessao { get; set; }
         public string? NomeSessao { get; set; }
         public string? AnotacaoSessao { get; set; }

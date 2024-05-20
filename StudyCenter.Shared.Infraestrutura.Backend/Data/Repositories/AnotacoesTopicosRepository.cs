@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using StudyCenter.API.Data.Contexts;
-using StudyCenter.API.Models;
+using StudyCenter.Dominio.Entidades.Entities;
+using StudyCenter.Shared.Infraestrutura.Backend.Data.Contexts;
 
-namespace StudyCenter.API.Data.Repositories
+namespace StudyCenter.Shared.Infraestrutura.Backend.Data.Repositories
 {
     public class AnotacoesTopicosRepository : IAnotacoesTopicosRepository
     {
@@ -42,7 +42,7 @@ namespace StudyCenter.API.Data.Repositories
             _context.Entry(AnotacoesTopicos).State = EntityState.Modified;
             await _context.SaveChangesAsync();
         }
-        public async Task<AnotacoesTopicos> GetUltimaAnotacaoTopicoAsync() 
+        public async Task<AnotacoesTopicos> GetUltimaAnotacaoTopicoAsync()
         {
             var anotacoesTopico = _context.AnotacoesTopicos.OrderByDescending(m => m.IdAnotacaoTopico).FirstOrDefaultAsync();
             return await anotacoesTopico;

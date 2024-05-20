@@ -1,9 +1,7 @@
-﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
-using NuGet.Protocol.Plugins;
-using StudyCenter.API.Api.Controllers;
-using StudyCenter.API.Data.Repositories;
+﻿using Microsoft.Extensions.DependencyInjection;
+using StudyCenter.Shared.Infraestrutura.Backend.Data.Repositories;
 
-namespace StudyCenter.API.Configurations
+namespace StudyCenter.Shared.Infraestrutura.Backend.Configurations
 {
     public static class DependencyInjectionConfig
     {

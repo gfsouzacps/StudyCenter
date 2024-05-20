@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace StudyCenter.UI.Properties {
+namespace StudyCenter.Properties {
     using System;
     
     

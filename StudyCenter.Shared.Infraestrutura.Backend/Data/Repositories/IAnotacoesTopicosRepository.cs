@@ -1,6 +1,6 @@
-﻿using StudyCenter.API.Models;
+﻿using StudyCenter.Dominio.Entidades.Entities;
 
-namespace StudyCenter.API.Data.Repositories
+namespace StudyCenter.Shared.Infraestrutura.Backend.Data.Repositories
 {
     public interface IAnotacoesTopicosRepository
     {
