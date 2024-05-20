@@ -11,7 +11,7 @@ using StudyCenter.API.Data.Contexts;
 using StudyCenter.API.Data.Repositories;
 using StudyCenter.API.Models;
 
-namespace StudyCenter.API.Api.Controllers
+namespace StudyCenter.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -23,7 +23,7 @@ namespace StudyCenter.API.Api.Controllers
         private readonly IAnotacoesTopicosRepository _anotacoesTopicosRepository;
         private readonly ITopicosRepository _topicosRepository;
 
-        public SessoesController(StudyCenterDbContext context, SessoesRepository sessoesRepository, SessaoTopicosRepository sessaoTopicosRepository, 
+        public SessoesController(StudyCenterDbContext context, SessoesRepository sessoesRepository, SessaoTopicosRepository sessaoTopicosRepository,
             AnotacoesTopicosRepository anotacoesTopicosRepository, TopicosRepository topicosRepository)
         {
             _context = context;
@@ -48,19 +48,19 @@ namespace StudyCenter.API.Api.Controllers
         [HttpPost]
         [Route("CriarSessao")]
         public async Task<ActionResult<Sessoes>> CriarSessao(SessoesViewModel sessaoViewModel)
-        { 
+        {
             var ultimaSessao = _sessoesRepository.GetUltimaSessaoAsync();
-            int novoIdSessao = ultimaSessao.Result == null ? 1 : ultimaSessao.Result.IdSessao+1;
+            int novoIdSessao = ultimaSessao.Result == null ? 1 : ultimaSessao.Result.IdSessao + 1;
 
             var novaSessao = new Sessoes(novoIdSessao, sessaoViewModel.NomeSessao, sessaoViewModel.AnotacaoSessao, sessaoViewModel.DthrInicioSessao, sessaoViewModel.DthrFimSessao);
 
-            foreach ( var sessaoTopicosViewModel in sessaoViewModel.SessaoTopicos)
+            foreach (var sessaoTopicosViewModel in sessaoViewModel.SessaoTopicos)
             {
                 var ultimaSessaoTopico = await _sessaoTopicosRepository.GetUltimaSessaoTopicosAsync();
                 int novoIdSessaoTopico = ultimaSessao.Result == null ? 1 : ultimaSessaoTopico.IdSessaoTopico + 1;
 
                 var novaSessaoTopico = new SessaoTopicos(novoIdSessaoTopico, novoIdSessao, sessaoTopicosViewModel.IdTopico, sessaoTopicosViewModel.DuracaoEstudo);
-                
+
                 var topico = _topicosRepository.GetByIdAsync(novaSessaoTopico.IdTopico);
                 if (topico.Result == null)
                 {
@@ -74,7 +74,7 @@ namespace StudyCenter.API.Api.Controllers
                 foreach (var anotacaoTopicoViewModel in sessaoTopicosViewModel.AnotacoesTopicos)
                 {
 
-                    var novaAnotacaoTopico = new AnotacoesTopicos(novoIdAnotacaoTopico++,novoIdSessaoTopico, anotacaoTopicoViewModel.Anotacao);
+                    var novaAnotacaoTopico = new AnotacoesTopicos(novoIdAnotacaoTopico++, novoIdSessaoTopico, anotacaoTopicoViewModel.Anotacao);
                     novaSessaoTopico.AnotacoesTopicos.Add(novaAnotacaoTopico);
                 }
             }

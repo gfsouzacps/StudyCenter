@@ -22,8 +22,8 @@ namespace StudyCenter.API.Data.Repositories
 
         public async Task DeleteAsync(int id)
         {
-            var materia = _context.Materia.FindAsync(id);
-            _context.Materia.Remove(materia.Result);
+            var materia = await _context.Materia.FindAsync(id);
+            _context.Materia.Remove(materia);
             await _context.SaveChangesAsync();
         }
 
@@ -34,8 +34,8 @@ namespace StudyCenter.API.Data.Repositories
 
         public async Task<Materias> GetByIdAsync(int id)
         {
-            var materia = _context.Materia.FindAsync(id);
-            return await materia;
+            var materia = await _context.Materia.FindAsync(id);
+            return materia;
         }
 
         public async Task UpdateAsync(Materias materias)
@@ -45,8 +45,8 @@ namespace StudyCenter.API.Data.Repositories
         }
         public async Task<Materias> GetUltimaMateriaAsync() 
         {
-            var materia = _context.Materia.OrderByDescending(m => m.IdMateria).FirstOrDefaultAsync();
-            return await materia;
+            var materia = await _context.Materia.OrderByDescending(m => m.IdMateria).FirstOrDefaultAsync();
+            return materia;
         }
 
         public async Task<IEnumerable<Materias>> GetMateriasETopicosAsync()

@@ -9,7 +9,7 @@ using StudyCenter.API.Data.Contexts;
 using StudyCenter.API.Data.Repositories;
 using StudyCenter.API.Models;
 
-namespace StudyCenter.API.Api.Controllers
+namespace StudyCenter.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -29,7 +29,7 @@ namespace StudyCenter.API.Api.Controllers
         public async Task<ActionResult<Topicos>> GetTopicos()
         {
             var topicos = _topicosRepository.GetAllAsync();
-            if(!topicos.Result.Any())
+            if (!topicos.Result.Any())
             {
                 return NotFound();
             }
@@ -42,7 +42,7 @@ namespace StudyCenter.API.Api.Controllers
         {
             var ultimoTopico = _topicosRepository.GetUltimoTopicoAsync();
             int novoIdTopico = ultimoTopico.Result == null ? 1 : ultimoTopico.Result.IdTopico + 1;
-         
+
             var topicos = new Topicos(novoIdTopico, topico.NomeTopico, topico.IdMateria);
 
             _context.Topicos.Add(topicos);

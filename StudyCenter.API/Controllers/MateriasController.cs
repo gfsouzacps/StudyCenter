@@ -1,19 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using StudyCenter.API.Api.ViewModels;
 using StudyCenter.API.Data.Contexts;
-using StudyCenter.API.Data.Repositories;
-using StudyCenter.API.Models;
-using StudyCenter.API;
-using StudyCenter.API.Data;
-using System.Text.Json.Serialization;
-using System.Text.Json;
-using StudyCenter.API.Configurations;
 
-namespace StudyCenter.API.Api.Controllers
+namespace StudyCenter.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class MateriasController : ControllerBase 
+    public class MateriasController : ControllerBase
     {
         private readonly StudyCenterDbContext _context;
         private readonly IMateriasRepository _materiasRepository;
@@ -30,24 +22,24 @@ namespace StudyCenter.API.Api.Controllers
         [Route("GetMaterias")]
         public async Task<ActionResult<Materias>> GetMaterias()
         {
-            var materias = _materiasRepository.GetAllAsync();
-            if(!materias.Result.Any())
+            var materias = await _materiasRepository.GetAllAsync();
+            if (!materias.Any())
             {
                 return NotFound();
             }
-            return Ok(materias.Result);
+            return Ok(materias);
         }
 
         [HttpGet]
         [Route("GetMateriasETopicos")]
         public async Task<ActionResult<MateriasViewModel>> GetMateriasETopicos()
         {
-            var materias = _materiasRepository.GetMateriasETopicosAsync();
-            if (!materias.Result.Any())
+            var materias = await _materiasRepository.GetMateriasETopicosAsync();
+            if (!materias.Any())
             {
                 return NotFound();
             }
-            return Ok(materias.Result);
+            return Ok(materias);
         }
 
         [HttpPost]
@@ -55,7 +47,7 @@ namespace StudyCenter.API.Api.Controllers
         public async Task<ActionResult<Materias>> CriarMateria(MateriasViewModel materiaViewModel)
         {
             var ultimaMateria = _materiasRepository.GetUltimaMateriaAsync();
-            int novoIdMateria = ultimaMateria.Result == null ? 1 : ultimaMateria.Result.IdMateria+1;
+            int novoIdMateria = ultimaMateria.Result == null ? 1 : ultimaMateria.Result.IdMateria + 1;
 
             var novaMateria = new Materias(novoIdMateria, materiaViewModel.NomeMateria);
 
@@ -74,7 +66,7 @@ namespace StudyCenter.API.Api.Controllers
 
             var json = JsonHelper.SerializeToJson(novaMateria);
 
-            return CreatedAtAction(nameof(CriarMateria), new { id = novaMateria.IdMateria}, json);
+            return CreatedAtAction(nameof(CriarMateria), new { id = novaMateria.IdMateria }, json);
         }
 
         [HttpDelete]
