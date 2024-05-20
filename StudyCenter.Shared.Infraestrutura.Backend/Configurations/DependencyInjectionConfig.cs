@@ -7,21 +7,20 @@ namespace StudyCenter.Shared.Infraestrutura.Backend.Configurations
     {
         public static void RegisterServices(this IServiceCollection services)
         {
+            services.AddScoped<IAnotacoesTopicosCommandRepository, AnotacoesTopicosCommandRepository>();
+            services.AddScoped<IAnotacoesTopicosQueryRepository, AnotacoesTopicosQueryRepository>();
 
-            services.AddScoped<AnotacoesTopicosRepository>();
-            services.AddScoped<IAnotacoesTopicosRepository, AnotacoesTopicosRepository>();
+            services.AddScoped<IMateriasCommandRepository, MateriasCommandRepository>();
+            services.AddScoped<IMateriasQueryRepository, MateriasQueryRepository>();
 
-            services.AddScoped<MateriasRepository>();
-            services.AddScoped<IMateriasRepository, MateriasRepository>();
+            services.AddScoped<ISessaoTopicosCommandRepository, SessaoTopicosCommandRepository>();
+            services.AddScoped<ISessaoTopicosQueryRepository, SessaoTopicosQueryRepository>();
 
-            services.AddScoped<SessaoTopicosRepository>();
-            services.AddScoped<ISessaoTopicosRepository, SessaoTopicosRepository>();
+            services.AddScoped<ISessoesCommandRepository, SessoesCommandRepository>();
+            services.AddScoped<ISessoesQueryRepository, SessoesQueryRepository>();
 
-            services.AddScoped<SessoesRepository>();
-            services.AddScoped<ISessoesRepository, SessoesRepository>();
-
-            services.AddScoped<TopicosRepository>();
-            services.AddScoped<ITopicosRepository, TopicosRepository>();
+            services.AddScoped<ITopicosCommandRepository, TopicosCommandRepository>();
+            services.AddScoped<ITopicosQueryRepository, TopicosQueryRepository>();
         }
     }
 }

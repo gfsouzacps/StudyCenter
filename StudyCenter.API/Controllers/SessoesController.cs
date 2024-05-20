@@ -12,26 +12,27 @@ namespace StudyCenter.API.Controllers
     public class SessoesController : ControllerBase
     {
         private readonly StudyCenterDbContext _context;
-        private readonly ISessoesRepository _sessoesRepository;
-        private readonly ISessaoTopicosRepository _sessaoTopicosRepository;
-        private readonly IAnotacoesTopicosRepository _anotacoesTopicosRepository;
-        private readonly ITopicosRepository _topicosRepository;
+        private readonly ISessoesQueryRepository _sessoesQueryRepository;
+        private readonly ISessaoTopicosQueryRepository _sessaoTopicosQueryRepository;
+        private readonly IAnotacoesTopicosQueryRepository _anotacoesTopicosQueryRepository;
+        private readonly ITopicosQueryRepository _topicosQueryRepository;
 
-        public SessoesController(StudyCenterDbContext context, SessoesRepository sessoesRepository, SessaoTopicosRepository sessaoTopicosRepository,
-            AnotacoesTopicosRepository anotacoesTopicosRepository, TopicosRepository topicosRepository)
+        public SessoesController(StudyCenterDbContext context, SessoesQueryRepository sessoesQueryRepository, 
+            SessaoTopicosQueryRepository sessaoQueryTopicosRepository, AnotacoesTopicosQueryRepository anotacoesTopicosQueryRepository, 
+            TopicosQueryRepository topicosQueryRepository)
         {
             _context = context;
-            _sessoesRepository = sessoesRepository;
-            _sessaoTopicosRepository = sessaoTopicosRepository;
-            _anotacoesTopicosRepository = anotacoesTopicosRepository;
-            _topicosRepository = topicosRepository;
+            _sessoesQueryRepository = sessoesQueryRepository;
+            _sessaoTopicosQueryRepository = _sessaoTopicosQueryRepository;
+            _anotacoesTopicosQueryRepository = anotacoesTopicosQueryRepository;
+            _topicosQueryRepository = topicosQueryRepository;
         }
 
         [HttpGet]
         [Route("GetSessao")]
         public async Task<ActionResult<Sessoes>> GetSessao()
         {
-            var sessao = _sessoesRepository.GetAllAsync();
+            var sessao = _sessoesQueryRepository.ObterTodosAsync();
             if (!sessao.Result.Any())
             {
                 return NotFound();
@@ -43,26 +44,26 @@ namespace StudyCenter.API.Controllers
         [Route("CriarSessao")]
         public async Task<ActionResult<Sessoes>> CriarSessao(SessoesViewModel sessaoViewModel)
         {
-            var ultimaSessao = _sessoesRepository.GetUltimaSessaoAsync();
+            var ultimaSessao = _sessoesQueryRepository.ObterUltimaSessaoAsync();
             int novoIdSessao = ultimaSessao.Result == null ? 1 : ultimaSessao.Result.IdSessao + 1;
 
             var novaSessao = new Sessoes(novoIdSessao, sessaoViewModel.NomeSessao, sessaoViewModel.AnotacaoSessao, sessaoViewModel.DthrInicioSessao, sessaoViewModel.DthrFimSessao);
 
             foreach (var sessaoTopicosViewModel in sessaoViewModel.SessaoTopicos)
             {
-                var ultimaSessaoTopico = await _sessaoTopicosRepository.GetUltimaSessaoTopicosAsync();
+                var ultimaSessaoTopico = await _sessaoTopicosQueryRepository.ObterUltimaSessaoTopicosAsync();
                 int novoIdSessaoTopico = ultimaSessao.Result == null ? 1 : ultimaSessaoTopico.IdSessaoTopico + 1;
 
                 var novaSessaoTopico = new SessaoTopicos(novoIdSessaoTopico, novoIdSessao, sessaoTopicosViewModel.IdTopico, sessaoTopicosViewModel.DuracaoEstudo);
 
-                var topico = _topicosRepository.GetByIdAsync(novaSessaoTopico.IdTopico);
+                var topico = _topicosQueryRepository.ObterPorIdAsync(novaSessaoTopico.IdTopico);
                 if (topico.Result == null)
                 {
                     return NotFound("Tópico não encontrado!");
                 }
                 novaSessao.SessaoTopicos.Add(novaSessaoTopico);
 
-                var ultimaAnotacaoTopico = await _anotacoesTopicosRepository.GetUltimaAnotacaoTopicoAsync();
+                var ultimaAnotacaoTopico = await _anotacoesTopicosQueryRepository.ObterUltimaAnotacaoTopicoAsync();
                 int novoIdAnotacaoTopico = ultimaAnotacaoTopico == null ? 1 : ultimaAnotacaoTopico.IdAnotacaoTopico + 1;
 
                 foreach (var anotacaoTopicoViewModel in sessaoTopicosViewModel.AnotacoesTopicos)

@@ -18,7 +18,7 @@ public partial class StudyCenterDbContext : DbContext
 
     public virtual DbSet<AnotacoesTopicos> AnotacoesTopicos { get; set; }
 
-    public virtual DbSet<Materias> Materia { get; set; }
+    public virtual DbSet<Materias> Materias { get; set; }
 
     public virtual DbSet<SessaoTopicos> SessaoTopicos { get; set; }
 

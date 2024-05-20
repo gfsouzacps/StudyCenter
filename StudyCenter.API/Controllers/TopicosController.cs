@@ -16,19 +16,19 @@ namespace StudyCenter.API.Controllers
     public class TopicosController : ControllerBase
     {
         private readonly StudyCenterDbContext _context;
-        private readonly ITopicosRepository _topicosRepository;
+        private readonly ITopicosQueryRepository _topicosQueryRepository;
 
-        public TopicosController(StudyCenterDbContext context, TopicosRepository topicosRepository)
+        public TopicosController(StudyCenterDbContext context, TopicosQueryRepository topicosQueryRepository)
         {
             _context = context;
-            _topicosRepository = topicosRepository;
+            _topicosQueryRepository = topicosQueryRepository;
         }
 
         [HttpGet]
         [Route("GetTopicos")]
         public async Task<ActionResult<Topicos>> GetTopicos()
         {
-            var topicos = _topicosRepository.GetAllAsync();
+            var topicos = _topicosQueryRepository.ObterTodosAsync();
             if (!topicos.Result.Any())
             {
                 return NotFound();
@@ -40,7 +40,7 @@ namespace StudyCenter.API.Controllers
         [Route("CriarTopico")]
         public async Task<ActionResult<Topicos>> CriarTopico(TopicosViewModel topico) // Criar topico atraves da materia
         {
-            var ultimoTopico = _topicosRepository.GetUltimoTopicoAsync();
+            var ultimoTopico = _topicosQueryRepository.ObterUltimoTopicoAsync();
             int novoIdTopico = ultimoTopico.Result == null ? 1 : ultimoTopico.Result.IdTopico + 1;
 
             var topicos = new Topicos(novoIdTopico, topico.NomeTopico, topico.IdMateria);

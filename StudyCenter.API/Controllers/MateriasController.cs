@@ -12,21 +12,22 @@ namespace StudyCenter.API.Controllers
     public class MateriasController : ControllerBase
     {
         private readonly StudyCenterDbContext _context;
-        private readonly IMateriasRepository _materiasRepository;
-        private readonly ITopicosRepository _topicosRepository;
+        private readonly IMateriasQueryRepository _materiasQueryRepository;
+        private readonly ITopicosQueryRepository _topicosQueryRepository;
 
-        public MateriasController(StudyCenterDbContext context, MateriasRepository materiasRepository, TopicosRepository topicosRepository)
+        public MateriasController(StudyCenterDbContext context, MateriasQueryRepository materiasQueryRepository,
+            TopicosQueryRepository topicosQueryRepository)
         {
             _context = context;
-            _materiasRepository = materiasRepository;
-            _topicosRepository = topicosRepository;
+            _materiasQueryRepository = materiasQueryRepository;
+            _topicosQueryRepository = topicosQueryRepository;
         }
 
         [HttpGet]
         [Route("GetMaterias")]
         public async Task<ActionResult<Materias>> GetMaterias()
         {
-            var materias = await _materiasRepository.GetAllAsync();
+            var materias = await _materiasQueryRepository.ObterTodosAsync();
             if (!materias.Any())
             {
                 return NotFound();
@@ -38,7 +39,7 @@ namespace StudyCenter.API.Controllers
         [Route("GetMateriasETopicos")]
         public async Task<ActionResult<MateriasViewModel>> GetMateriasETopicos()
         {
-            var materias = await _materiasRepository.GetMateriasETopicosAsync();
+            var materias = await _materiasQueryRepository.ObterMateriasETopicosAsync();
             if (!materias.Any())
             {
                 return NotFound();
@@ -50,12 +51,12 @@ namespace StudyCenter.API.Controllers
         [Route("CriarMateria")]
         public async Task<ActionResult<Materias>> CriarMateria(MateriasViewModel materiaViewModel)
         {
-            var ultimaMateria = _materiasRepository.GetUltimaMateriaAsync();
+            var ultimaMateria = _materiasQueryRepository.ObterUltimaMateriaAsync();
             int novoIdMateria = ultimaMateria.Result == null ? 1 : ultimaMateria.Result.IdMateria + 1;
 
             var novaMateria = new Materias(novoIdMateria, materiaViewModel.NomeMateria);
 
-            var ultimoTopico = await _topicosRepository.GetUltimoTopicoAsync();
+            var ultimoTopico = await _topicosQueryRepository.ObterUltimoTopicoAsync();
             int novoIdTopico = ultimoTopico == null ? 1 : ultimoTopico.IdTopico + 1;
 
             foreach (var topicoViewModel in materiaViewModel.Topicos)
@@ -65,7 +66,7 @@ namespace StudyCenter.API.Controllers
                 novaMateria.Topicos.Add(novoTopico);
             }
 
-            _context.Materia.Add(novaMateria);
+            _context.Materias.Add(novaMateria);
             await _context.SaveChangesAsync();
 
             var json = JsonHelper.SerializeToJson(novaMateria);
@@ -77,13 +78,13 @@ namespace StudyCenter.API.Controllers
         [Route("DeletarMateria")]
         public async Task<ActionResult<Materias>> DeletarMateria(int idMateria)
         {
-            var materia = await _context.Materia.FindAsync(idMateria);
+            var materia = await _context.Materias.FindAsync(idMateria);
             if (materia == null)
             {
                 return NotFound();
             }
 
-            _context.Materia.Remove(materia);
+            _context.Materias.Remove(materia);
             await _context.SaveChangesAsync();
 
             return Ok("Matéria deletada");
