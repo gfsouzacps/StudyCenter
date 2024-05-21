@@ -30,5 +30,10 @@ namespace StudyCenter.Formularios
         {
 
         }
+
+        private void txt_Exemplo_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

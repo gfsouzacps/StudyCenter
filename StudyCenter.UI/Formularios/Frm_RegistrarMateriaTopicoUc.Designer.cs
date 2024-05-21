@@ -39,55 +39,62 @@
             // Btn_RegistrarMateriaTopico
             // 
             Btn_RegistrarMateriaTopico.BackColor = Color.Transparent;
-            Btn_RegistrarMateriaTopico.Font = new Font("Arial", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
-            Btn_RegistrarMateriaTopico.Location = new Point(12, 22);
+            Btn_RegistrarMateriaTopico.Font = new Font("Arial", 9.75F, FontStyle.Bold);
+            Btn_RegistrarMateriaTopico.Location = new Point(14, 29);
+            Btn_RegistrarMateriaTopico.Margin = new Padding(3, 4, 3, 4);
             Btn_RegistrarMateriaTopico.Name = "Btn_RegistrarMateriaTopico";
-            Btn_RegistrarMateriaTopico.Size = new Size(218, 25);
+            Btn_RegistrarMateriaTopico.Size = new Size(249, 33);
             Btn_RegistrarMateriaTopico.TabIndex = 1;
             Btn_RegistrarMateriaTopico.Text = "Regitrar matéria ou tópico";
             Btn_RegistrarMateriaTopico.UseVisualStyleBackColor = false;
             // 
             // dateTimePicker1
             // 
-            dateTimePicker1.Location = new Point(363, 39);
+            dateTimePicker1.Location = new Point(415, 52);
+            dateTimePicker1.Margin = new Padding(3, 4, 3, 4);
             dateTimePicker1.Name = "dateTimePicker1";
-            dateTimePicker1.Size = new Size(243, 23);
+            dateTimePicker1.Size = new Size(277, 27);
             dateTimePicker1.TabIndex = 2;
             dateTimePicker1.ValueChanged += dateTimePicker1_ValueChanged;
             // 
             // txt_Exemplo
             // 
-            txt_Exemplo.Location = new Point(80, 135);
+            txt_Exemplo.Location = new Point(91, 180);
+            txt_Exemplo.Margin = new Padding(3, 4, 3, 4);
             txt_Exemplo.Multiline = true;
             txt_Exemplo.Name = "txt_Exemplo";
             txt_Exemplo.ScrollBars = ScrollBars.Vertical;
-            txt_Exemplo.Size = new Size(181, 98);
+            txt_Exemplo.Size = new Size(206, 129);
             txt_Exemplo.TabIndex = 3;
             txt_Exemplo.Text = "Exemplo de texto com ScrollBars ativo";
+            txt_Exemplo.TextChanged += txt_Exemplo_TextChanged;
             // 
             // textBox1
             // 
-            textBox1.Location = new Point(337, 135);
+            textBox1.Location = new Point(385, 180);
+            textBox1.Margin = new Padding(3, 4, 3, 4);
             textBox1.Multiline = true;
             textBox1.Name = "textBox1";
-            textBox1.Size = new Size(214, 70);
+            textBox1.Size = new Size(244, 92);
             textBox1.TabIndex = 4;
             textBox1.Text = "Quando eu clicar no + para inserir um novo assunto ou novo topico, eu uso o focus para o cursor já ir para o textbox";
             // 
             // Btn_exemploMessageBox
             // 
-            Btn_exemploMessageBox.Location = new Point(92, 318);
+            Btn_exemploMessageBox.Location = new Point(105, 424);
+            Btn_exemploMessageBox.Margin = new Padding(3, 4, 3, 4);
             Btn_exemploMessageBox.Name = "Btn_exemploMessageBox";
-            Btn_exemploMessageBox.Size = new Size(179, 27);
+            Btn_exemploMessageBox.Size = new Size(205, 36);
             Btn_exemploMessageBox.TabIndex = 6;
             Btn_exemploMessageBox.Text = "Btn_exemploMessageBox";
             Btn_exemploMessageBox.UseVisualStyleBackColor = true;
             // 
             // Btn_FecharAplicacao
             // 
-            Btn_FecharAplicacao.Location = new Point(722, 519);
+            Btn_FecharAplicacao.Location = new Point(825, 692);
+            Btn_FecharAplicacao.Margin = new Padding(3, 4, 3, 4);
             Btn_FecharAplicacao.Name = "Btn_FecharAplicacao";
-            Btn_FecharAplicacao.Size = new Size(139, 27);
+            Btn_FecharAplicacao.Size = new Size(159, 36);
             Btn_FecharAplicacao.TabIndex = 7;
             Btn_FecharAplicacao.Text = "Fechar programa";
             Btn_FecharAplicacao.UseVisualStyleBackColor = true;
@@ -95,7 +102,7 @@
             // 
             // Frm_RegistrarMateriaTopicoUc
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Transparent;
             BackgroundImageLayout = ImageLayout.Stretch;
@@ -105,8 +112,9 @@
             Controls.Add(txt_Exemplo);
             Controls.Add(dateTimePicker1);
             Controls.Add(Btn_RegistrarMateriaTopico);
+            Margin = new Padding(3, 4, 3, 4);
             Name = "Frm_RegistrarMateriaTopicoUc";
-            Size = new Size(745, 403);
+            Size = new Size(851, 537);
             Load += Frm_RegistrarMateriaTopico_Load;
             ResumeLayout(false);
             PerformLayout();
