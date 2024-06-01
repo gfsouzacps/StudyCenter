@@ -32,13 +32,14 @@ namespace StudyCenter.API.Controllers
         [Route("GetSessao")]
         public async Task<ActionResult<Sessoes>> GetSessao()
         {
-            var sessao = _sessoesQueryRepository.ObterTodosAsync();
-            if (!sessao.Result.Any())
+            var sessao = await _sessoesQueryRepository.ObterTodosAsync();
+            if (!sessao.Any())
             {
                 return NotFound();
             }
             return Ok(sessao);
         }
+
 
         [HttpPost]
         [Route("CriarSessao")]

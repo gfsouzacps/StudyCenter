@@ -1,0 +1,67 @@
+﻿@page "/sessoes"
+@rendermode InteractiveServer
+@using Entidades = StudyCenter.Dominio.Entidades.Entities;
+
+<MudPopoverProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<PageTitle>Sessoes</PageTitle>
+
+<MudText Typo="Typo.h3" GutterBottom="true">Lista de Sessoes</MudText>
+
+@if (sessoes == null)
+{
+    <MudProgressCircular Color="Color.Default" Indeterminate="true" />
+}
+else
+{
+    <MudTable Items="sessoes" Hover="true" SortLabel="Sort By" Elevation="0">
+        <HeaderContent>
+            <MudTh>Id</MudTh>
+            <MudTh>Nome da Sessao</MudTh>
+            <MudTh>Topicos</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd DataLabel="Id">@context.IdSessao</MudTd>
+            <MudTd DataLabel="Nome da Sessao">@context.NomeSessao</MudTd>
+            <MudTd DataLabel="Topicos">
+                <ul>
+                    @foreach (var topico in @context.SessaoTopicos)
+                    {
+                        <li>
+                            <strong>Topico ID:</strong> @topico.IdTopico
+                            <br />
+                            <strong>Duração:</strong> @topico.DuracaoEstudo minutos
+                            <br />
+                            <strong>Anotações:</strong>
+                            <ul>
+                                @foreach (var anotacao in topico.AnotacoesTopicos)
+                                {
+                                    <li>@anotacao.Anotacao</li>
+                                }
+                            </ul>
+                        </li>
+                    }
+                </ul>
+            </MudTd>
+        </RowTemplate>
+        <PagerContent>
+            <MudTablePager PageSizeOptions="new int[]{5, 10, 20}" />
+        </PagerContent>
+    </MudTable>
+}
+}
+
+@code {
+
+    [Inject]
+    protected SessaoService SessaoService { get; set; }
+
+    protected Entidades.Sessoes[]? sessoes;
+
+    protected override async Task OnInitializedAsync()
+    {
+        sessoes = await SessaoService.GetSessoesAsync();
+    }
+}

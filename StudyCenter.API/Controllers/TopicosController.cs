@@ -28,12 +28,12 @@ namespace StudyCenter.API.Controllers
         [Route("GetTopicos")]
         public async Task<ActionResult<Topicos>> GetTopicos()
         {
-            var topicos = _topicosQueryRepository.ObterTodosAsync();
-            if (!topicos.Result.Any())
+            var topicos = await _topicosQueryRepository.ObterTodosAsync();
+            if (!topicos.Any())
             {
                 return NotFound();
             }
-            return Ok(topicos.Result);
+            return Ok(topicos);
         }
 
         [HttpPost]

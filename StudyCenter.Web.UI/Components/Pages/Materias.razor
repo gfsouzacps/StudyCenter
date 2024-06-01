@@ -1,0 +1,69 @@
+﻿@page "/materias"
+@rendermode InteractiveServer
+@using Entidades = StudyCenter.Dominio.Entidades.Entities;
+
+<MudPopoverProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<PageTitle>Materias</PageTitle>
+
+<MudText Typo="Typo.h3" GutterBottom="true">Lista de Materias</MudText>
+
+@if (materias == null)
+{
+    <MudProgressCircular Color="Color.Default" Indeterminate="true" />
+}
+else
+{
+    <MudTable Items="materias" Hover="true" SortLabel="Sort By" Elevation="0">
+        <HeaderContent>
+            <MudTh>Id</MudTh>
+            <MudTh>Nome da Materia</MudTh>
+            <MudTh>Topicos</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd DataLabel="Id">@context.IdMateria</MudTd>
+            <MudTd DataLabel="Nome da Materia">@context.NomeMateria</MudTd>
+            <MudTd DataLabel="Topicos">
+                @foreach (var topico in @context.Topicos)
+                {
+                    <div>
+                        <strong>@topico.NomeTopico</strong>
+                        <ul>
+                            @foreach (var sessao in topico.SessaoTopicos)
+                            {
+                                <li>
+                                    Duração: @sessao.DuracaoEstudo minutos
+                                    <ul>
+                                        @foreach (var anotacao in sessao.AnotacoesTopicos)
+                                        {
+                                            <li>@anotacao.Anotacao</li>
+                                        }
+                                    </ul>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                }
+            </MudTd>
+        </RowTemplate>
+        <PagerContent>
+            <MudTablePager PageSizeOptions="new int[]{5, 10, 20}" />
+        </PagerContent>
+    </MudTable>
+}
+}
+
+@code {
+
+    [Inject]
+    protected MateriaService MateriaService { get; set; }
+
+    protected Entidades.Materias[]? materias;
+
+    protected override async Task OnInitializedAsync()
+    {
+        materias = await MateriaService.GetMateriasAsync();
+    }
+}
