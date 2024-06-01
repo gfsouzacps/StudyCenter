@@ -1,0 +1,217 @@
+﻿@using StudyCenter.Web.UI.Pages.Home
+@using StudyCenter.Web.UI.Data;
+
+@inject NavigationManager NavigationManager;
+@inject UserStateService UserStateService;
+
+<div class="shadow-sm containerNavbar">
+    <img class="img-fluid w-100" src="./images/header.png" />
+    <nav class="navbar navbar-expand-lg navbar-light bg-white uniText">
+        <div class="container">
+            <a class="navbar-brand" href="/home">
+                <img class="img-fluid" src="./images/logo.png" />
+            </a>
+            <button class="navbar-toggler" @onclick="ToggleNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarText">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <span class="nav-link pointer" @onclick="(() => RedirectUIView(0))">Início <span class="sr-only">(current)</span></span>
+                    </li>
+                    <li class="nav-item dropdown pointer" @onclick="@(e => ToggleDropdown("dropdown1"))">
+                        <a class="nav-link dropdown-toggle">
+                            Contratação de planos
+                        </a>
+                        <div class="dropdown-menu" id="dropdown1">
+                            @* <a class="dropdown-item" href="#">Individual</a> *@
+                            <span class="dropdown-item pointer" @onclick="(() => RedirectUIView(1))">PME</span>
+                            @*      <span class="dropdown-item" @onclick="(() => HandleLinkClick(1))">PME</span> *@
+                            @* <a class="dropdown-item" href="#">PJ</a> *@
+                        </div>
+                    </li>
+
+                    @* <li class="nav-item">
+                        <a class="nav-link" href="#">+Produtor</a>
+                    </li> *@
+                    <li class="nav-item dropdown pointer" @onclick="@(e => ToggleDropdown("dropdown2"))">
+                        <a class="nav-link dropdown-toggle">
+                            Proposta
+                        </a>
+                        <div class="dropdown-menu" id="dropdown2">
+                            <a class="dropdown-item" href="./analisepropostas">Análise de propostas</a>
+                            <a class="dropdown-item" href="./PreFatura">Pré fatura</a>
+                            <a class="dropdown-item" href="./provisionamento">Provisionamento</a>
+                            <a class="dropdown-item" href="./vendaIndividual">Venda Individual</a>
+                        </div>
+                    </li>
+
+                    <li class="nav-item">
+                        <span class="nav-link pointer" @onclick="(() => RedirectDentistSearch())">Pesquisar Rede de Dentistas <span class="sr-only">(current)</span></span>
+                    </li>
+
+                    <li class="nav-item dropdown pointer" @onclick="@(e => ToggleDropdown("dropdown4"))">
+                        <a class="nav-link dropdown-toggle">
+                            Administração
+                        </a>
+                        <div class="dropdown-menu" id="dropdown4">
+
+                            
+
+                            <AuthorizeView Roles="UNIODONTO_ADM">
+                                <a class="dropdown-item" href="./corretoras">Corretoras</a>                            
+                                <a class="dropdown-item" href="./analisepropostas">Análise de propostas</a>
+                            </AuthorizeView>
+
+                            <AuthorizeView Roles="UNIODONTO_ADM, UNIODONTO_BACKOFFICE">
+                                <a class="dropdown-item" href="./cnpjspermitidos">Liberação de CNPJs</a>
+                            </AuthorizeView>
+
+                            <AuthorizeView Roles="CORRETORA_ADM, UNIODONTO_ADM, UNIODONTO_CORDENACAO, UNIODONTO_BACKOFFICE">
+                                <a class="dropdown-item" href="./contratos">Contratos</a>
+                                <a class="dropdown-item" href="./produtores">Produtores</a>
+                            </AuthorizeView>
+
+                            <AuthorizeView Roles="UNIODONTO_ADM">
+                            <a class="dropdown-item" href="./papeis">Papéis</a>
+                            <a class="dropdown-item" href="./usuarios">Usuários</a>
+                            </AuthorizeView>
+
+                            <div class="dropdown-divider"></div>
+                            <AuthorizeView Roles="UNIODONTO_ADM, UNIODONTO_BACKOFFICE, UNIODONTO_CORDENACAO">
+                                <a class="dropdown-item" href="./comunicados">Comunicados</a>
+                                <a class="dropdown-item" href="./ComissaoRegra">Comissão regra</a>
+                                @* <a class="dropdown-item" href="./ComissaoPersonalizada">Comissão personalizada</a> *@
+                            </AuthorizeView>
+                        </div>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 profile-menu">
+                    <li class="nav-item dropdown pointer" @onclick="@(e => ToggleDropdown("dropdown3"))">
+                        <a class="nav-link p-0">
+                            <div class="position-relative">
+                                <div class="profile-pic">
+                                    <img src="./images/profile.webp" alt="Profile Picture">
+                                </div>
+                                @* <p class="bg-danger text-white rounded-pill notification">20</p> *@
+                            </div>
+                        </a>
+                        <div class="dropdown-menu" id="dropdown3">
+                            <p class="dropdown-item nomeusuario">@userName</p>
+                            @* <h6 class="dropdown-header fw-bold">Cadastro de usuário</h6> *@
+                            @* <a class="dropdown-item" href="#">Financeiro</a> *@
+                            @* <a class="dropdown-item" href="#">Backoffice</a> *@
+                            @* <a class="dropdown-item" href="#">Assistente</a> *@
+                            @* <div class="dropdown-divider"></div> *@
+                            @* <a class="dropdown-item" href="#">Usuário</a> *@
+                            <a class="dropdown-item" href="./trocaSenha">Troca de senha</a>
+                            <a onclick="@(async () => await Logout())" @onclick:preventDefault class="dropdown-item" href="">Sair</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
+
+@inject IJSRuntime JSRuntime
+@inject IConfiguration Configuration
+
+@code {
+
+
+    [Inject]
+    AuthenticationServiceCustom authetication { get; set; }
+
+    protected override async void OnInitialized()
+    {
+        userName = UserStateService.StateUsuarioLogado.NomeProdutor;
+    }
+
+    async Task Logout()
+    {
+        await authetication.Logout(); 
+        NavigationManager.NavigateTo("./login");
+    }
+
+    [Parameter]
+    public EventCallback<int> OnLinkClicked { get; set; }
+
+    private async Task HandleLinkClick(int view)
+    {
+        await OnLinkClicked.InvokeAsync(view);
+    }
+
+    private bool IsNavbarCollapsed { get; set; } = true;
+
+    private string PmeUrl { get; set; } = "/home/2";
+
+    private string userName = string.Empty;
+
+    Home home = new();
+    private async Task RedirectUIView(int view)
+    {
+        var targetPage = NavigationManager.Uri;
+        if (targetPage.EndsWith("/home", StringComparison.OrdinalIgnoreCase))
+        {
+            await HandleLinkClick(view);
+        }
+        else
+        {
+            if (view == 0)
+            {
+                NavigationManager.NavigateTo($"./home");
+            }
+            else
+            {
+                NavigationManager.NavigateTo($"./home/PME");
+            }
+        }
+        // await home.SetarUIView();
+
+        // PmeUrl = $"/home/{view}";
+
+    }
+
+    private async void RedirectDentistSearch() {
+        if (JSRuntime != null) {
+            string url = Configuration.GetSection("UrlDentistas:Url").Value;
+            JSRuntime.InvokeAsync<object>("open", url, "_blank");
+        }
+    }
+
+    private void ToggleNavbar()
+    {
+        IsNavbarCollapsed = !IsNavbarCollapsed;
+
+        if (IsNavbarCollapsed)
+        {
+            ExecuteJS("collapseNavbar");
+        }
+        else
+        {
+            ExecuteJS("expandNavbar");
+        }
+    }
+
+    private async Task ExecuteJS(string script)
+    {
+        if (JSRuntime != null)
+        {
+            await JSRuntime.InvokeVoidAsync(script);
+        }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await ExecuteJS("collapseNavbar");
+        }
+    }
+
+    private async Task ToggleDropdown(string dropdownId)
+    {
+        await JSRuntime.InvokeVoidAsync("toggleDropdown", dropdownId);
+    }
+}
