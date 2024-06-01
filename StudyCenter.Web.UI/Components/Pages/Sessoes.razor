@@ -20,11 +20,15 @@ else
         <HeaderContent>
             <MudTh>Id</MudTh>
             <MudTh>Nome da Sessao</MudTh>
+            <MudTh>Anotação</MudTh>
             <MudTh>Topicos</MudTh>
+            <MudTh>Inicio sessão</MudTh>
+            <MudTh>Fim sessão</MudTh>
         </HeaderContent>
         <RowTemplate>
             <MudTd DataLabel="Id">@context.IdSessao</MudTd>
             <MudTd DataLabel="Nome da Sessao">@context.NomeSessao</MudTd>
+            <MudTd DataLabel="Anotação da Sessão">@context.AnotacaoSessao</MudTd>
             <MudTd DataLabel="Topicos">
                 <ul>
                     @foreach (var topico in @context.SessaoTopicos)
@@ -45,12 +49,13 @@ else
                     }
                 </ul>
             </MudTd>
+            <MudTd DataLabel="Inicio sessão">@context.DthrInicioSessao</MudTd>
+            <MudTd DataLabel="Fim sessão">@context.DthrFimSessao</MudTd>
         </RowTemplate>
         <PagerContent>
             <MudTablePager PageSizeOptions="new int[]{5, 10, 20}" />
         </PagerContent>
     </MudTable>
-}
 }
 
 @code {
