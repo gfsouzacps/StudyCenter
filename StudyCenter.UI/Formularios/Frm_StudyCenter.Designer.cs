@@ -80,7 +80,7 @@ namespace StudyCenter
             // 
             // registrarMatériatópicoToolStripMenuItem
             // 
-            registrarMatériatópicoToolStripMenuItem.Image = Properties.Resources.Novo;
+            registrarMatériatópicoToolStripMenuItem.Image = WinForms.UI.Descontinuado.Properties.Resources.Novo;
             registrarMatériatópicoToolStripMenuItem.Name = "registrarMatériatópicoToolStripMenuItem";
             registrarMatériatópicoToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.A;
             registrarMatériatópicoToolStripMenuItem.Size = new Size(311, 22);
@@ -89,7 +89,7 @@ namespace StudyCenter
             // 
             // consultaMatériastópicosToolStripMenuItem
             // 
-            consultaMatériastópicosToolStripMenuItem.Image = Properties.Resources.lupa;
+            consultaMatériastópicosToolStripMenuItem.Image = WinForms.UI.Descontinuado.Properties.Resources.lupa;
             consultaMatériastópicosToolStripMenuItem.Name = "consultaMatériastópicosToolStripMenuItem";
             consultaMatériastópicosToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.B;
             consultaMatériastópicosToolStripMenuItem.Size = new Size(311, 22);
@@ -97,7 +97,7 @@ namespace StudyCenter
             // 
             // registraSessãoToolStripMenuItem
             // 
-            registraSessãoToolStripMenuItem.Image = Properties.Resources.Novo;
+            registraSessãoToolStripMenuItem.Image = WinForms.UI.Descontinuado.Properties.Resources.Novo;
             registraSessãoToolStripMenuItem.Name = "registraSessãoToolStripMenuItem";
             registraSessãoToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.D;
             registraSessãoToolStripMenuItem.Size = new Size(311, 22);
@@ -106,7 +106,7 @@ namespace StudyCenter
             // 
             // consultaRegistrosToolStripMenuItem
             // 
-            consultaRegistrosToolStripMenuItem.Image = Properties.Resources.lupa1;
+            consultaRegistrosToolStripMenuItem.Image = WinForms.UI.Descontinuado.Properties.Resources.lupa1;
             consultaRegistrosToolStripMenuItem.Name = "consultaRegistrosToolStripMenuItem";
             consultaRegistrosToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.C;
             consultaRegistrosToolStripMenuItem.Size = new Size(311, 22);
@@ -114,7 +114,7 @@ namespace StudyCenter
             // 
             // sairToolStripMenuItem
             // 
-            sairToolStripMenuItem.Image = Properties.Resources.sair;
+            sairToolStripMenuItem.Image = WinForms.UI.Descontinuado.Properties.Resources.sair;
             sairToolStripMenuItem.Name = "sairToolStripMenuItem";
             sairToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.S;
             sairToolStripMenuItem.Size = new Size(311, 22);
@@ -123,7 +123,7 @@ namespace StudyCenter
             // 
             // novoRegistroDeMatériatópicoToolStripMenuItem
             // 
-            novoRegistroDeMatériatópicoToolStripMenuItem.Image = Properties.Resources.Novo;
+            novoRegistroDeMatériatópicoToolStripMenuItem.Image = WinForms.UI.Descontinuado.Properties.Resources.Novo;
             novoRegistroDeMatériatópicoToolStripMenuItem.Name = "novoRegistroDeMatériatópicoToolStripMenuItem";
             novoRegistroDeMatériatópicoToolStripMenuItem.Size = new Size(311, 22);
             novoRegistroDeMatériatópicoToolStripMenuItem.Text = "Registrar matéria/tópico UC (descontinuado)";
@@ -190,7 +190,7 @@ namespace StudyCenter
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaptionText;
-            BackgroundImage = Properties.Resources.NovoIcone;
+            BackgroundImage = WinForms.UI.Descontinuado.Properties.Resources.NovoIcone;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(884, 611);
             Controls.Add(Tbc_Formularios);
