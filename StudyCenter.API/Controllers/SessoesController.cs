@@ -6,6 +6,7 @@ using StudyCenter.Dominio.Entidades.ViewModels;
 using StudyCenter.Shared.Infraestrutura.Backend.Configurations;
 using StudyCenter.Shared.Infraestrutura.Backend.Data.Contexts;
 using StudyCenter.Shared.Infraestrutura.Backend.Data.Repositories;
+using Swashbuckle.AspNetCore.Annotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -45,6 +46,7 @@ namespace StudyCenter.API.Controllers
         /// </summary>
         /// <returns>Retorna uma lista de sessões.</returns>
         [HttpGet]
+        [SwaggerOperation(Summary = "Obtém todas as sessões.")]
         public async Task<ActionResult<IEnumerable<Sessoes>>> GetSessoes()
         {
             var sessoes = await _sessoesQueryRepository.ObterTodosAsync();
@@ -61,6 +63,7 @@ namespace StudyCenter.API.Controllers
         /// <param name="sessaoViewModel">O modelo de visão da sessão.</param>
         /// <returns>Retorna a sessão criada.</returns>
         [HttpPost]
+        [SwaggerOperation(Summary = "Cria uma nova sessão.")]
         public async Task<ActionResult<Sessoes>> CriarSessao(SessoesViewModel sessaoViewModel)
         {
             var novaSessao = new Sessoes
@@ -109,7 +112,14 @@ namespace StudyCenter.API.Controllers
             return CreatedAtAction(nameof(GetSessoes), new { id = novaSessao.IdSessao }, novaSessao);
         }
 
+        /// <summary>
+        /// Atualiza uma sessão existente.
+        /// </summary>
+        /// <param name="idSessao">O ID da sessão a ser atualizada.</param>
+        /// <param name="sessaoViewModel">O modelo de visão da sessão com os dados atualizados.</param>
+        /// <returns>Um IActionResult representando o resultado da operação.</returns>
         [HttpPut("{idSessao}")]
+        [SwaggerOperation(Summary = "Atualiza uma sessão existente.")]
         public async Task<IActionResult> UpdateSessao(int idSessao, SessoesViewModel sessaoViewModel)
         {
             if (idSessao != sessaoViewModel.IdSessao)
@@ -167,6 +177,7 @@ namespace StudyCenter.API.Controllers
         /// <returns>Retorna 200 OK com uma mensagem de sucesso se a exclusão for bem-sucedida, 
         /// 404 Not Found se a sessão não for encontrada, ou 500 Internal Server Error se ocorrer um erro.</returns>
         [HttpDelete("{idSessao}")]
+        [SwaggerOperation(Summary = "Deleta uma sessão e todas as entidades relacionadas a ela.")]
         public async Task<IActionResult> DeleteSessao(int idSessao)
         {
             try

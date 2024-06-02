@@ -5,6 +5,7 @@ using StudyCenter.Dominio.Entidades.ViewModels;
 using StudyCenter.Shared.Infraestrutura.Backend.Configurations;
 using StudyCenter.Shared.Infraestrutura.Backend.Data.Contexts;
 using StudyCenter.Shared.Infraestrutura.Backend.Data.Repositories;
+using Swashbuckle.AspNetCore.Annotations;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -38,6 +39,7 @@ namespace StudyCenter.API.Controllers
         /// </summary>
         /// <returns>Retorna uma lista de matérias.</returns>
         [HttpGet]
+        [SwaggerOperation(Summary = "Obtém todas as matérias.")]
         public async Task<ActionResult<IEnumerable<Materias>>> GetMaterias()
         {
             var materias = await _materiasQueryRepository.ObterTodosAsync();
@@ -53,6 +55,7 @@ namespace StudyCenter.API.Controllers
         /// </summary>
         /// <returns>Retorna uma lista de matérias com os tópicos relacionados.</returns>
         [HttpGet("materia-com-topicos")]
+        [SwaggerOperation(Summary = "Obtém todas as matérias com os tópicos relacionados.")]
         public async Task<ActionResult<IEnumerable<MateriasViewModel>>> GetMateriasETopicos()
         {
             var materias = await _materiasQueryRepository.ObterMateriasETopicosAsync();
@@ -69,6 +72,7 @@ namespace StudyCenter.API.Controllers
         /// <param name="materiaViewModel">O modelo de visão da matéria.</param>
         /// <returns>Retorna a matéria criada.</returns>
         [HttpPost]
+        [SwaggerOperation(Summary = "Cria uma nova matéria com tópicos relacionados.")]
         public async Task<ActionResult<Materias>> CriarMateria(MateriasViewModel materiaViewModel)
         {
             var novaMateria = new Materias
@@ -104,6 +108,7 @@ namespace StudyCenter.API.Controllers
         /// 400 Bad Request se houver problemas com a solicitação, 
         /// ou 404 Not Found se a matéria não for encontrada.</returns>
         [HttpPut("{idMateria}")]
+        [SwaggerOperation(Summary = "Atualiza uma matéria existente com seus tópicos relacionados.")]
         public async Task<IActionResult> UpdateMateria(int idMateria, MateriasViewModel materiaViewModel)
         {
             if (idMateria != materiaViewModel.IdMateria)
@@ -146,6 +151,7 @@ namespace StudyCenter.API.Controllers
         /// <returns>Retorna 200 OK com uma mensagem de sucesso se a exclusão for bem-sucedida, 
         /// 404 Not Found se a matéria não for encontrada, ou 500 Internal Server Error se ocorrer um erro.</returns>
         [HttpDelete("{idMateria}")]
+        [SwaggerOperation(Summary = "Deleta uma matéria e todas as entidades relacionadas a ela.")]
         public async Task<IActionResult> DeleteMateria(int idMateria)
         {
             try
