@@ -19,6 +19,13 @@ public class MateriaService
         return await _httpClient.GetFromJsonAsync<Entidade.Materias[]>(url);
     }
 
+    public async Task<Entidade.Materias[]> GetMateriasComTopicoAsync()
+    {
+        var apiUrl = _configuration["ApiSettings:BaseUrl"];
+        var url = $"{apiUrl}Materias/materia-com-topicos";
+        return await _httpClient.GetFromJsonAsync<Entidade.Materias[]>(url);
+    }
+
     public async Task<Entidade.Materias> CreateMateriaAsync(MateriasViewModel materiaViewModel)
     {
         var apiUrl = _configuration["ApiSettings:BaseUrl"];

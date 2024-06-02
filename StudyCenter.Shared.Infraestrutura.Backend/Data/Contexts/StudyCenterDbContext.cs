@@ -63,6 +63,12 @@ public partial class StudyCenterDbContext : DbContext
                 .HasColumnName("nome_materia");
         });
 
+        modelBuilder.Entity<Materias>()
+    .HasMany(m => m.Topicos)
+    .WithOne(t => t.IdMateriaNavigation)
+    .HasForeignKey(t => t.IdMateria)
+    .OnDelete(DeleteBehavior.Cascade);
+
         modelBuilder.Entity<SessaoTopicos>(entity =>
         {
             entity.HasKey(e => e.IdSessaoTopico).HasName("PK__SESSAO_T__04AEBD2336966A8E");

@@ -1,9 +1,10 @@
 ﻿@page "/sessoes"
 @rendermode InteractiveServer
-@using Entidades = StudyCenter.Dominio.Entidades.Entities;
+@using Entidades = StudyCenter.Dominio.Entidades.Entities
+@using ViewModel = StudyCenter.Dominio.Entidades.ViewModels;
 
 <MudPopoverProvider />
-<MudDialogProvider />
+<MudDialogProvider /> 
 <MudSnackbarProvider />
 
 <PageTitle>Sessoes</PageTitle>
@@ -16,7 +17,7 @@
             Size="Size.Large"
             IconSize="Size.Large"
             Label="Incluir Sessão"
-            Class="ma-2" @onclick="(e=> CreateSessaoAsync())" />
+            Class="ma-2" @onclick="(e=> CreateSessaoPopUp())" />
 </MudContainer>
 
 @if (sessoes == null)
@@ -52,7 +53,7 @@ else
                         }
                     </MudCardContent>
                     <MudCardActions>
-                        <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Primary" @onclick="(e=>UpdateSessaoAsync(sessao.IdSessao))" />
+                        <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Primary" @onclick="(e=>UpdateSessaoAsync(sessao.IdSessao, sessao))" />
                         <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" @onclick="(e=>DeleteSessaoAsync(sessao.IdSessao))" />
                     </MudCardActions>
                 </MudCard>
@@ -73,16 +74,49 @@ else
         sessoes = await SessaoService.GetSessoesAsync();
     }
 
-    protected async Task CreateSessaoAsync()
+    protected async Task CreateSessaoPopUp()
     {
-        sessoes = await SessaoService.GetSessoesAsync(); // alterar para o metodo do create
+        @*
+            Aqui preciso explodir a tela para criar os campos, trazer o Json, inserir nas sessoes, etc
+        *@
+        var sessao = new Entidades.Sessoes();
+        var api = CreateSessaoAsync(sessao);
     }
-    protected async Task UpdateSessaoAsync(int idSessao)
+
+    protected async Task CreateSessaoAsync(Entidades.Sessoes sessao)
     {
-        sessoes = await SessaoService.GetSessoesAsync(); // alterar para o metodo do update
+        var sessaoViewModel = new ViewModel.SessoesViewModel();
+        sessaoViewModel.NomeSessao = sessao.NomeSessao;
+        sessaoViewModel.AnotacaoSessao = sessao.AnotacaoSessao;
+        sessaoViewModel.DthrInicioSessao = sessao.DthrInicioSessao;
+        sessaoViewModel.DthrFimSessao = sessao.DthrFimSessao;
+
+        sessao = await SessaoService.CreateSessaoAsync(sessaoViewModel);
     }
+
+    protected async Task UpdateSessaoAsync(int idSessao, Entidades.Sessoes sessao)
+    {
+        var sessaoViewModel = new ViewModel.SessoesViewModel();
+        sessaoViewModel.NomeSessao = sessao.NomeSessao;
+        sessaoViewModel.AnotacaoSessao = sessao.AnotacaoSessao;
+        sessaoViewModel.DthrInicioSessao = sessao.DthrInicioSessao;
+        sessaoViewModel.DthrFimSessao = sessao.DthrFimSessao;
+
+        var updatedSessao = await SessaoService.UpdateSessaoAsync(sessao.IdSessao, sessaoViewModel);
+        if (updatedSessao != null)
+        {
+            Console.WriteLine("Deu Certo");
+        }
+        else
+        {
+            Console.WriteLine("Erro");
+        }
+    }
+
     protected async Task DeleteSessaoAsync(int idSessao)
     {
-        sessoes = await SessaoService.GetSessoesAsync(); // alterar para o metodo do delete
+        await SessaoService.DeleteSessaoAsync(idSessao);
+
+        sessoes = await SessaoService.GetSessoesAsync();
     }
 }

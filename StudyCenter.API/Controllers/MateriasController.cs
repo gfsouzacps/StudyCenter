@@ -18,14 +18,17 @@ namespace StudyCenter.API.Controllers
         private readonly StudyCenterDbContext _context;
         private readonly IMateriasQueryRepository _materiasQueryRepository;
         private readonly ITopicosQueryRepository _topicosQueryRepository;
+        private readonly ITopicosCommandRepository _topicosCommandyRepository;
 
         public MateriasController(StudyCenterDbContext context,
             IMateriasQueryRepository materiasQueryRepository,
-            ITopicosQueryRepository topicosQueryRepository)
+            ITopicosQueryRepository topicosQueryRepository,
+            ITopicosCommandRepository topicosCommandRepository)
         {
             _context = context;
             _materiasQueryRepository = materiasQueryRepository;
             _topicosQueryRepository = topicosQueryRepository;
+            _topicosCommandyRepository = topicosCommandRepository;
         }
 
         [HttpGet]
@@ -116,10 +119,15 @@ namespace StudyCenter.API.Controllers
         [HttpDelete("{idMateria}")]
         public async Task<IActionResult> DeleteMateria(int idMateria)
         {
-            var materia = await _context.Materias.FindAsync(idMateria);
+            var materia = await _materiasQueryRepository.ObterMateriasETopicosPorIdAsync(idMateria);
             if (materia == null)
             {
                 return NotFound();
+            }
+
+            foreach (var topico in materia.Topicos.ToList())
+            {
+                _context.Topicos.Remove(topico);
             }
 
             _context.Materias.Remove(materia);

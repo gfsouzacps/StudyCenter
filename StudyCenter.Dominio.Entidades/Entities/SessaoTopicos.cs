@@ -6,7 +6,7 @@ namespace StudyCenter.Dominio.Entidades.Entities;
 
 public partial class SessaoTopicos
 {
-    public int IdSessaoTopico { get; }
+    public int IdSessaoTopico { get; set; }
     public int IdSessao { get; set; }
     public int IdTopico { get; set; }
     public decimal? DuracaoEstudo { get; set; }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualBasic;
 using StudyCenter.Dominio.Entidades.Entities;
+using StudyCenter.Dominio.Entidades.ViewModels;
 using StudyCenter.Shared.Infraestrutura.Backend.Data.Contexts;
 
 namespace StudyCenter.Shared.Infraestrutura.Backend.Data.Repositories
