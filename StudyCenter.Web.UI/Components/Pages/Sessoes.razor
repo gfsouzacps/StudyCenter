@@ -10,52 +10,55 @@
 
 <MudText Typo="Typo.h3" GutterBottom="true">Lista de Sessoes</MudText>
 
+<MudContainer Class="d-flex justify-center mb-2">
+    <MudFab Color="Color.Primary"
+            StartIcon="@Icons.Material.Filled.Add"
+            Size="Size.Large"
+            IconSize="Size.Large"
+            Label="Incluir Sessão"
+            Class="ma-2" @onclick="(e=> CreateSessaoAsync())" />
+</MudContainer>
+
 @if (sessoes == null)
 {
     <MudProgressCircular Color="Color.Default" Indeterminate="true" />
 }
 else
 {
-    <MudTable Items="sessoes" Hover="true" SortLabel="Sort By" Elevation="0">
-        <HeaderContent>
-            <MudTh>Id</MudTh>
-            <MudTh>Nome da Sessao</MudTh>
-            <MudTh>Anotação</MudTh>
-            <MudTh>Topicos</MudTh>
-            <MudTh>Inicio sessão</MudTh>
-            <MudTh>Fim sessão</MudTh>
-        </HeaderContent>
-        <RowTemplate>
-            <MudTd DataLabel="Id">@context.IdSessao</MudTd>
-            <MudTd DataLabel="Nome da Sessao">@context.NomeSessao</MudTd>
-            <MudTd DataLabel="Anotação da Sessão">@context.AnotacaoSessao</MudTd>
-            <MudTd DataLabel="Topicos">
-                <ul>
-                    @foreach (var topico in @context.SessaoTopicos)
-                    {
-                        <li>
-                            <strong>Topico ID:</strong> @topico.IdTopico
-                            <br />
-                            <strong>Duração:</strong> @topico.DuracaoEstudo minutos
-                            <br />
-                            <strong>Anotações:</strong>
-                            <ul>
+    <MudGrid Justify="Justify.Center" class="pr-4 pl4-">
+        @foreach (var sessao in sessoes)
+        {
+            <MudItem xs="3">
+                <MudCard>
+                    <MudCardHeader>
+                        <CardHeaderContent>
+                            <MudText Typo="Typo.body1">@sessao.NomeSessao</MudText>
+                            <MudText Typo="Typo.h6">@sessao.AnotacaoSessao</MudText>
+                        </CardHeaderContent>
+                    </MudCardHeader>
+                    <MudCardContent>
+                        <MudText Typo="Typo.subtitle1">Início da Sessão: @sessao.DthrInicioSessao</MudText>
+                        <MudText Typo="Typo.subtitle1">Fim da Sessão: @sessao.DthrFimSessao</MudText>
+                        @foreach (var topico in sessao.SessaoTopicos)
+                        {
+                            <MudPaper Class="pa-2 mt-2">
+                                <MudText Typo="Typo.h6">Tópico: @topico.IdTopico</MudText>
+                                <MudText Typo="Typo.subtitle2">Duração: @topico.DuracaoEstudo minutos</MudText>
                                 @foreach (var anotacao in topico.AnotacoesTopicos)
                                 {
-                                    <li>@anotacao.Anotacao</li>
+                                    <MudText Typo="Typo.body2">Anotação: @anotacao.Anotacao</MudText>
                                 }
-                            </ul>
-                        </li>
-                    }
-                </ul>
-            </MudTd>
-            <MudTd DataLabel="Inicio sessão">@context.DthrInicioSessao</MudTd>
-            <MudTd DataLabel="Fim sessão">@context.DthrFimSessao</MudTd>
-        </RowTemplate>
-        <PagerContent>
-            <MudTablePager PageSizeOptions="new int[]{5, 10, 20}" />
-        </PagerContent>
-    </MudTable>
+                            </MudPaper>
+                        }
+                    </MudCardContent>
+                    <MudCardActions>
+                        <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Primary" @onclick="(e=>UpdateSessaoAsync(sessao.IdSessao))" />
+                        <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" @onclick="(e=>DeleteSessaoAsync(sessao.IdSessao))" />
+                    </MudCardActions>
+                </MudCard>
+            </MudItem>
+        }
+    </MudGrid>
 }
 
 @code {
@@ -68,5 +71,18 @@ else
     protected override async Task OnInitializedAsync()
     {
         sessoes = await SessaoService.GetSessoesAsync();
+    }
+
+    protected async Task CreateSessaoAsync()
+    {
+        sessoes = await SessaoService.GetSessoesAsync(); // alterar para o metodo do create
+    }
+    protected async Task UpdateSessaoAsync(int idSessao)
+    {
+        sessoes = await SessaoService.GetSessoesAsync(); // alterar para o metodo do update
+    }
+    protected async Task DeleteSessaoAsync(int idSessao)
+    {
+        sessoes = await SessaoService.GetSessoesAsync(); // alterar para o metodo do delete
     }
 }

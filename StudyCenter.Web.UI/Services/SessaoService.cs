@@ -1,10 +1,5 @@
-﻿using Entidades = StudyCenter.Dominio.Entidades.Entities;
-using StudyCenter.Web.UI.Components.Pages;
-using System.Net.Http;
-using System.Net.Http.Json;
-using System.Threading.Tasks;
-
-
+﻿using StudyCenter.Dominio.Entidades.ViewModels;
+using Entidade = StudyCenter.Dominio.Entidades.Entities;
 public class SessaoService
 {
     private readonly HttpClient _httpClient;
@@ -16,10 +11,36 @@ public class SessaoService
         _configuration = configuration;
     }
 
-    public async Task<Entidades.Sessoes[]> GetSessoesAsync()
+    public async Task<Entidade.Sessoes[]> GetSessoesAsync()
     {
         var apiUrl = _configuration["ApiSettings:BaseUrl"];
-        var url = $"{apiUrl}Sessoes/GetSessao";
-        return await _httpClient.GetFromJsonAsync<Entidades.Sessoes[]>(url);
+        var url = $"{apiUrl}Sessoes";
+        return await _httpClient.GetFromJsonAsync<Entidade.Sessoes[]>(url);
+    }
+
+    public async Task<Entidade.Sessoes> CreateSessaoAsync(SessoesViewModel sessaoViewModel)
+    {
+        var apiUrl = _configuration["ApiSettings:BaseUrl"];
+        var url = $"{apiUrl}Sessoes";
+        var response = await _httpClient.PostAsJsonAsync(url, sessaoViewModel);
+        response.EnsureSuccessStatusCode();
+        return await response.Content.ReadFromJsonAsync<Entidade.Sessoes>();
+    }
+
+    public async Task<Entidade.Sessoes> UpdateSessaoAsync(int idSessao, SessoesViewModel sessaoViewModel)
+    {
+        var apiUrl = _configuration["ApiSettings:BaseUrl"];
+        var url = $"{apiUrl}Sessoes/{idSessao}";
+        var response = await _httpClient.PutAsJsonAsync(url, sessaoViewModel);
+        response.EnsureSuccessStatusCode();
+        return await response.Content.ReadFromJsonAsync<Entidade.Sessoes>();
+    }
+
+    public async Task DeleteSessaoAsync(int idSessao)
+    {
+        var apiUrl = _configuration["ApiSettings:BaseUrl"];
+        var url = $"{apiUrl}Sessoes/{idSessao}";
+        var response = await _httpClient.DeleteAsync(url);
+        response.EnsureSuccessStatusCode();
     }
 }

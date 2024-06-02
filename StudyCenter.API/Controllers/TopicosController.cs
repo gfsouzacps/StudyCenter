@@ -1,13 +1,13 @@
-﻿using System.Drawing.Drawing2D;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using StudyCenter.Dominio.Entidades.Entities;
 using StudyCenter.Dominio.Entidades.ViewModels;
 using StudyCenter.Shared.Infraestrutura.Backend.Configurations;
 using StudyCenter.Shared.Infraestrutura.Backend.Data.Contexts;
 using StudyCenter.Shared.Infraestrutura.Backend.Data.Repositories;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace StudyCenter.API.Controllers
 {
@@ -18,15 +18,14 @@ namespace StudyCenter.API.Controllers
         private readonly StudyCenterDbContext _context;
         private readonly ITopicosQueryRepository _topicosQueryRepository;
 
-        public TopicosController(StudyCenterDbContext context, TopicosQueryRepository topicosQueryRepository)
+        public TopicosController(StudyCenterDbContext context, ITopicosQueryRepository topicosQueryRepository)
         {
             _context = context;
             _topicosQueryRepository = topicosQueryRepository;
         }
 
         [HttpGet]
-        [Route("GetTopicos")]
-        public async Task<ActionResult<Topicos>> GetTopicos()
+        public async Task<ActionResult<IEnumerable<Topicos>>> GetTopicos()
         {
             var topicos = await _topicosQueryRepository.ObterTodosAsync();
             if (!topicos.Any())
@@ -37,26 +36,46 @@ namespace StudyCenter.API.Controllers
         }
 
         [HttpPost]
-        [Route("CriarTopico")]
-        public async Task<ActionResult<Topicos>> CriarTopico(TopicosViewModel topico) // Criar topico atraves da materia
+        public async Task<ActionResult<Topicos>> CriarTopico(TopicosViewModel topicoViewModel)
         {
-            var topicos = new Topicos 
+            var topico = new Topicos
             {
-                NomeTopico = topico.NomeTopico,
-                IdMateria = topico.IdMateria
+                NomeTopico = topicoViewModel.NomeTopico,
+                IdMateria = topicoViewModel.IdMateria
             };
 
-            _context.Topicos.Add(topicos);
+            _context.Topicos.Add(topico);
             await _context.SaveChangesAsync();
 
-            var json = JsonHelper.SerializeToJson(topicos);
-
-            return CreatedAtAction(nameof(CriarTopico), new { id = topico.IdTopico }, topicos);
+            return CreatedAtAction(nameof(GetTopicos), new { id = topico.IdTopico }, topico);
         }
 
-        [HttpDelete]
-        [Route("DeletarTopico")]
-        public async Task<ActionResult<Topicos>> DeletarTopico(int idTopico)
+        [HttpPut("{idTopico}")]
+        public async Task<IActionResult> UpdateTopico(int idTopico, TopicosViewModel topicoViewModel)
+        {
+            if (idTopico != topicoViewModel.IdTopico)
+            {
+                return BadRequest();
+            }
+
+            var topicoToUpdate = await _context.Topicos.FindAsync(idTopico);
+
+            if (topicoToUpdate == null)
+            {
+                return NotFound();
+            }
+
+            topicoToUpdate.NomeTopico = topicoViewModel.NomeTopico;
+            topicoToUpdate.IdMateria = topicoViewModel.IdMateria;
+
+            _context.Entry(topicoToUpdate).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        [HttpDelete("{idTopico}")]
+        public async Task<IActionResult> DeleteTopico(int idTopico)
         {
             var topico = await _context.Topicos.FindAsync(idTopico);
             if (topico == null)
@@ -67,7 +86,7 @@ namespace StudyCenter.API.Controllers
             _context.Topicos.Remove(topico);
             await _context.SaveChangesAsync();
 
-            return Ok("Matéria deletada");
+            return NoContent();
         }
     }
 }

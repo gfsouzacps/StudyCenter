@@ -16,6 +16,20 @@
 }
 else
 {
+    <MudGrid Justify="Justify.Center" class="pr-4 pl4-">
+        @foreach (var materia in materias)
+        {
+            <MudItem xs="3">
+                <MudCard>
+                    <MudCardHeader>
+                        <MudText Typo="Typo.body1">@materia.NomeMateria</MudText>
+                        <MudText Typo="Typo.body1">@materia.NomeMateria</MudText>
+                    </MudCardHeader>
+                </MudCard>
+            </MudItem>
+        }
+    </MudGrid>
+        @*
     <MudTable Items="materias" Hover="true" SortLabel="Sort By" Elevation="0">
         <HeaderContent>
             <MudTh>Id</MudTh>
@@ -52,6 +66,7 @@ else
             <MudTablePager PageSizeOptions="new int[]{5, 10, 20}" />
         </PagerContent>
     </MudTable>
+    *@
 }
 
 @code {

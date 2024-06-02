@@ -1,9 +1,5 @@
-﻿using Entidades = StudyCenter.Dominio.Entidades.Entities;
-using StudyCenter.Web.UI.Components.Pages;
-using System.Net.Http;
-using System.Net.Http.Json;
-using System.Threading.Tasks;
-
+﻿using StudyCenter.Dominio.Entidades.ViewModels;
+using Entidade = StudyCenter.Dominio.Entidades.Entities;
 
 public class MateriaService
 {
@@ -16,10 +12,36 @@ public class MateriaService
         _configuration = configuration;
     }
 
-    public async Task<Entidades.Materias[]> GetMateriasAsync()
+    public async Task<Entidade.Materias[]> GetMateriasAsync()
     {
         var apiUrl = _configuration["ApiSettings:BaseUrl"];
-        var url = $"{apiUrl}Materias/GetMaterias";
-        return await _httpClient.GetFromJsonAsync<Entidades.Materias[]>(url);
+        var url = $"{apiUrl}Materias";
+        return await _httpClient.GetFromJsonAsync<Entidade.Materias[]>(url);
+    }
+
+    public async Task<Entidade.Materias> CreateMateriaAsync(MateriasViewModel materiaViewModel)
+    {
+        var apiUrl = _configuration["ApiSettings:BaseUrl"];
+        var url = $"{apiUrl}Materias";
+        var response = await _httpClient.PostAsJsonAsync(url, materiaViewModel);
+        response.EnsureSuccessStatusCode();
+        return await response.Content.ReadFromJsonAsync<Entidade.Materias>();
+    }
+
+    public async Task<Entidade.Materias> UpdateMateriaAsync(int idMateria, MateriasViewModel materiaViewModel)
+    {
+        var apiUrl = _configuration["ApiSettings:BaseUrl"];
+        var url = $"{apiUrl}Materias/{idMateria}";
+        var response = await _httpClient.PutAsJsonAsync(url, materiaViewModel);
+        response.EnsureSuccessStatusCode();
+        return await response.Content.ReadFromJsonAsync<Entidade.Materias>();
+    }
+
+    public async Task DeleteMateriaAsync(int idMateria)
+    {
+        var apiUrl = _configuration["ApiSettings:BaseUrl"];
+        var url = $"{apiUrl}Materias/{idMateria}";
+        var response = await _httpClient.DeleteAsync(url);
+        response.EnsureSuccessStatusCode();
     }
 }
