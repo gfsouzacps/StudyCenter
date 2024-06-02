@@ -2,15 +2,15 @@
 using Microsoft.EntityFrameworkCore;
 using StudyCenter.Dominio.Entidades.Entities;
 using StudyCenter.Dominio.Entidades.ViewModels;
-using StudyCenter.Shared.Infraestrutura.Backend.Configurations;
 using StudyCenter.Shared.Infraestrutura.Backend.Data.Contexts;
+
 using StudyCenter.Shared.Infraestrutura.Backend.Data.Repositories;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace StudyCenter.API.Controllers
 {
+    /// <summary>
+    /// Controlador para manipulação de tópicos.
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class TopicosController : ControllerBase
@@ -19,6 +19,12 @@ namespace StudyCenter.API.Controllers
         private readonly ITopicosQueryRepository _topicosQueryRepository;
         private readonly ITopicosCommandRepository _topicosCommandRepository;
 
+        /// <summary>
+        /// Inicializa uma nova instância do controlador TopicosController.
+        /// </summary>
+        /// <param name="context">O contexto do banco de dados.</param>
+        /// <param name="topicosQueryRepository">O repositório de consulta de tópicos.</param>
+        /// <param name="topicosCommandRepository">O repositório de comandos de tópicos.</param>
         public TopicosController(StudyCenterDbContext context, ITopicosQueryRepository topicosQueryRepository, ITopicosCommandRepository topicosCommandRepository)
         {
             _context = context;
@@ -26,6 +32,10 @@ namespace StudyCenter.API.Controllers
             _topicosCommandRepository = topicosCommandRepository;
         }
 
+        /// <summary>
+        /// Obtém todos os tópicos.
+        /// </summary>
+        /// <returns>Retorna uma lista de tópicos.</returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Topicos>>> GetTopicos()
         {
@@ -37,6 +47,11 @@ namespace StudyCenter.API.Controllers
             return Ok(topicos);
         }
 
+        /// <summary>
+        /// Cria um novo tópico.
+        /// </summary>
+        /// <param name="topicoViewModel">O modelo de visão do tópico.</param>
+        /// <returns>Retorna o tópico criado.</returns>
         [HttpPost]
         public async Task<ActionResult<Topicos>> CriarTopico(TopicosViewModel topicoViewModel)
         {
@@ -52,6 +67,14 @@ namespace StudyCenter.API.Controllers
             return CreatedAtAction(nameof(GetTopicos), new { id = topico.IdTopico }, topico);
         }
 
+        /// <summary>
+        /// Atualiza um tópico existente.
+        /// </summary>
+        /// <param name="idTopico">O ID do tópico a ser atualizado.</param>
+        /// <param name="topicoViewModel">O modelo de visão do tópico.</param>
+        /// <returns>Retorna 204 No Content se a atualização for bem-sucedida, 
+        /// 400 Bad Request se houver problemas com a solicitação, 
+        /// ou 404 Not Found se o tópico não for encontrado.</returns>
         [HttpPut("{idTopico}")]
         public async Task<IActionResult> UpdateTopico(int idTopico, TopicosViewModel topicoViewModel)
         {

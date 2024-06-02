@@ -33,6 +33,10 @@ namespace StudyCenter.API.Controllers
             _topicosCommandyRepository = topicosCommandRepository;
         }
 
+        /// <summary>
+        /// Obtém todas as matérias.
+        /// </summary>
+        /// <returns>Retorna uma lista de matérias.</returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Materias>>> GetMaterias()
         {
@@ -44,6 +48,10 @@ namespace StudyCenter.API.Controllers
             return Ok(materias);
         }
 
+        /// <summary>
+        /// Obtém todas as matérias com os tópicos relacionados.
+        /// </summary>
+        /// <returns>Retorna uma lista de matérias com os tópicos relacionados.</returns>
         [HttpGet("materia-com-topicos")]
         public async Task<ActionResult<IEnumerable<MateriasViewModel>>> GetMateriasETopicos()
         {
@@ -55,6 +63,11 @@ namespace StudyCenter.API.Controllers
             return Ok(materias);
         }
 
+        /// <summary>
+        /// Cria uma nova matéria com tópicos relacionados.
+        /// </summary>
+        /// <param name="materiaViewModel">O modelo de visão da matéria.</param>
+        /// <returns>Retorna a matéria criada.</returns>
         [HttpPost]
         public async Task<ActionResult<Materias>> CriarMateria(MateriasViewModel materiaViewModel)
         {
@@ -82,6 +95,14 @@ namespace StudyCenter.API.Controllers
             return CreatedAtAction(nameof(GetMaterias), new { id = novaMateria.IdMateria }, novaMateria);
         }
 
+        /// <summary>
+        /// Atualiza uma matéria existente com seus tópicos relacionados.
+        /// </summary>
+        /// <param name="idMateria">O ID da matéria a ser atualizada.</param>
+        /// <param name="materiaViewModel">O modelo de visão da matéria.</param>
+        /// <returns>Retorna 204 No Content se a atualização for bem-sucedida, 
+        /// 400 Bad Request se houver problemas com a solicitação, 
+        /// ou 404 Not Found se a matéria não for encontrada.</returns>
         [HttpPut("{idMateria}")]
         public async Task<IActionResult> UpdateMateria(int idMateria, MateriasViewModel materiaViewModel)
         {

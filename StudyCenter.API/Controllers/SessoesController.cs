@@ -11,6 +11,9 @@ using System.Threading.Tasks;
 
 namespace StudyCenter.API.Controllers
 {
+    /// <summary>
+    /// Controlador para manipulação de sessões.
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class SessoesController : ControllerBase
@@ -37,6 +40,10 @@ namespace StudyCenter.API.Controllers
             _topicosQueryRepository = topicosQueryRepository;
         }
 
+        /// <summary>
+        /// Obtém todas as sessões.
+        /// </summary>
+        /// <returns>Retorna uma lista de sessões.</returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Sessoes>>> GetSessoes()
         {
@@ -48,6 +55,11 @@ namespace StudyCenter.API.Controllers
             return Ok(sessoes);
         }
 
+        /// <summary>
+        /// Cria uma nova sessão.
+        /// </summary>
+        /// <param name="sessaoViewModel">O modelo de visão da sessão.</param>
+        /// <returns>Retorna a sessão criada.</returns>
         [HttpPost]
         public async Task<ActionResult<Sessoes>> CriarSessao(SessoesViewModel sessaoViewModel)
         {
