@@ -116,24 +116,54 @@ namespace StudyCenter.API.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Deleta uma matéria e todas as entidades relacionadas a ela.
+        /// </summary>
+        /// <param name="idMateria">O ID da matéria a ser deletada.</param>
+        /// <returns>Retorna 200 OK com uma mensagem de sucesso se a exclusão for bem-sucedida, 
+        /// 404 Not Found se a matéria não for encontrada, ou 500 Internal Server Error se ocorrer um erro.</returns>
         [HttpDelete("{idMateria}")]
         public async Task<IActionResult> DeleteMateria(int idMateria)
         {
-            var materia = await _materiasQueryRepository.ObterMateriasETopicosPorIdAsync(idMateria);
-            if (materia == null)
+            using (var transaction = await _context.Database.BeginTransactionAsync())
             {
-                return NotFound();
+                try
+                {
+                    var materia = await _materiasQueryRepository.ObterMateriasETopicosPorIdAsync(idMateria);
+                    if (materia == null)
+                    {
+                        return NotFound();
+                    }
+
+                    var topicos = materia.Topicos.ToList();
+                    foreach (var topico in topicos)
+                    {
+                        var sessaoTopicos = await _context.SessaoTopicos.Where(st => st.IdTopico == topico.IdTopico).ToListAsync();
+                        foreach (var sessaoTopico in sessaoTopicos)
+                        {
+                            var anotacoesTopicos = await _context.AnotacoesTopicos.Where(at => at.IdSessaoTopico == sessaoTopico.IdSessaoTopico).ToListAsync();
+                            foreach (var anotacaoTopico in anotacoesTopicos)
+                            {
+                                _context.AnotacoesTopicos.Remove(anotacaoTopico);
+                            }
+                            _context.SessaoTopicos.Remove(sessaoTopico);
+                        }
+                        _context.Topicos.Remove(topico);
+                    }
+
+                    _context.Materias.Remove(materia);
+                    await _context.SaveChangesAsync();
+
+                    await transaction.CommitAsync();
+
+                    return Ok(new { message = "Matéria deletada com sucesso" });
+                }
+                catch (Exception ex)
+                {
+                    await transaction.RollbackAsync();
+                    return StatusCode(500, "Ocorreu um erro ao tentar deletar a matéria.");
+                }
             }
-
-            foreach (var topico in materia.Topicos.ToList())
-            {
-                _context.Topicos.Remove(topico);
-            }
-
-            _context.Materias.Remove(materia);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
         }
     }
 }

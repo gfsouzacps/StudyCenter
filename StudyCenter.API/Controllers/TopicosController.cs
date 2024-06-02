@@ -74,19 +74,52 @@ namespace StudyCenter.API.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Deleta um tópico e todas as entidades relacionadas a ele.
+        /// </summary>
+        /// <param name="idTopico">O ID do tópico a ser deletado.</param>
+        /// <returns>Retorna 200 OK com uma mensagem de sucesso se a exclusão for bem-sucedida, 
+        /// 404 Not Found se o tópico não for encontrado, ou 500 Internal Server Error se ocorrer um erro.</returns>
         [HttpDelete("{idTopico}")]
         public async Task<IActionResult> DeleteTopico(int idTopico)
         {
-            var topico = await _context.Topicos.FindAsync(idTopico);
-            if (topico == null)
+            using (var transaction = await _context.Database.BeginTransactionAsync())
             {
-                return NotFound();
+                try
+                {
+                    var topico = await _context.Topicos
+                        .Include(t => t.SessaoTopicos)
+                            .ThenInclude(st => st.AnotacoesTopicos)
+                        .FirstOrDefaultAsync(t => t.IdTopico == idTopico);
+
+                    if (topico == null)
+                    {
+                        return NotFound();
+                    }
+
+                    // Deletar todas as anotacoesTopicos
+                    foreach (var sessaoTopico in topico.SessaoTopicos.ToList())
+                    {
+                        foreach (var anotacaoTopico in sessaoTopico.AnotacoesTopicos.ToList())
+                        {
+                            _context.AnotacoesTopicos.Remove(anotacaoTopico);
+                        }
+                        _context.SessaoTopicos.Remove(sessaoTopico);
+                    }
+
+                    _context.Topicos.Remove(topico);
+                    await _context.SaveChangesAsync();
+
+                    await transaction.CommitAsync();
+
+                    return Ok(new { message = "Tópico deletado com sucesso" });
+                }
+                catch (Exception ex)
+                {
+                    await transaction.RollbackAsync();
+                    return StatusCode(500, "Ocorreu um erro ao tentar deletar o tópico.");
+                }
             }
-
-            _context.Topicos.Remove(topico);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
         }
     }
 }

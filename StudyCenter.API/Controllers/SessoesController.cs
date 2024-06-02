@@ -144,19 +144,65 @@ namespace StudyCenter.API.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Deleta uma sessão e todas as entidades relacionadas a ela.
+        /// </summary>
+        /// <param name="idSessao">O ID da sessão a ser deletada.</param>
+        /// <returns>Retorna 200 OK com uma mensagem de sucesso se a exclusão for bem-sucedida, 
+        /// 404 Not Found se a sessão não for encontrada, ou 500 Internal Server Error se ocorrer um erro.</returns>
         [HttpDelete("{idSessao}")]
         public async Task<IActionResult> DeleteSessao(int idSessao)
         {
-            var sessao = await _context.Sessoes.FindAsync(idSessao);
-            if (sessao == null)
+            using (var transaction = await _context.Database.BeginTransactionAsync())
             {
-                return NotFound();
+                try
+                {
+                    var sessao = await _context.Sessoes
+                        .Include(s => s.SessaoTopicos)
+                            .ThenInclude(st => st.AnotacoesTopicos)
+                        .FirstOrDefaultAsync(s => s.IdSessao == idSessao);
+
+                    if (sessao == null)
+                    {
+                        return NotFound();
+                    }
+
+                    foreach (var sessaoTopico in sessao.SessaoTopicos.ToList())
+                    {
+                        foreach (var anotacaoTopico in sessaoTopico.AnotacoesTopicos.ToList())
+                        {
+                            _context.AnotacoesTopicos.Remove(anotacaoTopico);
+                        }
+                        _context.SessaoTopicos.Remove(sessaoTopico);
+                    }
+
+                    var topicosIds = sessao.SessaoTopicos.Select(st => st.IdTopico).Distinct().ToList();
+                    foreach (var idTopico in topicosIds)
+                    {
+                        var topico = await _context.Topicos
+                            .Include(t => t.SessaoTopicos)
+                            .FirstOrDefaultAsync(t => t.IdTopico == idTopico);
+
+                        if (topico != null && !topico.SessaoTopicos.Any())
+                        {
+                            _context.Topicos.Remove(topico);
+                        }
+                    }
+
+                    _context.Sessoes.Remove(sessao);
+                    await _context.SaveChangesAsync();
+
+                    await transaction.CommitAsync();
+
+                    return Ok(new { message = "Sessão deletada com sucesso" });
+                }
+                catch (Exception ex)
+                {
+                    await transaction.RollbackAsync();
+                    return StatusCode(500, "Ocorreu um erro ao tentar deletar a sessão.");
+                }
             }
-
-            _context.Sessoes.Remove(sessao);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
         }
+
     }
 }

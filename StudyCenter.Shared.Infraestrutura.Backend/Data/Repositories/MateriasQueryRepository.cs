@@ -37,5 +37,10 @@ namespace StudyCenter.Shared.Infraestrutura.Backend.Data.Repositories
             var materiaETopicos = await _context.Materias.Include(m => m.Topicos).ToListAsync();
             return materiaETopicos;
         }
+
+        public async Task<Materias> ObterMateriasETopicosPorIdAsync(int id)
+        {
+            return await _context.Materias.Include(m => m.Topicos).FirstOrDefaultAsync(m => m.IdMateria == id);
+        }
     }
 }

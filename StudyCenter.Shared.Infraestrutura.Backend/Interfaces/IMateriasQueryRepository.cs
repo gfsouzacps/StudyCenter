@@ -9,5 +9,6 @@ namespace StudyCenter.Shared.Infraestrutura.Backend.Data.Repositories
         Task<Materias> ObterPorIdAsync(int id);
         Task<Materias> ObterUltimaMateriaAsync();
         Task<IEnumerable<Materias>> ObterMateriasETopicosAsync();
+        Task<Materias> ObterMateriasETopicosPorIdAsync(int id);
     }
 }
