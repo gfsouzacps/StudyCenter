@@ -17,16 +17,18 @@ namespace StudyCenter.API.Controllers
     {
         private readonly StudyCenterDbContext _context;
         private readonly IMateriasQueryRepository _materiasQueryRepository;
+        private readonly IMateriasCommandRepository _materiasCommandRepository;
         private readonly ITopicosQueryRepository _topicosQueryRepository;
         private readonly ITopicosCommandRepository _topicosCommandyRepository;
 
         public MateriasController(StudyCenterDbContext context,
-            IMateriasQueryRepository materiasQueryRepository,
+            IMateriasQueryRepository materiasQueryRepository, IMateriasCommandRepository materiasCommandyRepository,
             ITopicosQueryRepository topicosQueryRepository,
             ITopicosCommandRepository topicosCommandRepository)
         {
             _context = context;
             _materiasQueryRepository = materiasQueryRepository;
+            _materiasCommandRepository = materiasCommandyRepository;
             _topicosQueryRepository = topicosQueryRepository;
             _topicosCommandyRepository = topicosCommandRepository;
         }
@@ -125,44 +127,21 @@ namespace StudyCenter.API.Controllers
         [HttpDelete("{idMateria}")]
         public async Task<IActionResult> DeleteMateria(int idMateria)
         {
-            using (var transaction = await _context.Database.BeginTransactionAsync())
+            try
             {
-                try
+                var materia =  await _materiasQueryRepository.ObterMateriasETopicosPorIdAsync(idMateria);
+                if (materia == null)
                 {
-                    var materia = await _materiasQueryRepository.ObterMateriasETopicosPorIdAsync(idMateria);
-                    if (materia == null)
-                    {
-                        return NotFound();
-                    }
-
-                    var topicos = materia.Topicos.ToList();
-                    foreach (var topico in topicos)
-                    {
-                        var sessaoTopicos = await _context.SessaoTopicos.Where(st => st.IdTopico == topico.IdTopico).ToListAsync();
-                        foreach (var sessaoTopico in sessaoTopicos)
-                        {
-                            var anotacoesTopicos = await _context.AnotacoesTopicos.Where(at => at.IdSessaoTopico == sessaoTopico.IdSessaoTopico).ToListAsync();
-                            foreach (var anotacaoTopico in anotacoesTopicos)
-                            {
-                                _context.AnotacoesTopicos.Remove(anotacaoTopico);
-                            }
-                            _context.SessaoTopicos.Remove(sessaoTopico);
-                        }
-                        _context.Topicos.Remove(topico);
-                    }
-
-                    _context.Materias.Remove(materia);
-                    await _context.SaveChangesAsync();
-
-                    await transaction.CommitAsync();
-
-                    return Ok(new { message = "Matéria deletada com sucesso" });
+                    return NotFound();
                 }
-                catch (Exception ex)
-                {
-                    await transaction.RollbackAsync();
-                    return StatusCode(500, "Ocorreu um erro ao tentar deletar a matéria.");
-                }
+
+                _materiasCommandRepository.Remover(materia);
+
+                return Ok(new { message = "Matéria deletada com sucesso" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Ocorreu um erro ao tentar deletar a matéria.");
             }
         }
     }

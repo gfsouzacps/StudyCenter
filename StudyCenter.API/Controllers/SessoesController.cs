@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
 using StudyCenter.Dominio.Entidades.Entities;
 using StudyCenter.Dominio.Entidades.ViewModels;
 using StudyCenter.Shared.Infraestrutura.Backend.Configurations;
@@ -16,18 +17,21 @@ namespace StudyCenter.API.Controllers
     {
         private readonly StudyCenterDbContext _context;
         private readonly ISessoesQueryRepository _sessoesQueryRepository;
+        private readonly ISessoesCommandRepository _sessoesCommandRepository;
         private readonly ISessaoTopicosQueryRepository _sessaoTopicosQueryRepository;
         private readonly IAnotacoesTopicosQueryRepository _anotacoesTopicosQueryRepository;
         private readonly ITopicosQueryRepository _topicosQueryRepository;
 
         public SessoesController(StudyCenterDbContext context,
             ISessoesQueryRepository sessoesQueryRepository,
+            ISessoesCommandRepository sessoesCommandRepository,
             ISessaoTopicosQueryRepository sessaoTopicosQueryRepository,
             IAnotacoesTopicosQueryRepository anotacoesTopicosQueryRepository,
             ITopicosQueryRepository topicosQueryRepository)
         {
             _context = context;
             _sessoesQueryRepository = sessoesQueryRepository;
+            _sessoesCommandRepository = sessoesCommandRepository;
             _sessaoTopicosQueryRepository = sessaoTopicosQueryRepository;
             _anotacoesTopicosQueryRepository = anotacoesTopicosQueryRepository;
             _topicosQueryRepository = topicosQueryRepository;
@@ -153,56 +157,23 @@ namespace StudyCenter.API.Controllers
         [HttpDelete("{idSessao}")]
         public async Task<IActionResult> DeleteSessao(int idSessao)
         {
-            using (var transaction = await _context.Database.BeginTransactionAsync())
+            try
             {
-                try
+                var sessao = await _sessoesQueryRepository.ObterPorIdAsync(idSessao);
+                if (sessao == null)
                 {
-                    var sessao = await _context.Sessoes
-                        .Include(s => s.SessaoTopicos)
-                            .ThenInclude(st => st.AnotacoesTopicos)
-                        .FirstOrDefaultAsync(s => s.IdSessao == idSessao);
-
-                    if (sessao == null)
-                    {
-                        return NotFound();
-                    }
-
-                    foreach (var sessaoTopico in sessao.SessaoTopicos.ToList())
-                    {
-                        foreach (var anotacaoTopico in sessaoTopico.AnotacoesTopicos.ToList())
-                        {
-                            _context.AnotacoesTopicos.Remove(anotacaoTopico);
-                        }
-                        _context.SessaoTopicos.Remove(sessaoTopico);
-                    }
-
-                    var topicosIds = sessao.SessaoTopicos.Select(st => st.IdTopico).Distinct().ToList();
-                    foreach (var idTopico in topicosIds)
-                    {
-                        var topico = await _context.Topicos
-                            .Include(t => t.SessaoTopicos)
-                            .FirstOrDefaultAsync(t => t.IdTopico == idTopico);
-
-                        if (topico != null && !topico.SessaoTopicos.Any())
-                        {
-                            _context.Topicos.Remove(topico);
-                        }
-                    }
-
-                    _context.Sessoes.Remove(sessao);
-                    await _context.SaveChangesAsync();
-
-                    await transaction.CommitAsync();
-
-                    return Ok(new { message = "Sessão deletada com sucesso" });
+                    return NotFound();
                 }
-                catch (Exception ex)
-                {
-                    await transaction.RollbackAsync();
-                    return StatusCode(500, "Ocorreu um erro ao tentar deletar a sessão.");
-                }
+
+                _sessoesCommandRepository.Remover(sessao);
+
+                return Ok(new { message = "Sessão deletada com sucesso" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Ocorreu um erro ao tentar deletar a sessão.");
             }
         }
-
     }
 }
+

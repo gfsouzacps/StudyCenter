@@ -17,11 +17,13 @@ namespace StudyCenter.API.Controllers
     {
         private readonly StudyCenterDbContext _context;
         private readonly ITopicosQueryRepository _topicosQueryRepository;
+        private readonly ITopicosCommandRepository _topicosCommandRepository;
 
-        public TopicosController(StudyCenterDbContext context, ITopicosQueryRepository topicosQueryRepository)
+        public TopicosController(StudyCenterDbContext context, ITopicosQueryRepository topicosQueryRepository, ITopicosCommandRepository topicosCommandRepository)
         {
             _context = context;
             _topicosQueryRepository = topicosQueryRepository;
+            _topicosCommandRepository = topicosCommandRepository;
         }
 
         [HttpGet]
@@ -83,42 +85,21 @@ namespace StudyCenter.API.Controllers
         [HttpDelete("{idTopico}")]
         public async Task<IActionResult> DeleteTopico(int idTopico)
         {
-            using (var transaction = await _context.Database.BeginTransactionAsync())
+            try
             {
-                try
+                var topico = await _topicosQueryRepository.ObterPorIdAsync(idTopico);
+                if (topico == null)
                 {
-                    var topico = await _context.Topicos
-                        .Include(t => t.SessaoTopicos)
-                            .ThenInclude(st => st.AnotacoesTopicos)
-                        .FirstOrDefaultAsync(t => t.IdTopico == idTopico);
-
-                    if (topico == null)
-                    {
-                        return NotFound();
-                    }
-
-                    // Deletar todas as anotacoesTopicos
-                    foreach (var sessaoTopico in topico.SessaoTopicos.ToList())
-                    {
-                        foreach (var anotacaoTopico in sessaoTopico.AnotacoesTopicos.ToList())
-                        {
-                            _context.AnotacoesTopicos.Remove(anotacaoTopico);
-                        }
-                        _context.SessaoTopicos.Remove(sessaoTopico);
-                    }
-
-                    _context.Topicos.Remove(topico);
-                    await _context.SaveChangesAsync();
-
-                    await transaction.CommitAsync();
-
-                    return Ok(new { message = "Tópico deletado com sucesso" });
+                    return NotFound();
                 }
-                catch (Exception ex)
-                {
-                    await transaction.RollbackAsync();
-                    return StatusCode(500, "Ocorreu um erro ao tentar deletar o tópico.");
-                }
+
+                _topicosCommandRepository.Remover(topico);
+
+                return Ok(new { message = "Tópico deletado com sucesso" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Ocorreu um erro ao tentar deletar o tópico.");
             }
         }
     }

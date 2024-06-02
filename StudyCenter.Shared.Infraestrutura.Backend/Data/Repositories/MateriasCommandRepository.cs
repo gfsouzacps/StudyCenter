@@ -21,12 +21,42 @@ public class MateriasCommandRepository : IMateriasCommandRepository
         _context.Materias.Update(Materias);
     }
 
-    public void Remover(Materias Materias)
+    public void Remover(Materias materias)
     {
-        _context.Materias.Remove(Materias);
+        using (var transaction = _context.Database.BeginTransaction())
+        {
+            try
+            {
+                var topicos = materias.Topicos.ToList();
+                foreach (var topico in topicos)
+                {
+                    var sessaoTopicos = _context.SessaoTopicos.Where(st => st.IdTopico == topico.IdTopico).ToList();
+                    foreach (var sessaoTopico in sessaoTopicos)
+                    {
+                        var anotacoesTopicos = _context.AnotacoesTopicos.Where(at => at.IdSessaoTopico == sessaoTopico.IdSessaoTopico).ToList();
+                        foreach (var anotacaoTopico in anotacoesTopicos)
+                        {
+                            _context.AnotacoesTopicos.Remove(anotacaoTopico);
+                        }
+                        _context.SessaoTopicos.Remove(sessaoTopico);
+                    }
+                    _context.Topicos.Remove(topico);
+                }
+
+                _context.Materias.Remove(materias);
+                _context.SaveChanges();
+
+                transaction.Commit();
+            }
+            catch (Exception)
+            {
+                transaction.Rollback();
+                throw;
+            }
+        }
     }
 
-    public void Dispose()
+        public void Dispose()
     {
         _context.Dispose();
     }
