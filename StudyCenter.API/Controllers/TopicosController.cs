@@ -4,6 +4,10 @@ using StudyCenter.Dominio.Entidades.Entities;
 using StudyCenter.Dominio.Entidades.ViewModels;
 using StudyCenter.Shared.Infraestrutura.Backend.Data.Contexts;
 using StudyCenter.Shared.Infraestrutura.Backend.Data.Repositories;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace StudyCenter.API.Controllers
 {
@@ -34,7 +38,11 @@ namespace StudyCenter.API.Controllers
         /// <summary>
         /// Obtém todos os tópicos.
         /// </summary>
-        /// <returns>Retorna uma lista de tópicos.</returns>
+        /// <remarks>
+        /// Retorna uma lista de todos os tópicos cadastrados no sistema.
+        /// </remarks>
+        /// <response code="200">Retorna uma lista de todos os tópicos.</response>
+        /// <response code="404">Se não houver tópicos cadastrados.</response>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Topicos>>> GetTopicos()
         {
@@ -49,61 +57,90 @@ namespace StudyCenter.API.Controllers
         /// <summary>
         /// Cria um novo tópico.
         /// </summary>
-        /// <param name="topicoViewModel">O modelo de visão do tópico.</param>
-        /// <returns>Retorna o tópico criado.</returns>
+        /// <remarks>
+        /// Cria um novo tópico no sistema com os dados fornecidos.
+        /// </remarks>
+        /// <param name="topicoViewModel">Os dados do tópico a ser criado.</param>
+        /// <returns>Um IActionResult representando o resultado da operação.</returns>
+        /// <response code="201">Retorna o tópico criado.</response>
+        /// <response code="500">Se ocorrer um erro interno ao tentar criar o tópico.</response>
         [HttpPost]
         public async Task<ActionResult<Topicos>> CriarTopico(TopicosViewModel topicoViewModel)
         {
-            var topico = new Topicos
+            try
             {
-                NomeTopico = topicoViewModel.NomeTopico,
-                IdMateria = topicoViewModel.IdMateria
-            };
+                var topico = new Topicos
+                {
+                    NomeTopico = topicoViewModel.NomeTopico,
+                    IdMateria = topicoViewModel.IdMateria
+                };
 
-            _context.Topicos.Add(topico);
-            await _context.SaveChangesAsync();
+                _context.Topicos.Add(topico);
+                await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetTopicos), new { id = topico.IdTopico }, topico);
+                return CreatedAtAction(nameof(GetTopicos), new { id = topico.IdTopico }, topico);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Ocorreu um erro ao tentar criar o tópico.");
+            }
         }
 
         /// <summary>
         /// Atualiza um tópico existente.
         /// </summary>
+        /// <remarks>
+        /// Atualiza um tópico existente no sistema com os novos dados fornecidos.
+        /// </remarks>
         /// <param name="idTopico">O ID do tópico a ser atualizado.</param>
-        /// <param name="topicoViewModel">O modelo de visão do tópico.</param>
-        /// <returns>Retorna 204 No Content se a atualização for bem-sucedida, 
-        /// 400 Bad Request se houver problemas com a solicitação, 
-        /// ou 404 Not Found se o tópico não for encontrado.</returns>
+        /// <param name="topicoViewModel">Os novos dados do tópico.</param>
+        /// <returns>Um IActionResult representando o resultado da operação.</returns>
+        /// <response code="204">Atualização bem-sucedida.</response>
+        /// <response code="400">Se o ID do tópico não corresponder ao ID fornecido.</response>
+        /// <response code="404">Se o tópico não for encontrado.</response>
+        /// <response code="500">Se ocorrer um erro interno ao tentar atualizar o tópico.</response>
         [HttpPut("{idTopico}")]
         public async Task<IActionResult> UpdateTopico(int idTopico, TopicosViewModel topicoViewModel)
         {
-            if (idTopico != topicoViewModel.IdTopico)
+            try
             {
-                return BadRequest();
+                if (idTopico != topicoViewModel.IdTopico)
+                {
+                    return BadRequest();
+                }
+
+                var topicoToUpdate = await _context.Topicos.FindAsync(idTopico);
+
+                if (topicoToUpdate == null)
+                {
+                    return NotFound();
+                }
+
+                topicoToUpdate.NomeTopico = topicoViewModel.NomeTopico;
+                topicoToUpdate.IdMateria = topicoViewModel.IdMateria;
+
+                _context.Entry(topicoToUpdate).State = EntityState.Modified;
+                await _context.SaveChangesAsync();
+
+                return NoContent();
             }
-
-            var topicoToUpdate = await _context.Topicos.FindAsync(idTopico);
-
-            if (topicoToUpdate == null)
+            catch (Exception ex)
             {
-                return NotFound();
+                return StatusCode(500, "Ocorreu um erro ao tentar atualizar o tópico.");
             }
-
-            topicoToUpdate.NomeTopico = topicoViewModel.NomeTopico;
-            topicoToUpdate.IdMateria = topicoViewModel.IdMateria;
-
-            _context.Entry(topicoToUpdate).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
-
-            return NoContent();
         }
+
 
         /// <summary>
         /// Deleta um tópico e todas as entidades relacionadas a ele.
         /// </summary>
+        /// <remarks>
+        /// Deleta um tópico e todas as suas entidades relacionadas do sistema.
+        /// </remarks>
         /// <param name="idTopico">O ID do tópico a ser deletado.</param>
-        /// <returns>Retorna 200 OK com uma mensagem de sucesso se a exclusão for bem-sucedida, 
-        /// 404 Not Found se o tópico não for encontrado, ou 500 Internal Server Error se ocorrer um erro.</returns>
+        /// <response code="200">Tópico deletado com sucesso.</response>
+        /// <response code="404">Se o tópico não for encontrado.</response>
+        /// <response code="500">Se ocorrer um erro ao tentar deletar o tópico.</response>
         [HttpDelete("{idTopico}")]
         public async Task<IActionResult> DeleteTopico(int idTopico)
         {

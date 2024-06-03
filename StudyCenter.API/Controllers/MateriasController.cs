@@ -15,18 +15,18 @@ namespace StudyCenter.API.Controllers
         private readonly IMateriasQueryRepository _materiasQueryRepository;
         private readonly IMateriasCommandRepository _materiasCommandRepository;
         private readonly ITopicosQueryRepository _topicosQueryRepository;
-        private readonly ITopicosCommandRepository _topicosCommandyRepository;
+        private readonly ITopicosCommandRepository _topicosCommandRepository;
 
         public MateriasController(StudyCenterDbContext context,
-            IMateriasQueryRepository materiasQueryRepository, IMateriasCommandRepository materiasCommandyRepository,
+            IMateriasQueryRepository materiasQueryRepository, IMateriasCommandRepository materiasCommandRepository,
             ITopicosQueryRepository topicosQueryRepository,
             ITopicosCommandRepository topicosCommandRepository)
         {
             _context = context;
             _materiasQueryRepository = materiasQueryRepository;
-            _materiasCommandRepository = materiasCommandyRepository;
+            _materiasCommandRepository = materiasCommandRepository;
             _topicosQueryRepository = topicosQueryRepository;
-            _topicosCommandyRepository = topicosCommandRepository;
+            _topicosCommandRepository = topicosCommandRepository;
         }
 
         /// <summary>
@@ -35,8 +35,9 @@ namespace StudyCenter.API.Controllers
         /// <remarks>
         /// Retorna uma lista de todas as matérias cadastradas no sistema.
         /// </remarks>
+        /// <response code="200">Retorna uma lista de todas as matérias.</response>
+        /// <response code="404">Se não houver matérias cadastradas.</response>
         [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<Materias>), 200)]
         public async Task<ActionResult<IEnumerable<Materias>>> GetMaterias()
         {
             var materias = await _materiasQueryRepository.ObterTodosAsync();
@@ -53,8 +54,9 @@ namespace StudyCenter.API.Controllers
         /// <remarks>
         /// Retorna uma lista de todas as matérias com seus tópicos relacionados.
         /// </remarks>
+        /// <response code="200">Retorno bem-sucedido.</response>
+        /// <response code="404">Se não houver matérias cadastradas.</response>
         [HttpGet("materia-com-topicos")]
-        [ProducesResponseType(typeof(IEnumerable<MateriasViewModel>), 200)]
         public async Task<ActionResult<IEnumerable<MateriasViewModel>>> GetMateriasETopicos()
         {
             var materias = await _materiasQueryRepository.ObterMateriasETopicosAsync();
@@ -71,32 +73,41 @@ namespace StudyCenter.API.Controllers
         /// <remarks>
         /// Cria uma nova matéria no sistema com os tópicos relacionados fornecidos.
         /// </remarks>
+        /// <param name="materiaViewModel">Os dados da matéria a serem criada.</param>
+        /// <response code="201">Retorna a matéria criada.</response>
+        /// <response code="500">Se ocorrer um erro ao tentar criar a matéria.</response>
         [HttpPost]
-        [ProducesResponseType(typeof(Materias), 201)]
         public async Task<ActionResult<Materias>> CriarMateria(MateriasViewModel materiaViewModel)
         {
-            var novaMateria = new Materias
+            try
             {
-                NomeMateria = materiaViewModel.NomeMateria
-            };
-
-            _context.Materias.Add(novaMateria);
-            await _context.SaveChangesAsync();
-
-            foreach (var topicoViewModel in materiaViewModel.Topicos)
-            {
-                var novoTopico = new Topicos
+                var novaMateria = new Materias
                 {
-                    NomeTopico = topicoViewModel.NomeTopico,
-                    IdMateria = novaMateria.IdMateria
+                    NomeMateria = materiaViewModel.NomeMateria
                 };
 
-                novaMateria.Topicos.Add(novoTopico);
+                _context.Materias.Add(novaMateria);
+                await _context.SaveChangesAsync();
+
+                foreach (var topicoViewModel in materiaViewModel.Topicos)
+                {
+                    var novoTopico = new Topicos
+                    {
+                        NomeTopico = topicoViewModel.NomeTopico,
+                        IdMateria = novaMateria.IdMateria
+                    };
+
+                    novaMateria.Topicos.Add(novoTopico);
+                }
+
+                await _context.SaveChangesAsync();
+
+                return CreatedAtAction(nameof(GetMaterias), new { id = novaMateria.IdMateria }, novaMateria);
             }
-
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction(nameof(GetMaterias), new { id = novaMateria.IdMateria }, novaMateria);
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Ocorreu um erro ao tentar criar a matéria.");
+            }
         }
 
         /// <summary>
@@ -105,43 +116,53 @@ namespace StudyCenter.API.Controllers
         /// <remarks>
         /// Atualiza uma matéria existente no sistema com os novos dados fornecidos.
         /// </remarks>
+        /// <param name="idMateria">O ID da matéria a ser atualizada.</param>
+        /// <param name="materiaViewModel">Os novos dados da matéria.</param>
+        /// <response code="204">Atualização bem-sucedida.</response>
+        /// <response code="400">Se o ID da matéria não corresponder ao ID fornecido.</response>
+        /// <response code="404">Se a matéria não for encontrada.</response>
+        /// <response code="500">Se ocorrer um erro ao tentar atualizar a matéria.</response>
         [HttpPut("{idMateria}")]
-        [ProducesResponseType(204)]
-        [ProducesResponseType(400)]
-        [ProducesResponseType(404)]
         public async Task<IActionResult> UpdateMateria(int idMateria, MateriasViewModel materiaViewModel)
         {
-            if (idMateria != materiaViewModel.IdMateria)
+            try
             {
-                return BadRequest();
-            }
-
-            var materiaToUpdate = await _context.Materias.Include(m => m.Topicos)
-                                                         .FirstOrDefaultAsync(m => m.IdMateria == idMateria);
-
-            if (materiaToUpdate == null)
-            {
-                return NotFound();
-            }
-
-            materiaToUpdate.NomeMateria = materiaViewModel.NomeMateria;
-
-            // Update Topicos
-            materiaToUpdate.Topicos.Clear();
-            foreach (var topicoViewModel in materiaViewModel.Topicos)
-            {
-                var novoTopico = new Topicos
+                if (idMateria != materiaViewModel.IdMateria)
                 {
-                    NomeTopico = topicoViewModel.NomeTopico,
-                    IdMateria = materiaToUpdate.IdMateria
-                };
-                materiaToUpdate.Topicos.Add(novoTopico);
+                    return BadRequest();
+                }
+
+                var materiaToUpdate = await _context.Materias.Include(m => m.Topicos)
+                                                             .FirstOrDefaultAsync(m => m.IdMateria == idMateria);
+
+                if (materiaToUpdate == null)
+                {
+                    return NotFound();
+                }
+
+                materiaToUpdate.NomeMateria = materiaViewModel.NomeMateria;
+
+                // Update Topicos
+                materiaToUpdate.Topicos.Clear();
+                foreach (var topicoViewModel in materiaViewModel.Topicos)
+                {
+                    var novoTopico = new Topicos
+                    {
+                        NomeTopico = topicoViewModel.NomeTopico,
+                        IdMateria = materiaToUpdate.IdMateria
+                    };
+                    materiaToUpdate.Topicos.Add(novoTopico);
+                }
+
+                _context.Entry(materiaToUpdate).State = EntityState.Modified;
+                await _context.SaveChangesAsync();
+
+                return NoContent();
             }
-
-            _context.Entry(materiaToUpdate).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Ocorreu um erro ao tentar atualizar a matéria.");
+            }
         }
 
         /// <summary>
@@ -150,15 +171,16 @@ namespace StudyCenter.API.Controllers
         /// <remarks>
         /// Deleta uma matéria e todos os seus tópicos relacionados do sistema.
         /// </remarks>
+        /// <param name="idMateria">O ID da matéria a ser deletada.</param>
+        /// <response code="200">Matéria deletada com sucesso.</response>
+        /// <response code="404">Se a matéria não for encontrada.</response>
+        /// <response code="500">Se ocorrer um erro ao tentar deletar a matéria.</response>
         [HttpDelete("{idMateria}")]
-        [ProducesResponseType(200)]
-        [ProducesResponseType(404)]
-        [ProducesResponseType(500)]
         public async Task<IActionResult> DeleteMateria(int idMateria)
         {
             try
             {
-                var materia =  await _materiasQueryRepository.ObterMateriasETopicosPorIdAsync(idMateria);
+                var materia = await _materiasQueryRepository.ObterMateriasETopicosPorIdAsync(idMateria);
                 if (materia == null)
                 {
                     return NotFound();
