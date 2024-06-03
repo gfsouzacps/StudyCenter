@@ -2,13 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using StudyCenter.Dominio.Entidades.Entities;
 using StudyCenter.Dominio.Entidades.ViewModels;
-using StudyCenter.Shared.Infraestrutura.Backend.Configurations;
 using StudyCenter.Shared.Infraestrutura.Backend.Data.Contexts;
 using StudyCenter.Shared.Infraestrutura.Backend.Data.Repositories;
-using Swashbuckle.AspNetCore.Annotations;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace StudyCenter.API.Controllers
 {
@@ -37,9 +32,11 @@ namespace StudyCenter.API.Controllers
         /// <summary>
         /// Obtém todas as matérias.
         /// </summary>
-        /// <returns>Retorna uma lista de matérias.</returns>
+        /// <remarks>
+        /// Retorna uma lista de todas as matérias cadastradas no sistema.
+        /// </remarks>
         [HttpGet]
-        [SwaggerOperation(Summary = "Obtém todas as matérias.")]
+        [ProducesResponseType(typeof(IEnumerable<Materias>), 200)]
         public async Task<ActionResult<IEnumerable<Materias>>> GetMaterias()
         {
             var materias = await _materiasQueryRepository.ObterTodosAsync();
@@ -53,9 +50,11 @@ namespace StudyCenter.API.Controllers
         /// <summary>
         /// Obtém todas as matérias com os tópicos relacionados.
         /// </summary>
-        /// <returns>Retorna uma lista de matérias com os tópicos relacionados.</returns>
+        /// <remarks>
+        /// Retorna uma lista de todas as matérias com seus tópicos relacionados.
+        /// </remarks>
         [HttpGet("materia-com-topicos")]
-        [SwaggerOperation(Summary = "Obtém todas as matérias com os tópicos relacionados.")]
+        [ProducesResponseType(typeof(IEnumerable<MateriasViewModel>), 200)]
         public async Task<ActionResult<IEnumerable<MateriasViewModel>>> GetMateriasETopicos()
         {
             var materias = await _materiasQueryRepository.ObterMateriasETopicosAsync();
@@ -69,10 +68,11 @@ namespace StudyCenter.API.Controllers
         /// <summary>
         /// Cria uma nova matéria com tópicos relacionados.
         /// </summary>
-        /// <param name="materiaViewModel">O modelo de visão da matéria.</param>
-        /// <returns>Retorna a matéria criada.</returns>
+        /// <remarks>
+        /// Cria uma nova matéria no sistema com os tópicos relacionados fornecidos.
+        /// </remarks>
         [HttpPost]
-        [SwaggerOperation(Summary = "Cria uma nova matéria com tópicos relacionados.")]
+        [ProducesResponseType(typeof(Materias), 201)]
         public async Task<ActionResult<Materias>> CriarMateria(MateriasViewModel materiaViewModel)
         {
             var novaMateria = new Materias
@@ -102,13 +102,13 @@ namespace StudyCenter.API.Controllers
         /// <summary>
         /// Atualiza uma matéria existente com seus tópicos relacionados.
         /// </summary>
-        /// <param name="idMateria">O ID da matéria a ser atualizada.</param>
-        /// <param name="materiaViewModel">O modelo de visão da matéria.</param>
-        /// <returns>Retorna 204 No Content se a atualização for bem-sucedida, 
-        /// 400 Bad Request se houver problemas com a solicitação, 
-        /// ou 404 Not Found se a matéria não for encontrada.</returns>
+        /// <remarks>
+        /// Atualiza uma matéria existente no sistema com os novos dados fornecidos.
+        /// </remarks>
         [HttpPut("{idMateria}")]
-        [SwaggerOperation(Summary = "Atualiza uma matéria existente com seus tópicos relacionados.")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
         public async Task<IActionResult> UpdateMateria(int idMateria, MateriasViewModel materiaViewModel)
         {
             if (idMateria != materiaViewModel.IdMateria)
@@ -147,11 +147,13 @@ namespace StudyCenter.API.Controllers
         /// <summary>
         /// Deleta uma matéria e todas as entidades relacionadas a ela.
         /// </summary>
-        /// <param name="idMateria">O ID da matéria a ser deletada.</param>
-        /// <returns>Retorna 200 OK com uma mensagem de sucesso se a exclusão for bem-sucedida, 
-        /// 404 Not Found se a matéria não for encontrada, ou 500 Internal Server Error se ocorrer um erro.</returns>
+        /// <remarks>
+        /// Deleta uma matéria e todos os seus tópicos relacionados do sistema.
+        /// </remarks>
         [HttpDelete("{idMateria}")]
-        [SwaggerOperation(Summary = "Deleta uma matéria e todas as entidades relacionadas a ela.")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
         public async Task<IActionResult> DeleteMateria(int idMateria)
         {
             try

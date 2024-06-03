@@ -3,9 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using StudyCenter.Dominio.Entidades.Entities;
 using StudyCenter.Dominio.Entidades.ViewModels;
 using StudyCenter.Shared.Infraestrutura.Backend.Data.Contexts;
-
 using StudyCenter.Shared.Infraestrutura.Backend.Data.Repositories;
-using Swashbuckle.AspNetCore.Annotations;
 
 namespace StudyCenter.API.Controllers
 {
@@ -38,7 +36,6 @@ namespace StudyCenter.API.Controllers
         /// </summary>
         /// <returns>Retorna uma lista de tópicos.</returns>
         [HttpGet]
-        [SwaggerOperation(Summary = "Obtém todos os tópicos.")]
         public async Task<ActionResult<IEnumerable<Topicos>>> GetTopicos()
         {
             var topicos = await _topicosQueryRepository.ObterTodosAsync();
@@ -55,7 +52,6 @@ namespace StudyCenter.API.Controllers
         /// <param name="topicoViewModel">O modelo de visão do tópico.</param>
         /// <returns>Retorna o tópico criado.</returns>
         [HttpPost]
-        [SwaggerOperation(Summary = "Cria um novo tópico.")]
         public async Task<ActionResult<Topicos>> CriarTopico(TopicosViewModel topicoViewModel)
         {
             var topico = new Topicos
@@ -79,7 +75,6 @@ namespace StudyCenter.API.Controllers
         /// 400 Bad Request se houver problemas com a solicitação, 
         /// ou 404 Not Found se o tópico não for encontrado.</returns>
         [HttpPut("{idTopico}")]
-        [SwaggerOperation(Summary = "Atualiza um tópico existente.")]
         public async Task<IActionResult> UpdateTopico(int idTopico, TopicosViewModel topicoViewModel)
         {
             if (idTopico != topicoViewModel.IdTopico)
@@ -110,7 +105,6 @@ namespace StudyCenter.API.Controllers
         /// <returns>Retorna 200 OK com uma mensagem de sucesso se a exclusão for bem-sucedida, 
         /// 404 Not Found se o tópico não for encontrado, ou 500 Internal Server Error se ocorrer um erro.</returns>
         [HttpDelete("{idTopico}")]
-        [SwaggerOperation(Summary = "Deleta um tópico e todas as entidades relacionadas a ele.")]
         public async Task<IActionResult> DeleteTopico(int idTopico)
         {
             try
