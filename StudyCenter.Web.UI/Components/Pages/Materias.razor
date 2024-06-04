@@ -17,7 +17,7 @@
             Size="Size.Large"
             IconSize="Size.Large"
             Label="Incluir Matéria"
-            Class="ma-2" @onclick="(e=> CreateMateriaPopUp())" />
+            Class="ma-2" @onclick="(e=> ShowMateriaPopup())" />
 </MudContainer>
 
 @if (materias == null)
@@ -70,13 +70,12 @@ else
         materias = await MateriaService.GetMateriasComTopicoAsync();
     }
 
-    protected async Task CreateMateriaPopUp()
+    protected async Task ShowMateriaPopup()
     {
         @*
-            Aqui preciso explodir a tela para criar os campos, trazer o Json, inserir nas materias, etc
+            Show do popup para criar materia
         *@
-        var materia = new Entidades.Materias();
-        var api = CreateMateriaAsync(materia);
+
     }
 
     protected async Task CreateMateriaAsync(Entidades.Materias materia)
