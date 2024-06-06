@@ -1,0 +1,114 @@
+﻿@page "/materias"
+@rendermode InteractiveServer
+@using Entidades = StudyCenter.Dominio.Entidades.Entities;
+@using ViewModel = StudyCenter.Dominio.Entidades.ViewModels;
+
+<MudPopoverProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<PageTitle>Materias</PageTitle>
+
+<MudText Typo="Typo.h3" GutterBottom="true">Lista de Materias</MudText>
+
+<MudContainer Class="d-flex justify-center mb-2">
+    <MudFab Color="Color.Primary"
+            StartIcon="@Icons.Material.Filled.Add"
+            Size="Size.Large"
+            IconSize="Size.Large"
+            Label="Incluir Matéria"
+            Class="ma-2" @onclick="(e=> ShowMateriaPopup())" />
+</MudContainer>
+
+@if (materias == null)
+{
+    <MudProgressCircular Color="Color.Default" Indeterminate="true" />
+}
+else
+{
+    <MudGrid Justify="Justify.Center" class="pr-4 pl4-">
+        @foreach (var materia in materias)
+        {
+            <MudItem xs="3">
+                <MudCard>
+                    <MudCardHeader>
+                        <MudText Typo="Typo.body1">@materia.IdMateria</MudText>
+                        <MudText Typo="Typo.body1">@materia.NomeMateria</MudText>
+                    </MudCardHeader>
+                    <MudCardContent>
+                        @foreach (var topico in materia.Topicos)
+                        {
+                            <MudPaper Class="pa-2 mt-2">
+                                <MudText Typo="Typo.h6">Tópicos: @topico.NomeTopico</MudText>
+                                @foreach (var sessoes in topico.SessaoTopicos)
+                                {
+                                    <MudText Typo="Typo.body2">IdSessão: @sessoes.IdSessao</MudText>
+                                    <MudText Typo="Typo.body2">Duração do estudo: @sessoes.DuracaoEstudo</MudText>
+                                }
+                            </MudPaper>
+                        }
+                    </MudCardContent>
+                    <MudCardActions>
+                        <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Primary" @onclick="(e=>UpdateMateriaAsync(materia.IdMateria, materia))" />
+                        <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" @onclick="(e=>DeleteMateriaAsync(materia.IdMateria))" />
+                    </MudCardActions>
+                </MudCard>
+            </MudItem>
+        }
+    </MudGrid>
+}
+
+@code {
+
+    [Inject]
+    protected MateriaService MateriaService { get; set; }
+
+    protected Entidades.Materias[] materias;
+
+    protected override async Task OnInitializedAsync()
+    {
+        materias = await MateriaService.GetMateriasComTopicoAsync();
+    }
+
+    protected async Task ShowMateriaPopup()
+    {
+        @*
+            Show do popup para criar materia
+        *@
+
+    }
+
+    protected async Task CreateMateriaAsync(Entidades.Materias materia)
+    {
+        var materiaViewModel = new ViewModel.MateriasViewModel();
+        materiaViewModel.IdMateria = materia.IdMateria;
+        materiaViewModel.NomeMateria = materia.NomeMateria;
+
+        materia = await MateriaService.CreateMateriaAsync(materiaViewModel);
+    }
+
+    protected async Task UpdateMateriaAsync(int idMateria, Entidades.Materias materia)
+    {
+        var materiaViewModel = new ViewModel.MateriasViewModel();
+        materiaViewModel.IdMateria = materia.IdMateria;
+        materiaViewModel.NomeMateria = materia.NomeMateria;
+
+        var updatedMateria = await MateriaService.UpdateMateriaAsync(materia.IdMateria, materiaViewModel);
+        if (updatedMateria != null)
+        {
+            Console.WriteLine("Deu Certo");
+        }
+        else
+        {
+            Console.WriteLine("Erro");
+        }
+    }
+
+    protected async Task DeleteMateriaAsync(int idMateria)
+    {
+        var teste = idMateria;
+        await MateriaService.DeleteMateriaAsync(idMateria);
+
+        materias = await MateriaService.GetMateriasComTopicoAsync();
+    }
+}

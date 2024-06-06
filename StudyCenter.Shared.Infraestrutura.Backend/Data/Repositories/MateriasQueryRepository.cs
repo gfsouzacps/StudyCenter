@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualBasic;
 using StudyCenter.Dominio.Entidades.Entities;
+using StudyCenter.Dominio.Entidades.ViewModels;
 using StudyCenter.Shared.Infraestrutura.Backend.Data.Contexts;
 
 namespace StudyCenter.Shared.Infraestrutura.Backend.Data.Repositories
@@ -35,6 +36,11 @@ namespace StudyCenter.Shared.Infraestrutura.Backend.Data.Repositories
         {
             var materiaETopicos = await _context.Materias.Include(m => m.Topicos).ToListAsync();
             return materiaETopicos;
+        }
+
+        public async Task<Materias> ObterMateriasETopicosPorIdAsync(int id)
+        {
+            return await _context.Materias.Include(m => m.Topicos).FirstOrDefaultAsync(m => m.IdMateria == id);
         }
     }
 }

@@ -1,0 +1,122 @@
+﻿@page "/sessoes"
+@rendermode InteractiveServer
+@using Entidades = StudyCenter.Dominio.Entidades.Entities
+@using ViewModel = StudyCenter.Dominio.Entidades.ViewModels;
+
+<MudPopoverProvider />
+<MudDialogProvider /> 
+<MudSnackbarProvider />
+
+<PageTitle>Sessoes</PageTitle>
+
+<MudText Typo="Typo.h3" GutterBottom="true">Lista de Sessoes</MudText>
+
+<MudContainer Class="d-flex justify-center mb-2">
+    <MudFab Color="Color.Primary"
+            StartIcon="@Icons.Material.Filled.Add"
+            Size="Size.Large"
+            IconSize="Size.Large"
+            Label="Incluir Sessão"
+            Class="ma-2" @onclick="(e=> CreateSessaoPopUp())" />
+</MudContainer>
+
+@if (sessoes == null)
+{
+    <MudProgressCircular Color="Color.Default" Indeterminate="true" />
+}
+else
+{
+    <MudGrid Justify="Justify.Center" class="pr-4 pl4-">
+        @foreach (var sessao in sessoes)
+        {
+            <MudItem xs="3">
+                <MudCard>
+                    <MudCardHeader>
+                        <CardHeaderContent>
+                            <MudText Typo="Typo.body1">@sessao.NomeSessao</MudText>
+                            <MudText Typo="Typo.h6">@sessao.AnotacaoSessao</MudText>
+                        </CardHeaderContent>
+                    </MudCardHeader>
+                    <MudCardContent>
+                        <MudText Typo="Typo.subtitle1">Início da Sessão: @sessao.DthrInicioSessao</MudText>
+                        <MudText Typo="Typo.subtitle1">Fim da Sessão: @sessao.DthrFimSessao</MudText>
+                        @foreach (var topico in sessao.SessaoTopicos)
+                        {
+                            <MudPaper Class="pa-2 mt-2">
+                                <MudText Typo="Typo.h6">Tópico: @topico.IdTopico</MudText>
+                                <MudText Typo="Typo.subtitle2">Duração: @topico.DuracaoEstudo minutos</MudText>
+                                @foreach (var anotacao in topico.AnotacoesTopicos)
+                                {
+                                    <MudText Typo="Typo.body2">Anotação: @anotacao.Anotacao</MudText>
+                                }
+                            </MudPaper>
+                        }
+                    </MudCardContent>
+                    <MudCardActions>
+                        <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Primary" @onclick="(e=>UpdateSessaoAsync(sessao.IdSessao, sessao))" />
+                        <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" @onclick="(e=>DeleteSessaoAsync(sessao.IdSessao))" />
+                    </MudCardActions>
+                </MudCard>
+            </MudItem>
+        }
+    </MudGrid>
+}
+
+@code {
+
+    [Inject]
+    protected SessaoService SessaoService { get; set; }
+
+    protected Entidades.Sessoes[]? sessoes;
+
+    protected override async Task OnInitializedAsync()
+    {
+        sessoes = await SessaoService.GetSessoesAsync();
+    }
+
+    protected async Task CreateSessaoPopUp()
+    {
+        @*
+            Aqui preciso explodir a tela para criar os campos, trazer o Json, inserir nas sessoes, etc
+        *@
+        var sessao = new Entidades.Sessoes();
+        var api = CreateSessaoAsync(sessao);
+    }
+
+    protected async Task CreateSessaoAsync(Entidades.Sessoes sessao)
+    {
+        var sessaoViewModel = new ViewModel.SessoesViewModel();
+        sessaoViewModel.NomeSessao = sessao.NomeSessao;
+        sessaoViewModel.AnotacaoSessao = sessao.AnotacaoSessao;
+        sessaoViewModel.DthrInicioSessao = sessao.DthrInicioSessao;
+        sessaoViewModel.DthrFimSessao = sessao.DthrFimSessao;
+
+        sessao = await SessaoService.CreateSessaoAsync(sessaoViewModel);
+    }
+
+    protected async Task UpdateSessaoAsync(int idSessao, Entidades.Sessoes sessao)
+    {
+        var sessaoViewModel = new ViewModel.SessoesViewModel();
+        sessaoViewModel.NomeSessao = sessao.NomeSessao;
+        sessaoViewModel.AnotacaoSessao = sessao.AnotacaoSessao;
+        sessaoViewModel.DthrInicioSessao = sessao.DthrInicioSessao;
+        sessaoViewModel.DthrFimSessao = sessao.DthrFimSessao;
+
+        var updatedSessao = await SessaoService.UpdateSessaoAsync(sessao.IdSessao, sessaoViewModel);
+        if (updatedSessao != null)
+        {
+            Console.WriteLine("Deu Certo");
+        }
+        else
+        {
+            Console.WriteLine("Erro");
+        }
+    }
+
+    protected async Task DeleteSessaoAsync(int idSessao)
+    {
+        await SessaoService.DeleteSessaoAsync(idSessao);
+
+        sessoes = await SessaoService.GetSessoesAsync();
+    }
+}

@@ -58,7 +58,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaptionText;
-            BackgroundImage = Properties.Resources.NovoIcone;
+            BackgroundImage = WinForms.UI.Descontinuado.Properties.Resources.NovoIcone;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(734, 361);
             Controls.Add(Txt_data);
